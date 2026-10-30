@@ -1,5 +1,5 @@
 {
-  "README.md": "a57397cc16ea63b2cbef059fc3f54657a6aaebe867a07ad8c9e6e9142ebe7cc3",
+  "README.md": "16fa3138490566974240cfb22a8443eda54bc4b063333e7ff96255e106d29746",
   "current/model/ClosureV5.tla": "7a03fd36dffb79431ff6166626198935a246f8643714e19b6d5e72ccec776735",
   "current/model/cases.json": "0de48044ab643011e47544e8d74ce019c17da6b17a604f987eb155f793853ba3",
   "evidence/evaluation/README.md": "5dda6a741ef17e77fcd56b94c5a7e2b9e53fdf60352ae6414febdc74358a8090",
@@ -51,5 +51,6 @@
   "proof/README.md": "a84cb9cac3efd66df8d373e332b1f3dc5567ea37ba0715d41d95042a50bdf138",
   "proof/composition-budget-contract.json": "21f0253f52e71af5f19bcd297f9bff32877e53cdbaf7ce5c5fbd509de0e19a67",
   "proof/groth16-budget-contract.json": "39f2759b184121435ca83ea625669e5535ebb5e2fe87300fd888ca62a866e2bb",
-  "proof/native-budget-contract.json": "54a6c10c8f4900a21bf3f58c66f9745a923b38164166a655380eb0e658a159e2"
+  "proof/native-budget-contract.json": "54a6c10c8f4900a21bf3f58c66f9745a923b38164166a655380eb0e658a159e2",
+  "reproduce.py": "2099a0f478247f9b1d59f32a6f8c3b15e5bc4c00ccf7d081ab9c8c5aa13f3de5"
 }
