@@ -1,4 +1,4 @@
-# Evidence for the 30 October results
+# Evaluation evidence
 
 - `e1-pairs.csv` selects numeric timing and memory fields from five pairs and excludes witness data, identities, secret randomness and machine paths. `summary.json` reports median/ranges for fixed but different business fixtures. fullProve includes witness generation, RSS is the prove process lifetime peak, and internal verify is not the later fresh-process verify.
 - `summary.json` records the Full/T pair phases, client-generation-through-collection window and total session. Collection is nested in the window. These are single observations with different trust boundaries, not an equal-guarantee speedup. T retains genesis proofs and replaces transition proofs and moments with a trusted generator.
