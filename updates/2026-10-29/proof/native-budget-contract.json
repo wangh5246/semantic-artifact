@@ -1,0 +1,589 @@
+{
+  "schema": "g4b-native-query-and-full-view-budget/5",
+  "status": "PROVED_IN_DECLARED_MODEL",
+  "unresolved_critical_findings": [],
+  "model": "single fixed task/key; Prio0.16.8/VDAF08; s2 t1 static active-role privacy; correct authority; standard executor plus programmable native ROM; TimeInterval NoDP; at most one visible cohort; H and non-H separated",
+  "budgets_are": "public external resource bounds for finite security games, not source enforced hard caps; all histories/prefixes/prelude/rollback/retry counted; no 8-attempt global bound",
+  "instance": {
+    "field_order": "340282366920938462946865773367900766209",
+    "seed_space": "340282366920938463463374607431768211456",
+    "seed_bits": 128,
+    "nonce_bits": 128,
+    "s": 2,
+    "t": 1,
+    "buckets": 10001,
+    "chunk": 100,
+    "gadget_calls": 101,
+    "gadget_arity": 200,
+    "gadget_degree": 2,
+    "wire_nodes": 128,
+    "wire_degree": 127,
+    "gadget_polynomial_degree": 254,
+    "proof_elements": 455,
+    "verifier_elements": 202,
+    "joint_field_values": 2,
+    "prove_field_values": 200,
+    "query_field_values": 1,
+    "num_proofs": 1,
+    "shard_random_16B_seeds": 5,
+    "sidecar_plaintext_bytes": 93,
+    "sidecar_ciphertext_payload_bytes": 109,
+    "sidecar_descriptor_bytes": 148,
+    "aggregate_plaintext_bytes": 160016,
+    "public_verification_key_tag_bits": 96
+  },
+  "symbols": {
+    "N_shard": "All honest-source native sharding calls whose objects appear in or support the experiment, including published packets never prepared, warmup, eligible zero, failed candidate or later aborted history; may conservatively count every honest construction call.",
+    "N_prepared": "All distinct authorized protected report contexts actually entering private preparation, H and non-H, including failed and aborted prefixes; report cohort R is only a subset.",
+    "C_init_L/C_init_R": "Physical prepare_init calls per role, including transaction rollback recomputation. Helper first-input journal and Leader committed-transition lease fence do not cap physical work; uncommitted Leader recomputation can receive different peer responses.",
+    "C_msg_L/C_msg_R": "Physical prepare_shares_to_prepare_message calls, including rollback/retry.",
+    "C_finish_R": "Physical Helper prepare_next calls that may expand retained measurement seed, including rollback/retry; Leader prepare_next has no XOF.",
+    "Q_i": "All input/extension calls to source usage i, external/offline plus internal/recomputation. Repeated calls can count conservatively; unique descriptors separately cached.",
+    "A_i": "Accepted field values materialized, separating fresh unique logical stream values from physical re-expansion work.",
+    "C_raw_i": "All raw128 candidates read/generated including rejected and unused32-prefetch; re-expansion charged to physical work but same underlying raw stream reused.",
+    "B_i": "Total XOF output bytes and absorb bytes per usage, including prefetch/duplicates; seed output calls are not field candidate calls.",
+    "Q_sha/B_sha": "One global SHA256 invocation/byte account across every source, context/package/body/certificate/root, verifier and adversary; no per-field independent collision assumptions.",
+    "S_sig[k]": "Actual signing oracle operations for each k in K_sig_X, the keys whose secret is unknown to the observer and for which arbitrary extra signing is not authorized. Cache replay not fresh sign; corrupt owner/role own keys excluded; A normal authority secret known to observer excluded because A remains correct/passive under01.",
+    "S_G16": "Actual fresh simulation proof calls across full execution and related prelude, including same statement repeated freshly; count relation-family fields from02.",
+    "E": "Semantic complete-cohort first exposure, <=1 per task; not reset by collection failure.",
+    "E_enc_A": "Number of newly encrypted honest-role aggregate ciphertexts visible to A, including same snapshot re-encryption; not bounded by E alone.",
+    "D_hpke[k]/L_hpke[k]": "Permitted decryption query and byte budgets for key k in labelled Base single-shot INDCCA2 reductions; full marked tuple excluded.",
+    "G_origin": "All prepublication malicious origin reservations capable of guessing any future honest RID; not number of successful new reports.",
+    "T_all": "Whole attacker and reduction executor steps, external and internal work plus bytes and rollback; normal input-ready model, no physical timing oracle.",
+    "N_RID": "All honest CSPRNG RID draws/Origin reservation attempts, including failures that suppress native shard; may be bounded by public honest-slot/construct budget; not silently identified with N_shard.",
+    "G5_ext": "External attacker U5 queries containing candidate16B keys, including offline and repetitions; excludes honest internal hidden-key-handle calls. G5_ext<=Q5_total<=Q_total.",
+    "kappa_tag": "min(1,2^96*G5_ext/2^128,Adv_OW128_SHA256(T_ow,Q_sha+G5_ext,B_sha+16*G5_ext)); without OW primitive use information-only first two terms; uniform128bit K, public96bit deterministic tag.",
+    "T_ow": "Whole C-wrapper/role/native-RO simulation plus each external U5 candidate full16B SHA check, shared RO tables and all reduction work; not attacker time alone."
+  },
+  "source_usage_to_paper_RO": {
+    "1": 2,
+    "2": 3,
+    "3": 1,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7
+  },
+  "usages": [
+    {
+      "source_usage": 1,
+      "name": "measurement share",
+      "seed": "helper xseed16",
+      "binder": "agg_id1",
+      "output": "10001 accepted Field128 on first full expansion"
+    },
+    {
+      "source_usage": 2,
+      "name": "proof share",
+      "seed": "helper pseed16",
+      "binder": "num_proofs1 || agg_id1",
+      "output": "455 accepted Field128"
+    },
+    {
+      "source_usage": 3,
+      "name": "joint randomness",
+      "seed": "jseed16",
+      "binder": "num_proofs1",
+      "output": "2 accepted Field128"
+    },
+    {
+      "source_usage": 4,
+      "name": "prove randomness",
+      "seed": "prover seed16",
+      "binder": "num_proofs1",
+      "output": "200 accepted Field128"
+    },
+    {
+      "source_usage": 5,
+      "name": "query randomness",
+      "seed": "fixed key16",
+      "binder": "num_proofs1 || nonce16",
+      "output": "1 accepted Field128; shared replay cache"
+    },
+    {
+      "source_usage": 6,
+      "name": "joint seed",
+      "seed": "zero16",
+      "binder": "ordered partL16 || partR16",
+      "output": "seed16, no rejection"
+    },
+    {
+      "source_usage": 7,
+      "name": "joint part",
+      "seed": "role blind16",
+      "binder": "agg_id1 || nonce16 || canonical share160016",
+      "output": "seed16, no rejection"
+    }
+  ],
+  "physical_internal_call_matrix": {
+    "columns": [
+      "U1",
+      "U2",
+      "U3",
+      "U4",
+      "U5",
+      "U6",
+      "U7"
+    ],
+    "honest_shard": [
+      1,
+      1,
+      1,
+      1,
+      0,
+      1,
+      2
+    ],
+    "Leader_init": [
+      0,
+      0,
+      1,
+      0,
+      1,
+      1,
+      1
+    ],
+    "Helper_init": [
+      1,
+      1,
+      1,
+      0,
+      1,
+      1,
+      1
+    ],
+    "either_role_merge_message": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "Helper_finish": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "Leader_finish": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "call_bound": "Q_int <= 7*N_shard+4*C_init_L+6*C_init_R+C_msg_L+C_msg_R+C_finish_R; Q_total=Q_ext+Q_int; every category has independently public finite budget",
+  "accepted_value_source_count": "10659 fresh accepted field values for a fully prepared H source (10001+455+2+200+1), never used as Q_RO",
+  "privacy_FL": {
+    "delta_L1_abort": "0",
+    "simulator": "sample uniform a,b,r; if r^128=1 exact Query error; else U<-Fq^200, Sigma=(0,U,sum_pair_products(U)); all conditional distributions exact",
+    "num_shares_relation": "Q2(xL,piL)+Q2(xR,piR)=Q1(xL+xR,piL+piR); constants 1/2 add to1",
+    "not_conditioned_on_success": true
+  },
+  "single_world_native_bad": {
+    "nonce_dedup": "N_shard^2 / 2^128",
+    "initial_programming": "N_shard*(Q4+2*(Q3+Q6+Q7)+Q5)/2^128",
+    "shares_and_parts_programming": "N_shard*(Q1+Q2+2*Q7)/2^128",
+    "prover_coins_not_revealed": "N_shard*Q4/2^128",
+    "FLP_sim": "N_shard*delta_abort = 0",
+    "combined": "b_N = [N^2+N*(2Q4+2Q3+2Q6+4Q7+Q5+Q1+Q2)]/2^128; clip at1",
+    "coarser": "b_N <= (N^2+4*N*Q_total)/2^128",
+    "two_world": "epsilon_N_priv <= 2*b_N; optionally add strict_PPT tail twice",
+    "DPRS_published_looser": "2*N*[delta_abort+(Q_total+N)/2^128+2*Q_total/2^127]"
+  },
+  "native_validity_C_only": {
+    "key_requirement": "Uniform16B verification key correctly sampled before source, private to correct roles/configuration; malicious clients see public96bit SHA256-prefix tag. P/P+A may know/precommit key only for privacy. No other visible key channel beyond tag and U5-derived feedback.",
+    "joint_validity": "<=10002/q",
+    "polynomial_consistency": "<=254/q unconditional uniform r with root rejection",
+    "epsilon_FLP_one_attempt": "<=10256/q",
+    "online_offline_grinding": "(Q_total+P)*10256/q",
+    "key_guess": "2*kappa_tag; information-only fallback<=Q_total/2^31, NOT oldQ_total/2^127",
+    "seed_birthday_including_offline": "(2*P+Q_total)^2/2^128",
+    "combined": "min(1,(Q_total+P)*10256/q + 2*kappa_tag + (2*P+Q_total)^2/2^128)",
+    "P_definition": "All distinct protected malicious-input prepare attempts in C, including failures; external and internal query budgets are whole-execution; exact same logical replay does not create independent soundness trial",
+    "game_hops": [
+      {
+        "step": "common joint-seed bookkeeping, retaining all failed run transcripts",
+        "loss": "<=kappa_tag (same declared public96bit tag and OW/info-only key game)"
+      },
+      {
+        "step": "secret verification key U5 to fresh random query r per nonce",
+        "loss": "<=kappa_tag; honest internal hidden-handle calls are not candidates"
+      },
+      {
+        "step": "distinct ordered U6 or matching role/nonce U7 parts collision, including offline queries",
+        "loss": "<=(2*P+Q6+Q7)^2/W"
+      },
+      {
+        "step": "first winning joint-rand U3 challenge location and native FLP soundness",
+        "loss": "<=(Q3+P)*10256/q"
+      }
+    ],
+    "information_only_fallback": "min(1,(Q_total+P)*10256/q + Q_total/2^31 + (2*P+Q_total)^2/2^128)",
+    "standard_OW128_game": "Given h=SHA256(K) for K uniform16B, output any preimage kprime. Reducer forwards prefix96(h), uses fixed hidden U5 key handle, hashes every external candidate16B k and stops when SHA256(k)=h. No index guess; other preimage also wins. Not implied by collision resistance; no SHA-RO assumption.",
+    "OW_resources": {
+      "candidate_count": "G5_ext<=Q5_total; only attacker external candidate queries",
+      "SHA_calls": "<=Q_sha+G5_ext",
+      "SHA_input_bytes": "<=B_sha+16*G5_ext",
+      "time": "T_ow includes full wrapper/reduction and candidate scan",
+      "advantage_loss_factor": "1 per key-hop, two explicit hops each <=kappa_tag"
+    },
+    "unconditional_fallback_warning": "Information-only term can become trivial at Q_total>=2^31. Do not report128bit integrity, and do not instantiate the OW primitive advantage as0.",
+    "visible_key_dependency_source_condition": "Provision functions output only tag and independent task/HPKE/auth parameters; complete K only sent to correct roles private add_task configuration; Prio production verify_key used only for U5 derive_query_rands. C does not observe correct-role private/admin configuration, per01."
+  },
+  "honest_completeness": {
+    "root_failure_one_attempt": "128/q under fresh uniform native query coin",
+    "union": "min(1,128*N_prepared/q); ROM prequery/seed/nonce events separately charged if a real-XOF statement is requested",
+    "privacy_cost": "0; same root-abort sampled and cached"
+  },
+  "raw_candidate_model": {
+    "rho": "(2^128-q)/2^128",
+    "rho_numerator": "516508834063867445247",
+    "joint_law": "Pr[K=k,Y=y]=rho^k/2^128 = Pr[K=k]/q",
+    "cache_key": "dst,seed,complete binders,raw byte offset",
+    "cache_values": "all rejects, accepted raw bytes and field values, counters, unused32-prefetch suffix",
+    "approximation_loss": "0",
+    "strict_PPT_selected": true,
+    "candidate_budget_per_fresh_H_stream": "C_acc=L+128 bounds search prefix only; C_raw=32*ceil(C_acc/32) bounds generated prefetched candidates; byte/time allowance16*C_raw; this cutoff belongs to reduction, not runtime",
+    "strict_tail_exact": "Tail(L,C_acc)=sum_(j=0)^(L-1) binom(C_acc,j)*(q/W)^j*rho^(C_acc-j); prefetched suffix outside search prefix separately budgeted",
+    "strict_tail_upper": "Tail(L,L+128)<=binom(L+128,129)*rho^129; Tail_sum<=5*N_shard*binom(10129,129)*rho^129",
+    "total_tail": "Tail_sum=sum_fresh_H_stream Tail(L_s,L_s+128); at most5*N_shard such streams; duplicates share one stream and one tail event",
+    "expected_PPT_alternative": "No tail term; expected L*W/q candidates. Do not combine this with an unqualified strict primitive time bound.",
+    "malicious_known_seed": "real cached expansion under total physical Q_raw/T budget, not treated as independently fresh honest stream",
+    "per_source_fresh_stream_budget": [
+      {
+        "usage": 1,
+        "accepted_L": 10001,
+        "search_prefix_C_acc": 10129,
+        "prefetched_C_raw": 10144,
+        "raw_output_bytes": 162304
+      },
+      {
+        "usage": 2,
+        "accepted_L": 455,
+        "search_prefix_C_acc": 583,
+        "prefetched_C_raw": 608,
+        "raw_output_bytes": 9728
+      },
+      {
+        "usage": 3,
+        "accepted_L": 2,
+        "search_prefix_C_acc": 130,
+        "prefetched_C_raw": 160,
+        "raw_output_bytes": 2560
+      },
+      {
+        "usage": 4,
+        "accepted_L": 200,
+        "search_prefix_C_acc": 328,
+        "prefetched_C_raw": 352,
+        "raw_output_bytes": 5632
+      },
+      {
+        "usage": 5,
+        "accepted_L": 1,
+        "search_prefix_C_acc": 129,
+        "prefetched_C_raw": 160,
+        "raw_output_bytes": 2560
+      }
+    ],
+    "total_tail_unit_bound_log2": -6643.704755960054,
+    "note": "log2 bound recorded for 5*N times unit bound separately; exact rational expression authoritative, floating underflow is not zero probability"
+  },
+  "HPKE_hybrid_counts": {
+    "P_or_P_plus_A": "<=2*N_shard hidden input ciphertexts; no hidden aggregate challenge because Collector corrupt and plaintext constructed at authorized O_C",
+    "A": "<=4*N_shard+E_enc_A; E_enc_A counts all freshly re-encrypted aggregate ciphertexts, not just semantic E<=1",
+    "single_challenge_cost": "sum_j Adv_Base_HPKE_labeled_INDCCA2,k(j)(T_j,1,D_k(j),L_j)",
+    "source_override": "only marked H packet under original authorized source handle; Helper exact retries use journal cache, uncommitted Leader recomputations use same handle with received peer response and real lease commit outcome; nonH get true plaintext/bottom via legal dec query, not extraction"
+  },
+  "full_view_single_world": "e_X<=M_X*B_route+sum_challenge Adv_HPKE_j+b_N+Tail_sum (selected strict PPT); two-world<=2*e_X; affine inside B_route times M_X",
+  "authority_standalone": "O_A empty; independent (T,u) sampling, no Agg/O_C call; both native/sidecar hidden and outbound aggregate ciphers dummy; private fixed-length BYTEA/EXISTS timing",
+  "mixed_source_aggregate": "V_h=O_C(R)-sum_RN e_x-sum_RH v_c_orig+sum_RN actual_honest_retained; O_C includes D sentinel; no corruption-key plaintext assumption",
+  "worked_examples": [
+    {
+      "N_shard": 14,
+      "N_prepared": 14,
+      "Q_external": 1048576,
+      "physical_retries": 0,
+      "Q_internal_bound": 280,
+      "Q_total": 1048856,
+      "two_world_native_privacy_conservative_from_per_hop": {
+        "fraction": "14684033/42535295865117307932921825928971026432",
+        "decimal": 3.4521995677576094e-31,
+        "negative_log2": 101.19225507400989
+      },
+      "two_world_DPRS_looser": {
+        "fraction": "18355029/42535295865117307932921825928971026432",
+        "decimal": 4.315246579735852e-31,
+        "negative_log2": 100.87032794196539
+      },
+      "native_validity_C_only": {
+        "fraction": "3534637727690118926194265308924731629825661574352272749828257727948265257/7237005577332262202988258526116302904138010198921677678253437885646995718144",
+        "decimal": 0.0004884116351604462,
+        "negative_log2": 10.999614810288154,
+        "evaluation": "INFORMATION_ONLY_PUBLIC96BIT_TAG_FALLBACK; no OW primitive numerically instantiated"
+      },
+      "root_failure_union": {
+        "fraction": "1792/340282366920938462946865773367900766209",
+        "decimal": 5.266214691683848e-36,
+        "negative_log2": 117.1926450779424
+      },
+      "status": "PUBLIC_BUDGET_EXAMPLE_ONLY_NOT_DEPLOYMENT_SECURITY_TARGET",
+      "withdrawn_untagged_native_validity_example": {
+        "fraction": "5906647664400120171699766801772503281259899422163/1809251394333065550747064631529075726034502549730419419563359471411748929536",
+        "decimal": 3.264691508820119e-27,
+        "negative_log2": 87.98511188863186,
+        "status": "WITHDRAWN_FOR_CURRENT_PUBLIC_TAG_MODEL; historical draft ignored96bit keytag"
+      },
+      "native_validity_OW_corollary": {
+        "nonkey_remainder": {
+          "fraction": "23626546044200200783320005632359064179673842325289/7237005577332262202988258526116302904138010198921677678253437885646995718144",
+          "decimal": 3.264685344198605e-27,
+          "negative_log2": 87.9851146128333
+        },
+        "symbolic": "min(1,nonkey_remainder+2*kappa_tag); kappa_tag=min(info_only,Adv_OW128(actual reduction resources))",
+        "OW_advantage_instantiated": false
+      }
+    },
+    {
+      "N_shard": 7000,
+      "N_prepared": 7000,
+      "Q_external": 1048576,
+      "physical_retries": 0,
+      "Q_internal_bound": 140000,
+      "Q_total": 1188576,
+      "two_world_native_privacy_conservative_from_per_hop": {
+        "fraction": "520767625/2658455991569831745807614120560689152",
+        "decimal": 1.9589100840916463e-28,
+        "negative_log2": 92.04393547884871
+      },
+      "two_world_DPRS_looser": {
+        "fraction": "650768125/2658455991569831745807614120560689152",
+        "decimal": 2.447917614824679e-28,
+        "negative_log2": 91.72243165219953
+      },
+      "native_validity_C_only": {
+        "fraction": "250343324764494053093339286750338330544394869747543837255913946972919153/452312848583266387686766157882268931508625637432604854890839867852937232384",
+        "decimal": 0.0005534738302230835,
+        "negative_log2": 10.819197275550653,
+        "evaluation": "INFORMATION_ONLY_PUBLIC96BIT_TAG_FALLBACK; no OW primitive numerically instantiated"
+      },
+      "root_failure_union": {
+        "fraction": "896000/340282366920938462946865773367900766209",
+        "decimal": 2.633107345841924e-33,
+        "negative_log2": 108.22686079328031
+      },
+      "status": "PUBLIC_BUDGET_EXAMPLE_ONLY_NOT_DEPLOYMENT_SECURITY_TARGET",
+      "withdrawn_untagged_native_validity_example": {
+        "fraction": "7754467510646561781710156984186061239796042229467/1809251394333065550747064631529075726034502549730419419563359471411748929536",
+        "decimal": 4.286008862524629e-27,
+        "negative_log2": 87.59242372876487,
+        "status": "WITHDRAWN_FOR_CURRENT_PUBLIC_TAG_MODEL; historical draft ignored96bit keytag"
+      },
+      "native_validity_OW_corollary": {
+        "nonkey_remainder": {
+          "fraction": "1938613717884651809323206937187660258964470732145/452312848583266387686766157882268931508625637432604854890839867852937232384",
+          "decimal": 4.286001876702762e-27,
+          "negative_log2": 87.59242608023429
+        },
+        "symbolic": "min(1,nonkey_remainder+2*kappa_tag); kappa_tag=min(info_only,Adv_OW128(actual reduction resources))",
+        "OW_advantage_instantiated": false
+      }
+    },
+    {
+      "N_shard": 7000,
+      "N_prepared": 7000,
+      "Q_external": 1099511627776,
+      "physical_retries": 0,
+      "Q_internal_bound": 140000,
+      "Q_total": 1099511767776,
+      "two_world_native_privacy_conservative_from_per_hop": {
+        "fraction": "481036399167625/2658455991569831745807614120560689152",
+        "decimal": 1.809457823236602e-22,
+        "negative_log2": 72.22686060728681
+      },
+      "two_world_DPRS_looser": {
+        "fraction": "601295498768125/2658455991569831745807614120560689152",
+        "decimal": 2.261822278325762e-22,
+        "negative_log2": 71.9049325128587
+      },
+      "native_validity_C_only": {
+        "fraction": "1",
+        "decimal": 1.0,
+        "negative_log2": -0.0,
+        "evaluation": "INFORMATION_ONLY_PUBLIC96BIT_TAG_FALLBACK; no OW primitive numerically instantiated"
+      },
+      "root_failure_union": {
+        "fraction": "896000/340282366920938462946865773367900766209",
+        "decimal": 2.633107345841924e-33,
+        "negative_log2": 108.22686079328031
+      },
+      "status": "PUBLIC_BUDGET_EXAMPLE_ONLY_NOT_DEPLOYMENT_SECURITY_TARGET",
+      "withdrawn_untagged_native_validity_example": {
+        "fraction": "6427754037574447580365247838963802261885709961706537636751067/1809251394333065550747064631529075726034502549730419419563359471411748929536",
+        "decimal": 3.552714707147635e-15,
+        "negative_log2": 47.99999958240623,
+        "status": "WITHDRAWN_FOR_CURRENT_PUBLIC_TAG_MODEL; historical draft ignored96bit keytag"
+      },
+      "native_validity_OW_corollary": {
+        "nonkey_remainder": {
+          "fraction": "1606938509390688891444466315089203529058659287671410952344945/452312848583266387686766157882268931508625637432604854890839867852937232384",
+          "decimal": 3.552714707141173e-15,
+          "negative_log2": 47.999999582408854
+        },
+        "symbolic": "min(1,nonkey_remainder+2*kappa_tag); kappa_tag=min(info_only,Adv_OW128(actual reduction resources))",
+        "OW_advantage_instantiated": false
+      }
+    }
+  ],
+  "checks": {
+    "path": "sources/native/check-r1.json",
+    "sha256": "b4598e37f988b9f5f3f0996796913d571a4486fffb27900b3b085d3f77d67595",
+    "scope": "finite source/algebra/distribution only; not cryptographic or physical security certification",
+    "final_output": "research/w1-w5-native-profile-2026-10-17/runs/g4b-native-proof-audit-20261018-001/check-r3.json",
+    "final_output_sha256": "5ee196f9759645833c3ac45f2e69abfe4ba88f9843b507518708727cf42db32c",
+    "script_sha256": "a7709d29771c834cf9198ae0675c59575de731ab5742871174fa1dd8b6970b57",
+    "final_observed_exit_code": 0,
+    "old_exact_check_numeric_scope": "check-r3 still establishes333161 algebra/distribution checks and source pins. It contains no combined C numeric examples; its standalone FLP/root/rejection values remain valid. The withdrawn untagged C formulas/worked examples were in the pre-keytag budget pinned by delivery-r3; see keytag-supersession.json.",
+    "native_keytag_audit": {
+      "path": "research/w1-w5-native-profile-2026-10-17/runs/g4b-native-proof-audit-20261018-001/check-key-tag-r1.json",
+      "sha256": "928f758f865318fd07f47f8a6be709a6ba065360fc6013d2ed44c0e373dea2a5",
+      "script_path": "research/w1-w5-native-profile-2026-10-17/proofs/g4b-2026-10-18/sources/native/check_public_key_tag.py",
+      "script_sha256": "583e2806f45ad4bbe409af9bdf708808f0f20bc9552167600858c99045b71390",
+      "observed_exit_code": 0,
+      "average_guess_checks": 131840,
+      "first_key_hit_implies_inversion_checks": 14040
+    },
+    "supersession": "sources/native/keytag-supersession.json",
+    "native_supersession_sha256": "2f6038b442a03371dce6b189cc6dc258c92c0780445deffa2265eec54a3b930f"
+  },
+  "history": [
+    {
+      "previous_draft_sha256": "cd8a40fd68fa603585d7b670960756b3bae206eec11c9d17748427b3da562a82",
+      "changes": [
+        "Full typed statement includes key_namespace/current-legacy identity",
+        "Per-hybrid endpoint route multiplier M_X=2(C_X+5), no unproved once-across-hybrids coupling",
+        "Strict-PPT C_acc versus32-prefetch C_raw explicit; bytes/time use C_raw"
+      ]
+    },
+    {
+      "previous_draft_sha256": "d1b03d94bc724ba3c7339696336d9ab0dbd57207603bdd7c345936c8d103d396",
+      "changes": [
+        "Per-endpoint affine failure bound added to B_route then multiplied by M_X; no extra outside affine term",
+        "Expanded native robustness game hops and key secrecy; no circular validity epsilon"
+      ]
+    },
+    {
+      "previous_draft_sha256": "98ebb906e61b97b56089ab67022b4fdaffe1c50d8f653c05cbcc1138284e24aa",
+      "changes": [
+        "N_RID counts all honest origin reservation attempts, including failure before native shard",
+        "check-r3 explicitly completed exit0 after interrupted wrapper lost r2 session; retain r1/r2 outputs"
+      ]
+    },
+    {
+      "previous_draft_sha256": "a8f08c11bba77ffe67fbaf1265bc0320f1e3dda5b8319c6b6d0d2ff1d371168a",
+      "changes": [
+        "Expand macro hop accounting to ten explicit steps, including every native lossy subhop endpoint",
+        "M_X=2(C_X+10), while b_N remains sum of native subhop losses without multiplying M_X"
+      ]
+    },
+    {
+      "previous_draft_sha256": "4278ceed874de34f482c46c89583bc71726147ef219c9663fb4b0f4e424adcad",
+      "changes": [
+        "EUF-CMA account only K_sig_X unknown-private-keys; authority own key in passive A excluded, consistent with01"
+      ]
+    },
+    {
+      "previous_draft_sha256": "d12206fdeb9f7cf515003962532a7bc5948e928c8a3ba5fcba60fd88e25e67dc",
+      "changes": [
+        "Distinguish Helper first-input/response journal from Leader out-of-transaction computation and lease-fenced committed transition",
+        "All different uncommitted Leader peer responses are computed from same fixed Sigma/z_h; no new native source or query coins, every physical call still charged",
+        "Unchanged exact source/algebra script retains observed exit0 check-r3; this revision changes proof/interface prose only"
+      ]
+    },
+    {
+      "previous_draft_sha256": "e312e4f30ce4b8b7fa97d36ae3ceff297ac67371a9acb4963fb42216ceb59456",
+      "preserved_previous_draft_path": "research/w1-w5-native-profile-2026-10-17/proofs/g4b-2026-10-18/sources/native/budget-contract-pre-keytag.json",
+      "changes": [
+        "Account actual public96bit verification-key tag; old2Q/W C guess term withdrawn",
+        "Prove information-only average key-guess bound and explicit random128bit-input SHA256 one-way reduction",
+        "Main C formula2*kappa_tag with symbolic OW primitive; fallbackQ/2^31; all numeric C examples recomputed under fallback, no silent OW=0",
+        "Preserve previous native exact check/r3 and delivery/r3 as pre-keytag history; current C numeric scope superseded explicitly"
+      ]
+    }
+  ],
+  "typed_statement": "(key_namespace,logical_relation,ordered_signals); H/W/E all use full tuple; current/legacy key not interchangeable",
+  "route_budget_per_endpoint": "B_route includes typedG16collision+affineS(3p-2)/p^2+setup+per-key signatures+single globalSHA+Com(if not already generic-covered)+origin, all for one complete-execution endpoint; affine/generic identity overlap is an explicitly conservative union bound",
+  "route_multiplier": "M_X=2*(C_HPKE_X+10); endpoints of C_HPKE_X cipher hops plus10 explicit macro hops; every native lossy subhop has both routebad endpoints; b_N is NOT multiplied by M_X",
+  "groth16_ZK_algorithmic": "Projective adaptive multi-theorem ZK distance0; actual affine exclusions/failures accounted inside each endpoint B_route, no additional affine term outside M_X*B_route",
+  "origin_guess_bad": "min(1,N_RID*G_origin/2^128), per hybrid endpoint; native b_N separately uses N_shard; root global ledger may upper-bound both by N_honest_slots",
+  "macro_hops": [
+    {
+      "number": 1,
+      "step": "source-proof sampling",
+      "own_single_world_loss": "0 projective ZK; affine inside each endpoint B_route"
+    },
+    {
+      "number": 2,
+      "step": "nonce deduplication",
+      "own_single_world_loss": "N^2/W"
+    },
+    {
+      "number": 3,
+      "step": "initial RO programming",
+      "own_single_world_loss": "N*(Q4+2*(Q3+Q6+Q7)+Q5)/W"
+    },
+    {
+      "number": 4,
+      "step": "shares and parts programming",
+      "own_single_world_loss": "N*(Q1+Q2+2*Q7)/W"
+    },
+    {
+      "number": 5,
+      "step": "prover coins removal",
+      "own_single_world_loss": "N*Q4/W"
+    },
+    {
+      "number": 6,
+      "step": "FLP full-verifier simulation",
+      "own_single_world_loss": "N*delta_abort=0"
+    },
+    {
+      "number": 7,
+      "step": "hidden points and joint receipt",
+      "own_single_world_loss": "0"
+    },
+    {
+      "number": 8,
+      "step": "raw candidate/trace coupling",
+      "own_single_world_loss": "0"
+    },
+    {
+      "number": 9,
+      "step": "business/first-exposure postprocessing",
+      "own_single_world_loss": "0"
+    },
+    {
+      "number": 10,
+      "step": "strict PPT cutoff",
+      "own_single_world_loss": "Tail_sum"
+    }
+  ],
+  "signature_key_sets": "K_sig_X depends on experiment: A excludes its own known authority authorization secret; P/P+A exclude corrupt role/owner keys but do not get authority authorization secret. Never apply EUF-CMA to a key exposed to that observer.",
+  "native_reexecution": {
+    "Helper": "Explicit committed first-input/response journal; changed protected request conflicts before private processing; exact retry returns cached wire response.",
+    "Leader": "leader_continued may execute outside final transaction and be recomputed with different Helper responses. step_aggregation_job_2 atomically writes state/retained and releases lease under token/expiry fence; lost-lease/rollback work does not commit or overwrite another committed transition.",
+    "privacy_invariant": "Fixed source/body/report/key/nonce, original inputshare and committed native state fix same joint/query coins and full-verifier Sigma/z_h. Compute every adaptive peer Decide/seed predicate from same variable; no fresh independent query observation and no new N_shard or delta_FL.",
+    "resource_invariant": "Every physical init/merge/finish call, recomputation, raw candidate expansion, hash/signature and byte/time cost counts against whole-game external bounds even when uncommitted.",
+    "C_only": "Correct Helper replays same committed response. Active peer variation belongs to privacy P/P+A, not C correctness.",
+    "source_refinement": "05-closure-prefix-and-refinement.md sections3-5; sources/refinement/check-004/source-map.json leader-peer-compute/leader-transition-commit/leader-lease-fence anchors"
+  }
+}

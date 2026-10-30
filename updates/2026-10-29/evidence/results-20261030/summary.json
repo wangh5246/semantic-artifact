@@ -1,0 +1,89 @@
+{
+  "schema": "paper-derived-20261030-v1",
+  "same_business_input": false,
+  "e1": {
+    "v5": {
+      "fullprove_wall": {
+        "n": 5,
+        "median": 3.48052567,
+        "min": 3.467365694,
+        "max": 3.481991752
+      },
+      "fullprove_cpu": {
+        "n": 5,
+        "median": 3.4747839999999997,
+        "min": 3.4632,
+        "max": 3.4758869999999997
+      },
+      "max_rss_kib": {
+        "n": 5,
+        "median": 312196,
+        "min": 310640,
+        "max": 314136
+      },
+      "internal_verify_wall": {
+        "n": 5,
+        "median": 0.03229630099999986,
+        "min": 0.03226175999999987,
+        "max": 0.03515394699999979
+      }
+    },
+    "v6": {
+      "fullprove_wall": {
+        "n": 5,
+        "median": 311.830964286,
+        "min": 311.551996789,
+        "max": 312.44851223300003
+      },
+      "fullprove_cpu": {
+        "n": 5,
+        "median": 311.383159,
+        "min": 311.11295,
+        "max": 312.00413199999997
+      },
+      "max_rss_kib": {
+        "n": 5,
+        "median": 14535660,
+        "min": 14210356,
+        "max": 14787448
+      },
+      "internal_verify_wall": {
+        "n": 5,
+        "median": 0.04053749799996149,
+        "min": 0.039662246000021696,
+        "max": 0.04877449699997669
+      }
+    }
+  },
+  "paired_ratio_median": 89.73112305264301,
+  "pair": {
+    "full": {
+      "total_wall_s": 4342.151041409001,
+      "window_wall_s": 529.449742295,
+      "phases_s": {
+        "setup_and_real_genesis": 197.2253354,
+        "priming": 3322.161810951,
+        "window": 529.449742295,
+        "collection_complete": 57.061595847
+      }
+    },
+    "t": {
+      "total_wall_s": 3171.444101244211,
+      "window_wall_s": 378.329713621,
+      "phases_s": {
+        "setup_and_real_genesis": 201.258543436,
+        "priming": 2309.288108872,
+        "window": 378.329713621,
+        "collection_complete": 65.326317
+      }
+    }
+  },
+  "sources_sha256": {
+    "reason-counts.csv-1": "4d2ffb1e85cd14af5843c73d30b3cc011b06bd14e6daee8bd5c439fd744b197d",
+    "reason-counts.csv-2": "d300b525199e4a37dafa775f65aebc251c06cc0e147e9f0372871f4c5f377568",
+    "pair-events-v2.csv-3": "f0bafaf16ae2be13fe5659d2747d4da052f705e7ba4e3aae4e7aa958f99533ed",
+    "e1-results-checked-v2.json-4": "12f0c6434dd8599940e00cdb79cbeb34e8e45bb5ee459aeb9b2384403de1587c",
+    "n100-pair.json-5": "f5a29a2ca995638305e0f35f6af58fe78243e34047c26563f095245a3bc04179"
+  },
+  "rounding": "decimal display from retained values; RSS KiB divided by 1048576; percentages use unrounded values"
+}

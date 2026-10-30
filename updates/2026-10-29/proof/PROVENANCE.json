@@ -1,0 +1,37 @@
+{
+  "01-security-games-and-ideal-interface.md": {
+    "original_sha256": "d40e6daa0d569228e2902d1346d5799cf82c88478acb02703d8e8868d04a3368",
+    "derivative_sha256": "d40e6daa0d569228e2902d1346d5799cf82c88478acb02703d8e8868d04a3368",
+    "transformation": "Proof prose/equations unchanged; included budget links remapped, public literature links preserved, unavailable local links marked omitted."
+  },
+  "02-groth16-extraction-and-budget.md": {
+    "original_sha256": "2e049a973843eba0e7fb9510e91e5fed04ff7d09781575052ded3125ca0457ba",
+    "derivative_sha256": "e169cbed73263f2e5596382eeb094137d074f9588e92711fa6974ad30670362e",
+    "transformation": "Proof prose/equations unchanged; included budget links remapped, public literature links preserved, unavailable local links marked omitted."
+  },
+  "03-native-privacy-and-query-ledger.md": {
+    "original_sha256": "bb5061d5ac57c6a3b784ccf2016df20afab7ab3225cf950580ae06bffa97e2d4",
+    "derivative_sha256": "344ee11cc06937d8a0c19927a3e0d7d2ac48ecaf67b047af5a9b6680364a2d33",
+    "transformation": "Proof prose/equations unchanged; included budget links remapped, public literature links preserved, unavailable local links marked omitted."
+  },
+  "04-full-view-simulation.md": {
+    "original_sha256": "e010f110a589f954d3932b509036349179738c3d0c5cc70f55e2ff437f32ad6f",
+    "derivative_sha256": "966969a58b0576d307be7abddbe1be87c5f8488d408255a7903fe8a84d2aab25",
+    "transformation": "Proof prose/equations unchanged; included budget links remapped, public literature links preserved, unavailable local links marked omitted."
+  },
+  "05-closure-prefix-and-refinement.md": {
+    "original_sha256": "436075464f28bdc34a25494459488cbb5cfe5a6e6c10936b0dfab9958f42f8f7",
+    "derivative_sha256": "5a190772fe933f1236978039d13d91b8218d9b4ed3e9d6ed86af806b6cd7cfa3",
+    "transformation": "Proof prose/equations unchanged; included budget links remapped, public literature links preserved, unavailable local links marked omitted."
+  },
+  "06-counterexamples-and-scope.md": {
+    "original_sha256": "695136adf9302783b6c073419d649887c3f936455667b9c87a9d815119e3018b",
+    "derivative_sha256": "a3881ac65d2857cb8df4d561603241f77f131b4b1079752ea29111dcbb1a94a2",
+    "transformation": "Proof prose/equations unchanged; included budget links remapped, public literature links preserved, unavailable local links marked omitted."
+  },
+  "07-composition-and-explicit-bounds.md": {
+    "original_sha256": "829b8760ac4a3a7e43700f6a4f4e7d56f417394992d369d365cdcf82d875ebb3",
+    "derivative_sha256": "7a5ae687a4e5b80fe2ce05f917561eb1449f12f4bb3dc078e801cf94db5fb8a3",
+    "transformation": "Proof prose/equations unchanged; included budget links remapped, public literature links preserved, unavailable local links marked omitted."
+  }
+}

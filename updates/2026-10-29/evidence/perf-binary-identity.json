@@ -1,0 +1,156 @@
+{
+  "manifests": {
+    "v1": {
+      "janus_aggregator": "3acd94b5490bc51e74c05e45b6dd82282e70888d185aff5b5402544d4027835d",
+      "janus_interop": "bc45806d6b9bacf1631ced3bbfab38df403914ea9b071b12d28a2c718edf2557",
+      "shtpc_hadwc_client": "6e1f4c07891b7b4d7f078f5b38267ccc657b41bcb7fd3ac516406f1ef5ee0d40"
+    },
+    "v2": {
+      "janus_aggregator": "6d82ba5721a8b5243011194072642df32a8c948bc3c288eda05231dfdfc6eef9",
+      "janus_interop": "d7db0b0c508393933936526ec4ceb02115c1d3ae4f7b8730ee576e284182244f",
+      "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+    },
+    "g5_lateral_command": {
+      "janus_interop": "8c298ce9c452b784f2ef2017b1e3c5c05f1b3a4a53fac7fbc9f789a56c8837d1",
+      "janus_aggregator": "3acd94b5490bc51e74c05e45b6dd82282e70888d185aff5b5402544d4027835d",
+      "shtpc_hadwc_client": "1ab5a43bcf7889dd4a06b18280c037170f6ddd59d7d2de7f320d1613653d7eb0"
+    }
+  },
+  "executed_binary_hashes": {
+    "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+    "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+    "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+  },
+  "original_ten_runs": [
+    {
+      "run": "N100-MODE-A-r1",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    },
+    {
+      "run": "N100-MODE-A-r2",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    },
+    {
+      "run": "N100-MODE-A-r3",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    },
+    {
+      "run": "N100-MODE-M-r1",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    },
+    {
+      "run": "N100-MODE-M-r2",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    },
+    {
+      "run": "N100-MODE-M-r3",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    },
+    {
+      "run": "N100-MODE-Z-r1",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    },
+    {
+      "run": "N100-MODE-Z-r2",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    },
+    {
+      "run": "N100-MODE-Z-r3",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    },
+    {
+      "run": "N100-MODE-full-r1",
+      "owned_process_binaries": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      },
+      "results_binary_pins": {
+        "janus_interop": "fa4ceda613434649c6ec76da7299b18afa453f801e7a60234a25961ed7b89f2b",
+        "janus_aggregator": "2e9f82ec55a43bd4dc56e0ab749c981a8fba17d48d60ff8c2012f83ee8017da7",
+        "shtpc_hadwc_client": "c4887c0455383ea44426b4a0b2356b93e51ffce4e3cac191ad52682a33479842"
+      }
+    }
+  ]
+}

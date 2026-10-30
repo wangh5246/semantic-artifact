@@ -1,0 +1,13 @@
+library,N,planned,evaluable,insufficient_pool,all_legal,complete,conditional_complete
+geolife,100,15,0,15,0,0,N/A
+geolife,32,15,0,15,0,0,N/A
+geolife,8,15,15,0,0,0,N/A
+porto,100,15,15,0,0,0,N/A
+porto,32,15,15,0,0,0,N/A
+porto,8,15,15,0,0,0,N/A
+rome,100,15,15,0,0,0,N/A
+rome,32,15,15,0,2,0,0/2
+rome,8,15,15,0,11,0,0/11
+t-drive,100,15,15,0,0,0,N/A
+t-drive,32,15,15,0,0,0,N/A
+t-drive,8,15,15,0,0,0,N/A

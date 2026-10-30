@@ -1,0 +1,62 @@
+{
+  "scope": "local retained checker receipts and independently recomputed boundary counters; no remote execution or database revalidation",
+  "rows": [
+    {
+      "run": "N100-MODE-full-r1",
+      "check_status": "PASS",
+      "checks": 155,
+      "all_checks_passed": true,
+      "formal_G6_accepted": false,
+      "recomputed_window_s": 824.357634445,
+      "recomputed_cpu_s": 447.91389900000013,
+      "matches_recorded": true,
+      "recorded_binary_sha256": null
+    },
+    {
+      "run": "N100-MODE-full-r2",
+      "check_status": "PASS",
+      "checks": 155,
+      "all_checks_passed": true,
+      "formal_G6_accepted": false,
+      "recomputed_window_s": 770.387749628,
+      "recomputed_cpu_s": 450.3037199999999,
+      "matches_recorded": true,
+      "recorded_binary_sha256": null
+    }
+  ],
+  "same_recorded_binaries": true,
+  "receipt_hashes": [
+    {
+      "name": "N100-MODE-full-r1/perf-mode-independent-check.json",
+      "sha256": "8ed47f91c480902fdd0ffe21250d99af1af82c8b04ad64be7332c37c87fb63c7"
+    },
+    {
+      "name": "N100-MODE-full-r1/result.json",
+      "sha256": "329bd5533a34a135d57ffb1bf4e427b7cc770182adf3fd351c2c500f7a3e6b3e"
+    },
+    {
+      "name": "N100-MODE-full-r1/perf-run.json",
+      "sha256": "f126134851ea33e12232d860f326b8b643b52f7ef0f6ff71d21a08b58d73f7df"
+    },
+    {
+      "name": "N100-MODE-full-r1/server-measurement.json",
+      "sha256": "bcf89cf50ac5cb17543c6951759bcc34a7006a07bb4c7009507fd7ca893a966a"
+    },
+    {
+      "name": "N100-MODE-full-r2/perf-mode-independent-check.json",
+      "sha256": "e522fa6c720381d4f0422459452c0bc948f9c5dc763adc18e5db588c0be5b8b6"
+    },
+    {
+      "name": "N100-MODE-full-r2/result.json",
+      "sha256": "c9bc200bc43c3716a9ef067d8e0e7cd5852bc72a2740a61de7dfa362ac3aa8ff"
+    },
+    {
+      "name": "N100-MODE-full-r2/perf-run.json",
+      "sha256": "69ed2fba969291513612751720ebcdd3cceab4ca75fc3daedfa5c56a391eeb9f"
+    },
+    {
+      "name": "N100-MODE-full-r2/server-measurement.json",
+      "sha256": "e4e01431338a96403ab03ae6c10cb5065b71fe9720a686d93b7dd2eba32b7dc9"
+    }
+  ]
+}
