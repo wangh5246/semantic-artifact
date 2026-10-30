@@ -1318,10 +1318,10 @@ preparation, changed peer bytes, arranged commit-first and freeze-first SQL
 orders, and failure paths that retain accepted state.
 
 \label{sec:eval-model-check}
-TLA+/TLC 2.19 checks 41 configurations of ClosureV5: fixtures have one to
+TLA+/TLC 2.19 checks 41 configurations of ClosureState: fixtures have one to
 three owners and reports, two roles, and one or two windows. The artifact's
 \path{current/model/cases.json} fixes each case's bounds; its specification
-is \path{current/model/ClosureV5.tla}. Six safety and one fair-progress configurations pass;
+is \path{current/model/ClosureState.tla}. Six safety and one fair-progress configurations pass;
 guard removals expose invariant violations, and reachability and temporal
 controls exercise witnesses and fairness assumptions.
 

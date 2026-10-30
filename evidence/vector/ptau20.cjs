@@ -1,6 +1,6 @@
 'use strict';
 const path=require('path'), fs=require('fs'), crypto=require('crypto');
-const N=/srv/waybill-workspace-v7/shtpc-g6-20261022/heatmap_split/verify/node_modules;
+const N=path.resolve(process.env.SNARKJS_NODE_MODULES || 'node_modules');
 const snarkjs=require(path.join(N,'snarkjs'));
 const ff=require(path.join(N,'ffjavascript'));
 const run=process.argv[2], exp=Number(process.argv[3]);

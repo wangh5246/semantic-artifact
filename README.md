@@ -31,7 +31,11 @@ The resulting `paper/submission.pdf` contains the paper and appendix. A build ca
 ## 3. Inspect the technical artifacts
 
 - [Proof guide](proof/README.md) maps the manuscript statements to the detailed security arguments and their assumptions.
-- [Bounded model specification](current/model/ClosureV5.tla) and [case inventory](current/model/cases.json) document the model and configurations. This repository does not include the model runner or all configurations needed to repeat the full campaign.
+- [Bounded model specification](current/model/ClosureState.tla) and [case inventory](current/model/cases.json) document the model and configurations. This repository does not include the model runner or all configurations needed to repeat the full campaign.
 - [Binding component sources](evidence/) and the evaluation tables support inspection of the component comparison. The [mechanism ablation data](evidence/perf-mode.csv) uses a server-only endpoint. The [offline replay data](evidence/offline-aggregate.json) is distinct from the native runs.
 
 The complete native service, the receiver used for the lifecycle comparison, original trajectory inputs, experiment keys and witnesses are not included. Repeating those experiments requires obtaining the appropriate inputs and implementation separately, preparing new keys and configurations, and following the original experimental contracts. The available summary tables do not establish that such a rerun has been performed. The [implementation provenance record](evidence/perf-binary-identity.json) documents the scope of the retained binary evidence.
+
+Source, profile, and relation labels in the distributed derivatives are normalized for readability. Retained source hashes identify the original records. The component files are not a complete runnable service.
+
+The development component helpers use `SNARKJS_NODE_MODULES` to select dependencies and have been edited from the retained research copy. It is not a production setup procedure.

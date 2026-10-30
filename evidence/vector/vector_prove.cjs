@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('fs'), path=require('path'), crypto=require('crypto');
-const N='/srv/waybill-workspace-v7/shtpc-g6-20261022/heatmap_split/verify/node_modules';
+const N=path.resolve(process.env.SNARKJS_NODE_MODULES || 'node_modules');
 const snarkjs=require(path.join(N,'snarkjs'));
 const P=21888242871839275222246405745257275088548364400416034343698204186575808495617n;
 const run=path.resolve(process.argv[2]);

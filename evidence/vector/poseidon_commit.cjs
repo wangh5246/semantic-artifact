@@ -1,9 +1,9 @@
-// Shared Poseidon helpers for the v6 fixture/validator. Uses the pinned
+// Shared Poseidon helpers for the vector fixture/validator. Uses the pinned
 // circomlib kernels from the earlier comparator component tests.
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const PACKAGE = process.env.V6_ROOT ? path.resolve(process.env.V6_ROOT) : path.resolve(__dirname, '../../..');
+const PACKAGE = process.env.VECTOR_ROOT ? path.resolve(process.env.VECTOR_ROOT) : path.resolve(__dirname, '../../..');
 const KERNELS = path.join(PACKAGE, 'research/controller-and-sharding-comparison-2026-10-24/actual-binding-r1/kernels');
 const cache = {};
 async function poseidon(kind, inputs) {

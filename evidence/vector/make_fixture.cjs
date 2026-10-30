@@ -1,14 +1,14 @@
-// Deterministic v6 fixture builder. Same Pedersen parameters as v5, plus the
+// Deterministic vector fixture builder. Same Pedersen parameters as state, plus the
 // versioned Poseidon vector/receipt commitments. No native service is touched.
 'use strict';
 const fs = require('fs');
 const path = require('path');
 
-const REPO = process.env.V6_ROOT ? path.resolve(process.env.V6_ROOT) : path.resolve(__dirname, '../../..');
+const REPO = process.env.VECTOR_ROOT ? path.resolve(process.env.VECTOR_ROOT) : path.resolve(__dirname, '../../..');
 const PACKAGE = path.join(REPO, 'research/w1-w5-native-profile-2026-10-17');
 const KERNELS = path.join(REPO, 'research/controller-and-sharding-comparison-2026-10-24/actual-binding-r1/kernels');
 const profile = JSON.parse(fs.readFileSync(path.join(PACKAGE, 'contract/profile.json')));
-const gens = JSON.parse(fs.readFileSync(path.join(PACKAGE, 'circuits/generators-v5.json'))).generators;
+const gens = JSON.parse(fs.readFileSync(path.join(PACKAGE, 'circuits/generators-state.json'))).generators;
 // JSON.parse loses precision on these integers; use the exact standard values.
 const P = 21888242871839275222246405745257275088548364400416034343698204186575808495617n;
 const L = 2736030358979909402780800718157159386076813972158567259200215660948447373041n;
@@ -36,12 +36,12 @@ function mul(base, n) {
   return out;
 }
 function commit(m, rho, kind) {
-  if (process.env.V6_DEBUG) console.error('commit', kind, String(m), String(rho), gens['g_' + kind].generator[0].slice(0, 8));
+  if (process.env.VECTOR_DEBUG) console.error('commit', kind, String(m), String(rho), gens['g_' + kind].generator[0].slice(0, 8));
   const p = add(mul(gens['g_' + kind].generator.map(BigInt), m), mul(gens['h_' + kind].generator.map(BigInt), rho));
-  if (process.env.V6_DEBUG) console.error('sum', p.map(String).join(','));
+  if (process.env.VECTOR_DEBUG) console.error('sum', p.map(String).join(','));
   if (p[2] === 0n) throw Error('invalid point');
   const zi = inv(p[2]);
-  if (process.env.V6_DEBUG) console.error('inv', String(zi));
+  if (process.env.VECTOR_DEBUG) console.error('inv', String(zi));
   return [mod(p[0] * zi), mod(p[1] * zi)];
 }
 function det(seed, bound) { // deterministic non-secret fixture values
@@ -89,7 +89,7 @@ async function main() {
   const mkState = (xy, s) => {
     const rho = det('rho-state-' + s + '-' + opt.seed, L);
     const point = commit(BigInt(xy[0]) * 1048576n + BigInt(xy[1]), rho, 'state');
-    if (process.env.V6_DEBUG) console.error('state', s, rho.toString(), point.map(String).join(','));
+    if (process.env.VECTOR_DEBUG) console.error('state', s, rho.toString(), point.map(String).join(','));
     return { xy, cell: [Math.floor(xy[0] / 100), Math.floor(xy[1] / 100)], rem: [xy[0] % 100, xy[1] % 100], rho, point };
   };
   const prev = mkState(prevXY, 0), nxt = mkState(nextXY, 1), anchor = mkState(anchorXY, 2);

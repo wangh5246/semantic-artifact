@@ -1,11 +1,11 @@
-// v6 combined-witness positive/negative controls. Runs the actual wasm/r1cs.
+// vector combined-witness positive/negative controls. Runs the actual wasm/r1cs.
 'use strict';
 const fs = require('fs');
 const path = require('path');
 
 
-const PACKAGE = process.env.V6_ROOT ? path.resolve(process.env.V6_ROOT) : path.resolve(__dirname, '../../..');
-const gens = JSON.parse(fs.readFileSync(path.join(PACKAGE, 'research/w1-w5-native-profile-2026-10-17/circuits/generators-v5.json'))).generators;
+const PACKAGE = process.env.VECTOR_ROOT ? path.resolve(process.env.VECTOR_ROOT) : path.resolve(__dirname, '../../..');
+const gens = JSON.parse(fs.readFileSync(path.join(PACKAGE, 'research/w1-w5-native-profile-2026-10-17/circuits/generators-state.json'))).generators;
 const P = 21888242871839275222246405745257275088548364400416034343698204186575808495617n;
 const L = 2736030358979909402780800718157159386076813972158567259200215660948447373041n;
 const Q = 340282366920938462946865773367900766209n;
@@ -36,7 +36,7 @@ function setState(inp, s, xy) {
 
 function main() {
   const argv = process.argv.slice(2);
-  const opt = { base: 'build8/input-bit1.json', base0: 'build8/input-bit0.json', wasm: 'build8/v6_main_8_js/v6_main_8.wasm', r1cs: 'build8/v6_main_8.r1cs', out: 'build8/witness-checks.json', n: 8, snarkjs: process.env.SNARKJS_MODULE || '/usr/local/lib/node_modules/snarkjs' };
+  const opt = { base: 'build8/input-bit1.json', base0: 'build8/input-bit0.json', wasm: 'build8/vector_main_8_js/vector_main_8.wasm', r1cs: 'build8/vector_main_8.r1cs', out: 'build8/witness-checks.json', n: 8, snarkjs: process.env.SNARKJS_MODULE || '/usr/local/lib/node_modules/snarkjs' };
   for (let i = 0; i < argv.length; i += 2) { const k = argv[i].replace(/^--/, ''); opt[k] = k === 'n' ? Number(argv[i + 1]) : argv[i + 1]; }
   const base1 = JSON.parse(fs.readFileSync(opt.base));
   const base0 = JSON.parse(fs.readFileSync(opt.base0));
@@ -146,7 +146,7 @@ async function finish(cases, opt) {
     results.push({ case: c.name, expect_accept: c.expect_accept, accepted, passed: accepted === c.expect_accept, note: c.note, diagnostic });
     fs.unlinkSync(inp);
   }
-  const report = { all_passed: results.every((x) => x.passed), N: opt.n, cases: results, scope: 'actual v6 wasm/r1cs witness; no proof or native service' };
+  const report = { all_passed: results.every((x) => x.passed), N: opt.n, cases: results, scope: 'actual vector wasm/r1cs witness; no proof or native service' };
   fs.writeFileSync(opt.out, JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify({ all_passed: report.all_passed, cases: results.length }));
   process.exit(report.all_passed ? 0 : 1);

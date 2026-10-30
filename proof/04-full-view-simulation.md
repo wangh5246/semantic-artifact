@@ -1,6 +1,6 @@
 # G4b：全业务视图的在线模拟与逐混合成本
 
-日期：2026-10-18。固定00 [source omitted from this derivative]及安全游戏01的同一v5实例。本文件展开冻结G4a的01 [source omitted from this derivative]/03 [source omitted from this derivative]，用[本轮03](03-native-privacy-and-query-ledger.md)的具体FLP/RO界取代未实例化的native项；02提供具体相关setup下的Groth16提取/ZK界，05提供源级prefix/refinement。结论是 **PROVED_IN_DECLARED_MODEL**。标准primitive Adv函数允许保留，目标组合安全或native隐私不是前提。
+日期：2026-10-18。固定00 [source omitted from this derivative]及安全游戏01的同一state实例。本文件展开冻结G4a的01 [source omitted from this derivative]/03 [source omitted from this derivative]，用[本轮03](03-native-privacy-and-query-ledger.md)的具体FLP/RO界取代未实例化的native项；02提供具体相关setup下的Groth16提取/ZK界，05提供源级prefix/refinement。结论是 **PROVED_IN_DECLARED_MODEL**。标准primitive Adv函数允许保留，目标组合安全或native隐私不是前提。
 
 ## 1. 输入权限、合法世界与完整view
 
@@ -52,7 +52,7 @@ C专用完整性对公开96bit verification-key tag使用03的`2κ_tag`及其明
 4. 新malicious body若含原H完整HPKE tuple，native与sidecar AAD都含RID。诚实source在packet首次公开前已经持久取得该RID的OriginCert；origins.report_id全局唯一、rawRID=envelopeRID、完整身份/slot/RID与证书匹配。不同owner不能再占用同RID；冒用honest owner进签名坏事件，事前猜中RID进B_origin。直接native入口在HPKE/private处理之前核完整body/permit/exact tuple，不能绕开origin另开decrypt。
 5. 其余ciphertext，包括相同enc/payload搬到另一个AAD/RID/key/info，属于合法非challenge查询。单挑战归约向honest-key oracle请求真实plaintext或bottom；它自行生成的其余keys直接解密。返回什么就真实运行codec/MASK/native算法，缓存actual retained、receipt及错误。不能无证明地将“改过的ciphertext”一律回bottom，亦不假设extractor或对手原先知道plaintext。
 
-native label为 `dap-09 input share || Client || role`，AAD是task||metadata(RID,timestamp)||encoded public_share。sidecar info为 `SHTPC-HADWC-v5-SIDECAR`，AAD包含task/RID/config/raw_report_digest/role/core_digest；core不含owner，所以不能省略第4项origin唯一性。开口明文是固定93B binary（mask16B、rho32B），AES-GCM payload109B，不是秘密decimal JSON。实际字段和最终003源pin沿G4a codec审查。
+native label为 `dap-09 input share || Client || role`，AAD是task||metadata(RID,timestamp)||encoded public_share。sidecar info为 `SHTPC-HADWC-state-SIDECAR`，AAD包含task/RID/config/raw_report_digest/role/core_digest；core不含owner，所以不能省略第4项origin唯一性。开口明文是固定93B binary（mask16B、rho32B），AES-GCM payload109B，不是秘密decimal JSON。实际字段和最终003源pin沿G4a codec审查。
 
 完整tuple排除的是actual key/suite/info/AAD/enc/payload。换config id但仍映射同key不能规避标记；同ciphertext改AAD则真是另一个oracle query。最终S自有honest HPKE keys，可以真实解non-H；单挑战归约却不知道其嵌入key，因此第5项必须用允许的decrypt oracle，不能混同两层知识。
 

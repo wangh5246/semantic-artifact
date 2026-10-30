@@ -1,6 +1,6 @@
 # G4b：原生 FLP、隐私模拟与完整查询账本
 
-日期：2026-10-18。固定对象是已验收 G4a 的 `janus-v5-g4a/vendor/prio`，Prio 0.16.8 / VDAF-08，单 task、事前固定 verification key、两个 aggregator、TimeInterval、NoDP、`q_release≤1/task`。本文件不更改 G4a、源、资产或原 run。完整预算的可读接口是 [budget-contract.json](native-budget-contract.json)，原生模拟如何进入全部业务 view 见 [04](04-full-view-simulation.md)。
+日期：2026-10-18。固定对象是已验收 G4a 的 `janus-state-g4a/vendor/prio`，Prio 0.16.8 / VDAF-08，单 task、事前固定 verification key、两个 aggregator、TimeInterval、NoDP、`q_release≤1/task`。本文件不更改 G4a、源、资产或原 run。完整预算的可读接口是 [budget-contract.json](native-budget-contract.json)，原生模拟如何进入全部业务 view 见 [04](04-full-view-simulation.md)。
 
 结论为 **PROVED_IN_DECLARED_MODEL**：下文直接证明本实例 FLP 的含 abort 强 HVZK、两方主动 peer 原生模拟、拒绝采样轨迹及逐项查询界。没有假设“原生隐私已经成立”。RO、正确 setup、底层 primitive 和标准 executor 是明确模型前提；所有数值项来自这些前提中的具体游戏。完整性、诚实失败与隐私损失分列。
 

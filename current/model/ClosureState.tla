@@ -1,4 +1,4 @@
------------------------------ MODULE ClosureV5 -----------------------------
+----------------------------- MODULE ClosureState -----------------------------
 (* G5/2 finite abstraction: a declared complete P per window; durable full body
    registration, lock, two role prepare/receipt, authority commit, native apply,
    immutable complete reservation and first send. Crash drops volatile install

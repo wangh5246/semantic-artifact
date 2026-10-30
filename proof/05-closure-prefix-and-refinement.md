@@ -1,6 +1,6 @@
 # G4b：声明闭合、全前缀与实际源码的精化对应
 
-日期：2026-10-18。对象为冻结的 `SHTPC-native-hidden-adwc-strict/v5` G4a 加固实例，实际源码仍是 `authority_v5_g4a`、`janus-v5-g4a`；本轮不改源码、资产、G4a证明或历史证据。本文给出参数化状态机归纳、逐操作的手工前向精化和源码对应；有限脚本只核对对应路径、哈希和小模型，不是自动验证编译器或完整G5。
+日期：2026-10-18。对象为冻结的 `SHTPC-native-hidden-adwc-strict/state` G4a 加固实例，实际源码仍是 `authority_state_g4a`、`janus-state-g4a`；本轮不改源码、资产、G4a证明或历史证据。本文给出参数化状态机归纳、逐操作的手工前向精化和源码对应；有限脚本只核对对应路径、哈希和小模型，不是自动验证编译器或完整G5。
 
 ## 1. 定理对象、参数与执行前提
 
@@ -116,41 +116,41 @@ SHA列为便于核对的前12位，完整64位与repo-relative路径均在上面
 
 | 对应事件/义务 | 实际源文件及行 | SHA256前12位 |
 | --- | --- | --- |
-| authority-tx | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：184–191 | `ced8a6fd317b` |
-| origin | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：239–259 | `ced8a6fd317b` |
-| register | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：274–321 | `ced8a6fd317b` |
-| lock | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：323–346 | `ced8a6fd317b` |
-| permit | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：375–399 | `ced8a6fd317b` |
-| authority-commit | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：400–444 | `ced8a6fd317b` |
-| authority-freeze | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：446–474 | `ced8a6fd317b` |
-| authority-abort | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：476–489 | `ced8a6fd317b` |
-| outbox | runtime/authority_v5_g4a/proxy.py [source omitted from this derivative]：76–98 | `58f26a8f51da` |
-| exposure-outcome | runtime/authority_v5_g4a/proxy.py [source omitted from this derivative]：277–338 | `58f26a8f51da` |
+| authority-tx | runtime/authority_state_g4a/service.py [source omitted from this derivative]：184–191 | `ced8a6fd317b` |
+| origin | runtime/authority_state_g4a/service.py [source omitted from this derivative]：239–259 | `ced8a6fd317b` |
+| register | runtime/authority_state_g4a/service.py [source omitted from this derivative]：274–321 | `ced8a6fd317b` |
+| lock | runtime/authority_state_g4a/service.py [source omitted from this derivative]：323–346 | `ced8a6fd317b` |
+| permit | runtime/authority_state_g4a/service.py [source omitted from this derivative]：375–399 | `ced8a6fd317b` |
+| authority-commit | runtime/authority_state_g4a/service.py [source omitted from this derivative]：400–444 | `ced8a6fd317b` |
+| authority-freeze | runtime/authority_state_g4a/service.py [source omitted from this derivative]：446–474 | `ced8a6fd317b` |
+| authority-abort | runtime/authority_state_g4a/service.py [source omitted from this derivative]：476–489 | `ced8a6fd317b` |
+| outbox | runtime/authority_state_g4a/proxy.py [source omitted from this derivative]：76–98 | `58f26a8f51da` |
+| exposure-outcome | runtime/authority_state_g4a/proxy.py [source omitted from this derivative]：277–338 | `58f26a8f51da` |
 | pg-tx | aggregator_core/src/datastore.rs [source omitted from this derivative]：265–399 | `eb55dcd64b06` |
-| control-epoch | src/commands/hadwc_v5.rs [source omitted from this derivative]：690–709 | `c815f7b9c341` |
-| prepare-epoch | src/datastore/hadwc_v5.rs [source omitted from this derivative]：104–127 | `7b07ae066b2a` |
-| native-identity | src/datastore/hadwc_v5.rs [source omitted from this derivative]：150–191 | `7b07ae066b2a` |
-| journal | src/datastore/hadwc_v5.rs [source omitted from this derivative]：188–238 | `7b07ae066b2a` |
-| native-authorization | src/datastore/hadwc_v5.rs [source omitted from this derivative]：262–328 | `7b07ae066b2a` |
+| control-epoch | src/commands/hadwc_state.rs [source omitted from this derivative]：690–709 | `c815f7b9c341` |
+| prepare-epoch | src/datastore/hadwc_state.rs [source omitted from this derivative]：104–127 | `7b07ae066b2a` |
+| native-identity | src/datastore/hadwc_state.rs [source omitted from this derivative]：150–191 | `7b07ae066b2a` |
+| journal | src/datastore/hadwc_state.rs [source omitted from this derivative]：188–238 | `7b07ae066b2a` |
+| native-authorization | src/datastore/hadwc_state.rs [source omitted from this derivative]：262–328 | `7b07ae066b2a` |
 | retained | aggregator_core/src/datastore.rs [source omitted from this derivative]：8430–8513 | `eb55dcd64b06` |
-| receipt | src/commands/hadwc_v5.rs [source omitted from this derivative]：1263–1400 | `c815f7b9c341` |
-| role-apply | src/commands/hadwc_v5.rs [source omitted from this derivative]：1402–1558 | `c815f7b9c341` |
+| receipt | src/commands/hadwc_state.rs [source omitted from this derivative]：1263–1400 | `c815f7b9c341` |
+| role-apply | src/commands/hadwc_state.rs [source omitted from this derivative]：1402–1558 | `c815f7b9c341` |
 | batch-add | src/commands/janus_interop_aggregator.rs [source omitted from this derivative]：3780–3851 | `b57fa7732f98` |
-| reserve | src/datastore/hadwc_v5_export.rs [source omitted from this derivative]：38–133 | `9f75a0121baf` |
-| bind-payload | src/datastore/hadwc_v5_export.rs [source omitted from this derivative]：136–162 | `9f75a0121baf` |
+| reserve | src/datastore/hadwc_state_export.rs [source omitted from this derivative]：38–133 | `9f75a0121baf` |
+| bind-payload | src/datastore/hadwc_state_export.rs [source omitted from this derivative]：136–162 | `9f75a0121baf` |
 | dispatch | aggregator_core/src/datastore.rs [source omitted from this derivative]：7619–7676 | `eb55dcd64b06` |
 | context-codec | runtime/g1_authority.py [source omitted from this derivative]：126–146 | `dbe0c086128b` |
-| records-codec | runtime/authority_v5_g4a/codec.py [source omitted from this derivative]：185–206 | `961258d8b9da` |
+| records-codec | runtime/authority_state_g4a/codec.py [source omitted from this derivative]：185–206 | `961258d8b9da` |
 | helper-reserve | aggregator/src/aggregator.rs [source omitted from this derivative]：4038–4077 | `54181d45dce3` |
 | helper-send | aggregator/src/aggregator.rs [source omitted from this derivative]：4398–4425 | `54181d45dce3` |
 | leader-send | aggregator/src/aggregator.rs [source omitted from this derivative]：3760–3791 | `54181d45dce3` |
 | leader-before-helper | src/aggregator/collection_job_driver.rs [source omitted from this derivative]：304–311 | `c6504db3927a` |
-| state-domain | circuits/hadwc_common_v5.circom [source omitted from this derivative]：23–34 | `fa8580bc4923` |
-| commit-domain | circuits/hadwc_common_v5.circom [source omitted from this derivative]：35–48 | `fa8580bc4923` |
-| distance-domain | circuits/hadwc_common_v5.circom [source omitted from this derivative]：49–63 | `fa8580bc4923` |
-| genesis-relation | circuits/hadwc_genesis_v5.circom [source omitted from this derivative]：3–17 | `c2559a9de9b9` |
-| transition-relation | circuits/hadwc_transition_v5.circom [source omitted from this derivative]：3–75 | `9988f8a7998a` |
-| policy-relation | circuits/hadwc_policy_bounds_v5.circom [source omitted from this derivative]：4–12 | `78aa19c40e1f` |
+| state-domain | circuits/hadwc_common_state.circom [source omitted from this derivative]：23–34 | `fa8580bc4923` |
+| commit-domain | circuits/hadwc_common_state.circom [source omitted from this derivative]：35–48 | `fa8580bc4923` |
+| distance-domain | circuits/hadwc_common_state.circom [source omitted from this derivative]：49–63 | `fa8580bc4923` |
+| genesis-relation | circuits/hadwc_genesis_state.circom [source omitted from this derivative]：3–17 | `c2559a9de9b9` |
+| transition-relation | circuits/hadwc_transition_state.circom [source omitted from this derivative]：3–75 | `9988f8a7998a` |
+| policy-relation | circuits/hadwc_policy_bounds_state.circom [source omitted from this derivative]：4–12 | `78aa19c40e1f` |
 | histogram-domain | src/flp/types.rs [source omitted from this derivative]：380–444 | `5284c42c8326` |
 | original-output | src/vdaf/prio3.rs [source omitted from this derivative]：1392–1435 | `ef7d09e5d725` |
 | opening-core | interop_binaries/src/hadwc_ct.rs [source omitted from this derivative]：153–187 | `70cea07d0fa0` |
@@ -158,16 +158,16 @@ SHA列为便于核对的前12位，完整64位与repo-relative路径均在上面
 | batch-count-merge | src/datastore/models.rs [source omitted from this derivative]：1353–1357 | `f3b1ca2dd2fe` |
 | batch-count-storage | src/datastore/models.rs [source omitted from this derivative]：1498–1502 | `f3b1ca2dd2fe` |
 
-| leader-job-claim | runtime/janus-v5-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：1312–1373 | `eb55dcd64b06` |
-| leader-job-create | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_creator.rs [source omitted from this derivative]：567–781 | `11c9703337b9` |
-| leader-read-state | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_driver.rs [source omitted from this derivative]：187–252 | `b6c30ff4f59d` |
-| leader-peer-compute | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_driver.rs [source omitted from this derivative]：769–1003 | `b6c30ff4f59d` |
-| leader-transition-commit | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_driver.rs [source omitted from this derivative]：982–999 | `b6c30ff4f59d` |
-| leader-lease-fence | runtime/janus-v5-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：2057–2111 | `eb55dcd64b06` |
-| leader-retained-write | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_writer.rs [source omitted from this derivative]：257–315 | `23d0aa5e1fcd` |
+| leader-job-claim | runtime/janus-state-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：1312–1373 | `eb55dcd64b06` |
+| leader-job-create | runtime/janus-state-g4a/aggregator/src/aggregator/aggregation_job_creator.rs [source omitted from this derivative]：567–781 | `11c9703337b9` |
+| leader-read-state | runtime/janus-state-g4a/aggregator/src/aggregator/aggregation_job_driver.rs [source omitted from this derivative]：187–252 | `b6c30ff4f59d` |
+| leader-peer-compute | runtime/janus-state-g4a/aggregator/src/aggregator/aggregation_job_driver.rs [source omitted from this derivative]：769–1003 | `b6c30ff4f59d` |
+| leader-transition-commit | runtime/janus-state-g4a/aggregator/src/aggregator/aggregation_job_driver.rs [source omitted from this derivative]：982–999 | `b6c30ff4f59d` |
+| leader-lease-fence | runtime/janus-state-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：2057–2111 | `eb55dcd64b06` |
+| leader-retained-write | runtime/janus-state-g4a/aggregator/src/aggregator/aggregation_job_writer.rs [source omitted from this derivative]：257–315 | `23d0aa5e1fcd` |
 
-| collection-count-storage | runtime/janus-v5-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：3512–3516 | `eb55dcd64b06` |
-| helper-aggregate-count-storage | runtime/janus-v5-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：4412–4416 | `eb55dcd64b06` |
+| collection-count-storage | runtime/janus-state-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：3512–3516 | `eb55dcd64b06` |
+| helper-aggregate-count-storage | runtime/janus-state-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：4412–4416 | `eb55dcd64b06` |
 | stack-secret-key-tag | tools/g4a_native_stack.py [source omitted from this derivative]：182–184 | `866030563c84` |
 | driver-secret-key-tag | tools/g4a_native_drivers.py [source omitted from this derivative]：745–747 | `bb1d935484c1` |
 

@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('fs'),path=require('path');
-const M='/srv/waybill-workspace-v7/shtpc-g6-20261022/heatmap_split/verify/node_modules';
+const M=path.resolve(process.env.SNARKJS_NODE_MODULES || 'node_modules');
 const snarkjs=require(path.join(M,'snarkjs'));
 const run=path.resolve(process.argv[2]),name=process.argv[3],input=JSON.parse(fs.readFileSync(process.argv[4])),out=path.resolve(process.argv[5]);
 const log=path.join(run,'crypto-events.jsonl');

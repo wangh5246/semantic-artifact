@@ -36,11 +36,11 @@
     "sha256": "8ebc0b1a1f0660a87c548425267a0ec8632233a3858f8abe106995b58fe64625"
   },
   "submission.pdf": {
-    "bytes": 956992,
-    "sha256": "9c4b875bdacf8a7da62dad1514743fa25e995b6c8e7ea0e6f29d755340070e4c"
+    "bytes": 956586,
+    "sha256": "ff3e1cf4edf9299f2ff697f145257d82fbbc7b1eaad0c1da8a0ceec9b01dcbdb"
   },
   "submission.tex": {
-    "bytes": 99339,
-    "sha256": "e9ef22b37abe8f3410f4db4c3fdaf966da60d1aa5dcfdc2da999310acef437df"
+    "bytes": 99345,
+    "sha256": "ff69b73c72fa773fcd845a815d195ac8843670dedd2fa1645228287acf38d0fe"
   }
 }

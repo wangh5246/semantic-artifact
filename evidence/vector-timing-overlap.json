@@ -4,7 +4,7 @@
   "zkey_verify_cpu_s": 16124.982885,
   "proves": [
     {
-      "label": "v6_main_10001 prove",
+      "label": "vector_main_10001 prove",
       "start_utc": "2026-10-28T09:21:11.638029+00:00",
       "end_utc": "2026-10-28T09:22:46.473000+00:00",
       "wall_s": 94.834971298,
@@ -12,7 +12,7 @@
       "overlap_s": 94.834971
     },
     {
-      "label": "v6_main_10001 prove",
+      "label": "vector_main_10001 prove",
       "start_utc": "2026-10-28T09:24:26.091722+00:00",
       "end_utc": "2026-10-28T09:25:59.567000+00:00",
       "wall_s": 93.47527819000001,
@@ -20,7 +20,7 @@
       "overlap_s": 93.475278
     },
     {
-      "label": "v6_main_10001 prove",
+      "label": "vector_main_10001 prove",
       "start_utc": "2026-10-28T09:26:01.304003+00:00",
       "end_utc": "2026-10-28T09:27:33.257000+00:00",
       "wall_s": 91.952996681,

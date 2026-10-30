@@ -10,7 +10,7 @@
 
 一手全文沿用已保存、已逐页核验的作者版本：[Groth/UCL](https://discovery.ucl.ac.uk/1501201/1/Groth_SNARK9.pdf)，Theorem 3 与§2.2；[BKSV/Edinburgh](https://www.pure.ed.ac.uk/ws/portalfiles/portal/251634012/Another_Look_BAGHERY_DOA03122020_AFV.pdf)，Definition 1、Fig.1、Theorem 1–3 及完整证明。原件 SHA 与页码在冻结 retrieval.json [source omitted from this derivative]。Groth 的原始提取是 generic bilinear-group 结论；BKSV 的 weak-SE 只对未查询 statement 提取，原构造独立随机 gamma。本文重新给 gamma=1 的证明，未把其假设直接删掉后套用原文。
 
-**新增的实际来源义务。** 本次完整枚举发现 `runs/g1-circuit-001/hadwc_genesis_v5.DEVELOPMENT.zkey` 是另一份完整公开 key，SHA `4a481ed6c72e0390fd31ca5b00dc04291a87b3e3379122b57a62979a74335b9e`。它与当前资产共享同一 phase1，却有独立的历史 phase2 delta。故实际 source 家族有三个 delta，不能只按新 manifest 两个 key 计 degree。G4a 的一般 k 关系论证仍适用；本次具体账本将 k 设为 3。
+**新增的实际来源义务。** 本次完整枚举发现 `runs/g1-circuit-001/hadwc_genesis_state.DEVELOPMENT.zkey` 是另一份完整公开 key，SHA `4a481ed6c72e0390fd31ca5b00dc04291a87b3e3379122b57a62979a74335b9e`。它与当前资产共享同一 phase1，却有独立的历史 phase2 delta。故实际 source 家族有三个 delta，不能只按新 manifest 两个 key 计 degree。G4a 的一般 k 关系论证仍适用；本次具体账本将 k 设为 3。
 
 另独立补全一个原证明未用的对称提取分支，说明 G4a 的“G2 中 alpha 系数 h 没有 unit”是充分而非必要条件。该加强见§5.4；不追写冻结 G4a。
 

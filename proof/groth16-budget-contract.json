@@ -1,7 +1,7 @@
 {
   "schema": "shtpc.g4b.groth16-explicit-budget/1",
   "status": "EXPLICIT_CONDITIONAL_THEOREM_CONTRACT_NOT_RUNTIME_RESOURCE_ENFORCEMENT",
-  "profile_id": "SHTPC-native-hidden-adwc-strict/v5",
+  "profile_id": "SHTPC-native-hidden-adwc-strict/state",
   "asset_manifest_sha256": "dea0403774b5540404b148604a96826f11ce6b44bb18bc2993654d6bc1f94b6c",
   "g4a_frozen_W4_sha256": "5388fbd9d2ce8cbbb73d50096f0cb6e57edece105e01d8c1be0a0fb521c9f864",
   "model": {
@@ -118,7 +118,7 @@
     "runs/g4a-assets-001/ASSET-MANIFEST.json and its unique prepared ptau, four zkeys, two vkeys",
     "runs/g1-circuit-001 historical genesis final zkey/vkey and g1-assets-002/resume-inputs.json",
     "snarkjs/src/keypair.js,powersoftau_contribute.js,powersoftau_preparephase2.js,powersoftau_utils.js,zkey_new.js,zkey_contribute.js,zkey_utils.js,groth16_verify.js",
-    "runtime/g4a_verifier.py,tools/g4a_crypto.cjs,tools/g4a_prime_domain.cjs and authority_v5_g4a codec/state/service"
+    "runtime/g4a_verifier.py,tools/g4a_crypto.cjs,tools/g4a_prime_domain.cjs and authority_state_g4a codec/state/service"
   ],
   "arithmetic_example_caps_not_runtime_enforced": {
     "S_g": 524288,

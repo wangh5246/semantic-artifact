@@ -1,14 +1,14 @@
 pragma circom 2.1.9;
-include "../v6-inputs/hadwc_common_v5.circom";
+include "../vector-inputs/hadwc_common_state.circom";
 include "circomlib/circuits/poseidon.circom";
 
-// Versioned same-contract alternative: keeps the v5 hidden-state policy and
+// Versioned same-contract alternative: keeps the state hidden-state policy and
 // identity/ticket binding, removes the masked-moment relation, and binds both
 // roles' retained one-hot vectors through per-role Poseidon commitments.
 // Each role's commitment covers (2N+role, blind, context, share). The circuit
 // does not range-check a share to 128 bits; canonicality is enforced by the
 // receiver's byte decoder and by commitment binding (see CONTRACT.md).
-template VectorBindingV6(N) {
+template VectorBindingRelation(N) {
     var Q = 340282366920938462946865773367900766209;
     signal input commitment[2];
     signal input context[2];
@@ -137,7 +137,7 @@ template Alternative(N) {
         rbind[role].inputs[3] <== rho_receipt[role];
         receipt_commitment[role] === rbind[role].out;
     }
-    component vector = VectorBindingV6(N);
+    component vector = VectorBindingRelation(N);
     vector.commitment <== vector_commitment;
     vector.context[0] <== ctx_limb_hi;
     vector.context[1] <== ctx_limb_lo;

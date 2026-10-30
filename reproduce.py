@@ -27,7 +27,7 @@ print(f'Integrity: {len(manifest)} files match SHA256SUMS.json')
 summary = json.loads((DATA / 'summary.json').read_text())
 rows = csv_rows('e1-pairs.csv')
 ratios = []
-for relation, label in [('v5', 'Masked moment'), ('v6', 'Vector commitment')]:
+for relation, label in [('state', 'Masked moment'), ('vector', 'Vector commitment')]:
     sample = [row for row in rows if row['relation'] == relation]
     require(len(sample) == 5, label + ' sample count')
     measures = [('fullprove_wall_s', 'fullprove_wall'), ('fullprove_cpu_s', 'fullprove_cpu'),
@@ -41,8 +41,8 @@ for relation, label in [('v5', 'Masked moment'), ('v6', 'Vector commitment')]:
     print(f'{label}: fullProve median {statistics.median(values):.4f} s, range {min(values):.4f}–{max(values):.4f} s')
 for pair in range(1, 6):
     values = {r['relation']: float(r['fullprove_wall_s']) for r in rows if int(r['pair']) == pair}
-    require(set(values) == {'v5', 'v6'}, 'pair membership')
-    ratios.append(values['v6'] / values['v5'])
+    require(set(values) == {'state', 'vector'}, 'pair membership')
+    ratios.append(values['vector'] / values['state'])
 require(abs(statistics.median(ratios) - summary['paired_ratio_median']) < 1e-8, 'paired ratio')
 require(summary['same_business_input'] is False, 'fixture correspondence')
 print(f'Paired ratio median: {statistics.median(ratios):.2f} (different fixed fixtures)')

@@ -2,7 +2,7 @@
   "schema": "paper-derived-20261030-v1",
   "same_business_input": false,
   "e1": {
-    "v5": {
+    "state": {
       "fullprove_wall": {
         "n": 5,
         "median": 3.48052567,
@@ -28,7 +28,7 @@
         "max": 0.03515394699999979
       }
     },
-    "v6": {
+    "vector": {
       "fullprove_wall": {
         "n": 5,
         "median": 311.830964286,
