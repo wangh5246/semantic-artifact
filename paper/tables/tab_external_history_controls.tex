@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{The SCIF bridge detects accepted-history violations at publication.}
+\label{tab:external-history-controls}
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}YYY@{}}
+\toprule
+\multicolumn{3}{l}{SCIF~\cite{Su2025SCIF} + our bridge/ledger} \\
+Control & Reconstructed vector & Publication gate \\
+\midrule
+Exact retry & Exact; eight members & Permitted \\
+Omit positive & Changed & Refused \\
+Omit eligible zero & Exact; seven members & Refused \\
+Equal-count substitution & Changed content & Refused \\
+\bottomrule
+\end{tabularx}
+\end{table}

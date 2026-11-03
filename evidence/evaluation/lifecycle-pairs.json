@@ -1,0 +1,354 @@
+{
+  "schema": "shtpc.supp.P.matrix/1",
+  "pairs": [
+    {
+      "pair": 1,
+      "status": "COMPLETE",
+      "order": [
+        "Full",
+        "T"
+      ],
+      "full": {
+        "session_wall_s": 4323.882706477307,
+        "history_initialization_wall_s": 3498.92986823,
+        "eligible_window_wall_s": 547.707872132,
+        "collection_wall_s": 62.408758331,
+        "other_session_wall_s": 277.24496611530674
+      },
+      "t": {
+        "session_wall_s": 3205.873009749688,
+        "history_initialization_wall_s": 2550.069867548,
+        "eligible_window_wall_s": 381.115753259,
+        "collection_wall_s": 57.752245687,
+        "other_session_wall_s": 274.6873889426884
+      },
+      "ratios": {
+        "session_wall_s": 0.7414338517895487,
+        "history_initialization_wall_s": 0.728814227087667,
+        "eligible_window_wall_s": 0.6958376401921595,
+        "collection_wall_s": 0.9253868724754456,
+        "other_session_wall_s": 0.9907750275561193
+      },
+      "checks": {
+        "full": true,
+        "t": true
+      },
+      "host": {
+        "full": {
+          "available": true,
+          "rows": 872,
+          "load1_max": 8.82,
+          "load1_median": 1.835,
+          "mem_available_min_kb": 261379168,
+          "disk_avail_min_bytes": 589857800192,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        },
+        "t": {
+          "available": true,
+          "rows": 655,
+          "load1_max": 3.38,
+          "load1_median": 1.51,
+          "mem_available_min_kb": 262637152,
+          "disk_avail_min_bytes": 558571089920,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        }
+      }
+    },
+    {
+      "pair": 2,
+      "status": "COMPLETE",
+      "order": [
+        "T",
+        "Full"
+      ],
+      "full": {
+        "session_wall_s": 4351.280499222688,
+        "history_initialization_wall_s": 3518.431969744,
+        "eligible_window_wall_s": 552.04504687,
+        "collection_wall_s": 61.31635408,
+        "other_session_wall_s": 280.80348260868834
+      },
+      "t": {
+        "session_wall_s": 3156.8291708389297,
+        "history_initialization_wall_s": 2504.717978285,
+        "eligible_window_wall_s": 374.768784161,
+        "collection_wall_s": 60.215274766,
+        "other_session_wall_s": 277.3424083929299
+      },
+      "ratios": {
+        "session_wall_s": 0.7254942933241985,
+        "history_initialization_wall_s": 0.7118847258732822,
+        "eligible_window_wall_s": 0.6788735562176932,
+        "collection_wall_s": 0.9820426486453612,
+        "other_session_wall_s": 0.9876743899911611
+      },
+      "checks": {
+        "full": true,
+        "t": true
+      },
+      "host": {
+        "full": {
+          "available": true,
+          "rows": 878,
+          "load1_max": 8.41,
+          "load1_median": 1.77,
+          "mem_available_min_kb": 263593720,
+          "disk_avail_min_bytes": 495456894976,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        },
+        "t": {
+          "available": true,
+          "rows": 646,
+          "load1_max": 5.24,
+          "load1_median": 1.51,
+          "mem_available_min_kb": 261924064,
+          "disk_avail_min_bytes": 527152996352,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        }
+      }
+    },
+    {
+      "pair": 3,
+      "status": "COMPLETE",
+      "order": [
+        "Full",
+        "T"
+      ],
+      "full": {
+        "session_wall_s": 4352.554938592017,
+        "history_initialization_wall_s": 3525.967594308,
+        "eligible_window_wall_s": 548.266397679,
+        "collection_wall_s": 61.301870839,
+        "other_session_wall_s": 278.3209466050166
+      },
+      "t": {
+        "session_wall_s": 3155.9189740642905,
+        "history_initialization_wall_s": 2494.108264437,
+        "eligible_window_wall_s": 381.976276467,
+        "collection_wall_s": 61.555167268,
+        "other_session_wall_s": 279.83443316029064
+      },
+      "ratios": {
+        "session_wall_s": 0.7250727489002542,
+        "history_initialization_wall_s": 0.7073542787129582,
+        "eligible_window_wall_s": 0.6966983168839761,
+        "collection_wall_s": 1.0041319526718073,
+        "other_session_wall_s": 1.0054379182513413
+      },
+      "checks": {
+        "full": true,
+        "t": true
+      },
+      "host": {
+        "full": {
+          "available": true,
+          "rows": 878,
+          "load1_max": 7.99,
+          "load1_median": 1.935,
+          "mem_available_min_kb": 260932952,
+          "disk_avail_min_bytes": 463759839232,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        },
+        "t": {
+          "available": true,
+          "rows": 646,
+          "load1_max": 5.43,
+          "load1_median": 1.43,
+          "mem_available_min_kb": 261644376,
+          "disk_avail_min_bytes": 432341659648,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        }
+      }
+    },
+    {
+      "pair": 4,
+      "status": "COMPLETE",
+      "order": [
+        "T",
+        "Full"
+      ],
+      "full": {
+        "session_wall_s": 4350.5916572306305,
+        "history_initialization_wall_s": 3529.40022888,
+        "eligible_window_wall_s": 544.082399982,
+        "collection_wall_s": 61.618076165,
+        "other_session_wall_s": 277.10902836863033
+      },
+      "t": {
+        "session_wall_s": 3198.7054460942745,
+        "history_initialization_wall_s": 2541.189630595,
+        "eligible_window_wall_s": 381.418722905,
+        "collection_wall_s": 62.307397105,
+        "other_session_wall_s": 276.0970925942746
+      },
+      "ratios": {
+        "session_wall_s": 0.7352345837325516,
+        "history_initialization_wall_s": 0.7200060819969422,
+        "eligible_window_wall_s": 0.7010311727003457,
+        "collection_wall_s": 1.0111869922415972,
+        "other_session_wall_s": 0.9963482396069406
+      },
+      "checks": {
+        "full": true,
+        "t": true
+      },
+      "host": {
+        "full": {
+          "available": true,
+          "rows": 877,
+          "load1_max": 9.48,
+          "load1_median": 1.84,
+          "mem_available_min_kb": 261066228,
+          "disk_avail_min_bytes": 369234530304,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        },
+        "t": {
+          "available": true,
+          "rows": 654,
+          "load1_max": 6.32,
+          "load1_median": 1.49,
+          "mem_available_min_kb": 261500352,
+          "disk_avail_min_bytes": 400936181760,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        }
+      }
+    },
+    {
+      "pair": 5,
+      "status": "COMPLETE",
+      "order": [
+        "Full",
+        "T"
+      ],
+      "full": {
+        "session_wall_s": 4352.870753609575,
+        "history_initialization_wall_s": 3526.192673232,
+        "eligible_window_wall_s": 551.920870122,
+        "collection_wall_s": 62.247938114,
+        "other_session_wall_s": 274.7572102555755
+      },
+      "t": {
+        "session_wall_s": 3149.9087524097413,
+        "history_initialization_wall_s": 2492.192168239,
+        "eligible_window_wall_s": 381.116840005,
+        "collection_wall_s": 62.301917978,
+        "other_session_wall_s": 276.5997441657415
+      },
+      "ratios": {
+        "session_wall_s": 0.723639393565203,
+        "history_initialization_wall_s": 0.7067657383437114,
+        "eligible_window_wall_s": 0.6905280460236185,
+        "collection_wall_s": 1.0008671751327913,
+        "other_session_wall_s": 1.0067060438867177
+      },
+      "checks": {
+        "full": true,
+        "t": true
+      },
+      "host": {
+        "full": {
+          "available": true,
+          "rows": 878,
+          "load1_max": 7.99,
+          "load1_median": 1.855,
+          "mem_available_min_kb": 261558420,
+          "disk_avail_min_bytes": 337532280832,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        },
+        "t": {
+          "available": true,
+          "rows": 645,
+          "load1_max": 4.37,
+          "load1_median": 1.48,
+          "mem_available_min_kb": 261679748,
+          "disk_avail_min_bytes": 306130853888,
+          "run_a_scale_procs_max": 1,
+          "contaminated": false
+        }
+      }
+    }
+  ],
+  "arms": {
+    "Full": {
+      "session_wall_s": {
+        "n": 5,
+        "median": 4351.280499222688,
+        "min": 4323.882706477307,
+        "max": 4352.870753609575
+      },
+      "history_initialization_wall_s": {
+        "n": 5,
+        "median": 3525.967594308,
+        "min": 3498.92986823,
+        "max": 3529.40022888
+      },
+      "eligible_window_wall_s": {
+        "n": 5,
+        "median": 548.266397679,
+        "min": 544.082399982,
+        "max": 552.04504687
+      },
+      "collection_wall_s": {
+        "n": 5,
+        "median": 61.618076165,
+        "min": 61.301870839,
+        "max": 62.408758331
+      },
+      "other_session_wall_s": {
+        "n": 5,
+        "median": 277.24496611530674,
+        "min": 274.7572102555755,
+        "max": 280.80348260868834
+      },
+      "n": 5
+    },
+    "T": {
+      "session_wall_s": {
+        "n": 5,
+        "median": 3156.8291708389297,
+        "min": 3149.9087524097413,
+        "max": 3205.873009749688
+      },
+      "history_initialization_wall_s": {
+        "n": 5,
+        "median": 2504.717978285,
+        "min": 2492.192168239,
+        "max": 2550.069867548
+      },
+      "eligible_window_wall_s": {
+        "n": 5,
+        "median": 381.116840005,
+        "min": 374.768784161,
+        "max": 381.976276467
+      },
+      "collection_wall_s": {
+        "n": 5,
+        "median": 61.555167268,
+        "min": 57.752245687,
+        "max": 62.307397105
+      },
+      "other_session_wall_s": {
+        "n": 5,
+        "median": 276.5997441657415,
+        "min": 274.6873889426884,
+        "max": 279.83443316029064
+      },
+      "n": 5
+    }
+  },
+  "complete_pairs": 5,
+  "all_checks_passed": true,
+  "rule": "five pairs are a finite repeated workload, not independent samples; collection is nested in the eligible window and is not added; ratios are paired T/Full, and the median is of the pair ratios, not the ratio of medians",
+  "scope": "N100 Full/T on A, same machine/workload/schedule; different trust assumptions; not a production or SLA claim",
+  "arms_recomputed_formal_only": true,
+  "arms_note": "recomputed from the five formal runs per arm; the controller raw file is retained as P-MATRIX-controller-raw.json"
+}

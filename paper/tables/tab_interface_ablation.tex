@@ -1,0 +1,30 @@
+\begin{table}[t]
+\centering
+\caption{Historical cumulative dense configurations. Enabled checks accumulate
+(L0 proof only; L1 payload reopening; L2 receipts, deduplication and role-set
+equality; L3 current-head CAS, quota and eligibility; L4 missing-set certification).
+Rows compare complete configurations, not each check's separate effect.}
+\label{tab:stress-ladder}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\begin{tabularx}{\columnwidth}{@{}Xccccc@{}}
+\toprule
+Fault group & L0 & L1 & L2 & L3 & L4 \\
+\midrule
+Payload/role association (6 faults) & X & X & B & B & R \\
+Duplicate/lost-ack retry (2 faults) & X & X & C & C & C \\
+Late/stale admission (2 faults) & X & X & X & C & C \\
+Admission reordering & C/C & C/C & C/C & S/C & S/C \\
+Delivery reordering & C & C & C & C & C \\
+Both-role loss on restart & S & S & S & S & R \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\raggedright C = correct under the arm's release semantics, X = corrupted,
+B = typed refusal, S = silent omission, R = omission recorded in a returned
+partial vector; A/B is before/after operator retry. L0--L1 are study-written
+controls, L2--L4 use service modules. Grouped rows preserve all 13 fault
+patterns; the full matrix is in the synthetic evidence entry. Six identities,
+eight rounds, 64 proofs; deterministic in-process delivery except the two-process stale-state
+race. L0--L2 forward 48 reports, L3--L4 retain 36 warmups and forward 12.
+\end{table}

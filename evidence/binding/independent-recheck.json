@@ -1,0 +1,28 @@
+{
+  "schema": "shtpc.seeded-additive-share-binding.independent-recheck/1",
+  "at_epoch": 1792836262.1496964,
+  "host": "circuit-host",
+  "uid": 10099,
+  "subject_run": "/scratch/artifact/shtpc-circuit-count-20261024-r1/runs/bins10001",
+  "r1cs_sha256_recomputed": "caf4f0710ca8ebb536ed74838fa58e0b77e0b0211c72924584d4989254d7bf80",
+  "wtns_sha256_recomputed": "b410215fb39916c372993a2464f1dbe243cd3740c1329dad71007db21eda96ff",
+  "sha_matches_recorded": true,
+  "r1cs_header_magic": "r1cs",
+  "r1cs_version": 1,
+  "r1cs_sections": 3,
+  "checker_rerun": {
+    "all_passed": true,
+    "constraints_checked": 79002390,
+    "wires": 77447720,
+    "elapsed_s": 13.0949,
+    "returncode": 0
+  },
+  "checker_sha256": "b1f715a6a513b621b00aa01a625715f3645764ef8db8500214827f7ac8796abc",
+  "prior_runs_sha_verified": {
+    "bins8": "004903beb2d1b2261d1cd5967c13e48af5e24d3bbddc202977783059f50d21b2",
+    "bins101": "43a4096405fcd43d62e2c0f10500edee2b7252d8de4152dc3c71bace554df6f7",
+    "bins1001": "4146a3d75b10c9049a4b99e4aa8114468cd9c90ed693eebf8a57f26f7bb2f790"
+  },
+  "r3_quota_failure_partial_preserved": "/scratch/artifact/shtpc-circuit-count-20261024-r1/runs/bins10001-quota-failed-partial-r1",
+  "claim_boundary": "actual count of scoped SeededShareBinding/no-rejection/1 relation; not a compiled full Prio3 Shard, not a lower bound, no setup/proofs generated"
+}

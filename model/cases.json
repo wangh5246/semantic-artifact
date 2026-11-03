@@ -1,0 +1,1685 @@
+{
+  "schema": "shtpc-g5-cases/2",
+  "fixtures": {
+    "continuation": {
+      "reports": [
+        "a",
+        "z",
+        "b"
+      ],
+      "users": [
+        "u"
+      ],
+      "owner": {
+        "a": "u",
+        "z": "u",
+        "b": "u"
+      },
+      "pred": {
+        "a": "genesis",
+        "z": "a",
+        "b": "a"
+      },
+      "bit": {
+        "a": 1,
+        "z": 0,
+        "b": 1
+      },
+      "eligible": {
+        "a": true,
+        "z": true,
+        "b": true
+      },
+      "window": {
+        "a": 1,
+        "z": 1,
+        "b": 2
+      },
+      "planned": {
+        "1": [
+          "a",
+          "z"
+        ],
+        "2": [
+          "b"
+        ]
+      }
+    },
+    "single": {
+      "reports": [
+        "a"
+      ],
+      "users": [
+        "u"
+      ],
+      "owner": {
+        "a": "u"
+      },
+      "pred": {
+        "a": "genesis"
+      },
+      "bit": {
+        "a": 1
+      },
+      "eligible": {
+        "a": true
+      }
+    },
+    "chain": {
+      "reports": [
+        "a",
+        "z"
+      ],
+      "users": [
+        "u"
+      ],
+      "owner": {
+        "a": "u",
+        "z": "u"
+      },
+      "pred": {
+        "a": "genesis",
+        "z": "a"
+      },
+      "bit": {
+        "a": 1,
+        "z": 0
+      },
+      "eligible": {
+        "a": true,
+        "z": true
+      }
+    },
+    "siblings": {
+      "reports": [
+        "a",
+        "b"
+      ],
+      "users": [
+        "u"
+      ],
+      "owner": {
+        "a": "u",
+        "b": "u"
+      },
+      "pred": {
+        "a": "genesis",
+        "b": "genesis"
+      },
+      "bit": {
+        "a": 1,
+        "b": 0
+      },
+      "eligible": {
+        "a": true,
+        "b": true
+      }
+    },
+    "chainq": {
+      "reports": [
+        "a",
+        "z"
+      ],
+      "users": [
+        "u"
+      ],
+      "owner": {
+        "a": "u",
+        "z": "u"
+      },
+      "pred": {
+        "a": "genesis",
+        "z": "a"
+      },
+      "bit": {
+        "a": 1,
+        "z": 1
+      },
+      "eligible": {
+        "a": true,
+        "z": true
+      }
+    },
+    "warmup": {
+      "reports": [
+        "w",
+        "a",
+        "z"
+      ],
+      "users": [
+        "u"
+      ],
+      "owner": {
+        "w": "u",
+        "a": "u",
+        "z": "u"
+      },
+      "pred": {
+        "w": "genesis",
+        "a": "w",
+        "z": "a"
+      },
+      "bit": {
+        "w": 0,
+        "a": 1,
+        "z": 0
+      },
+      "eligible": {
+        "w": false,
+        "a": true,
+        "z": true
+      }
+    },
+    "warmup2": {
+      "reports": [
+        "w",
+        "a"
+      ],
+      "users": [
+        "u"
+      ],
+      "owner": {
+        "w": "u",
+        "a": "u"
+      },
+      "pred": {
+        "w": "genesis",
+        "a": "w"
+      },
+      "bit": {
+        "w": 0,
+        "a": 1
+      },
+      "eligible": {
+        "w": false,
+        "a": true
+      }
+    },
+    "cohort2": {
+      "reports": [
+        "a",
+        "b"
+      ],
+      "users": [
+        "u",
+        "v"
+      ],
+      "owner": {
+        "a": "u",
+        "b": "v"
+      },
+      "pred": {
+        "a": "genesis",
+        "b": "genesis"
+      },
+      "bit": {
+        "a": 1,
+        "b": 1
+      },
+      "eligible": {
+        "a": true,
+        "b": true
+      }
+    },
+    "cohort": {
+      "reports": [
+        "a",
+        "b",
+        "z"
+      ],
+      "users": [
+        "u",
+        "v",
+        "x"
+      ],
+      "owner": {
+        "a": "u",
+        "b": "v",
+        "z": "x"
+      },
+      "pred": {
+        "a": "genesis",
+        "b": "genesis",
+        "z": "genesis"
+      },
+      "bit": {
+        "a": 1,
+        "b": 1,
+        "z": 0
+      },
+      "eligible": {
+        "a": true,
+        "b": true,
+        "z": true
+      },
+      "planned": {
+        "1": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    "pair": {
+      "reports": [
+        "a",
+        "z"
+      ],
+      "users": [
+        "u",
+        "v"
+      ],
+      "owner": {
+        "a": "u",
+        "z": "v"
+      },
+      "pred": {
+        "a": "genesis",
+        "z": "genesis"
+      },
+      "bit": {
+        "a": 1,
+        "z": 0
+      },
+      "eligible": {
+        "a": true,
+        "z": true
+      }
+    }
+  },
+  "cases": [
+    {
+      "name": "safety-single",
+      "fixture": "single",
+      "expected": "pass",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "Safety",
+      "property": null,
+      "id": "safety-single",
+      "legacy_id": null,
+      "expected_kind": "pass",
+      "expected_predicate": "Safety",
+      "fairness": "none",
+      "bounds": {
+        "reports": 1,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "safety-chain",
+      "fixture": "chain",
+      "expected": "pass",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "Safety",
+      "property": null,
+      "id": "safety-chain",
+      "legacy_id": "safety-history",
+      "expected_kind": "pass",
+      "expected_predicate": "Safety",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "safety-warmup",
+      "fixture": "warmup2",
+      "expected": "pass",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "Safety",
+      "property": null,
+      "id": "safety-warmup",
+      "legacy_id": "safety-warmup",
+      "expected_kind": "pass",
+      "expected_predicate": "Safety",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "safety-cohort",
+      "fixture": "cohort2",
+      "expected": "pass",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 2,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "Safety",
+      "property": null,
+      "id": "safety-cohort",
+      "legacy_id": "safety-cohort",
+      "expected_kind": "pass",
+      "expected_predicate": "Safety",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "safety-deadline",
+      "fixture": "pair",
+      "expected": "pass",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": true,
+      "manual": true,
+      "specification": "Spec",
+      "invariant": "Safety",
+      "property": null,
+      "id": "safety-deadline",
+      "legacy_id": "safety-deadline",
+      "expected_kind": "pass",
+      "expected_predicate": "Safety",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "liveness-fair",
+      "fixture": "pair",
+      "expected": "pass",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "FairSpec",
+      "invariant": "Safety",
+      "property": "Progress",
+      "id": "liveness-fair",
+      "legacy_id": "liveness-fair",
+      "expected_kind": "pass",
+      "expected_predicate": "Progress",
+      "fairness": "weak action fairness; eventually stable service and no abort conditional",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-head",
+      "fixture": "siblings",
+      "expected": "invariant",
+      "fault": "head",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "UniqueSuccessor",
+      "property": null,
+      "id": "fault-head",
+      "legacy_id": "fault-head",
+      "expected_kind": "invariant",
+      "expected_predicate": "UniqueSuccessor",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "head",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-quota",
+      "fixture": "chainq",
+      "expected": "invariant",
+      "fault": "quota",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "QuotaBound",
+      "property": null,
+      "id": "fault-quota",
+      "legacy_id": "fault-quota",
+      "expected_kind": "invariant",
+      "expected_predicate": "QuotaBound",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "quota",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-exact",
+      "fixture": "pair",
+      "expected": "invariant",
+      "fault": "exact",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "FirstExposureExact",
+      "property": null,
+      "id": "fault-exact",
+      "legacy_id": "fault-exact",
+      "expected_kind": "invariant",
+      "expected_predicate": "FirstExposureExact",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "exact",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-once",
+      "fixture": "pair",
+      "expected": "invariant",
+      "fault": "once",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "ExactlyOnce",
+      "property": null,
+      "id": "fault-once",
+      "legacy_id": "fault-once",
+      "expected_kind": "invariant",
+      "expected_predicate": "ExactlyOnce",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "once",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-freeze",
+      "fixture": "chain",
+      "expected": "invariant",
+      "fault": "freeze",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "FrozenHistoryClosed",
+      "property": null,
+      "id": "fault-freeze",
+      "legacy_id": "fault-freeze",
+      "expected_kind": "invariant",
+      "expected_predicate": "FrozenHistoryClosed",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "freeze",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-outbox",
+      "fixture": "chain",
+      "expected": "invariant",
+      "fault": "outbox",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "OutboxAtomic",
+      "property": null,
+      "id": "fault-outbox",
+      "legacy_id": "fault-outbox",
+      "expected_kind": "invariant",
+      "expected_predicate": "OutboxAtomic",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "outbox",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-binding",
+      "fixture": "pair",
+      "expected": "invariant",
+      "fault": "binding",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "AppliedOutputBound",
+      "property": null,
+      "id": "fault-binding",
+      "legacy_id": "fault-binding",
+      "expected_kind": "invariant",
+      "expected_predicate": "AppliedOutputBound",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "binding",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-dispatch",
+      "fixture": "pair",
+      "expected": "invariant",
+      "fault": "dispatch",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "DispatchBound",
+      "property": null,
+      "id": "fault-dispatch",
+      "legacy_id": "fault-dispatch",
+      "expected_kind": "invariant",
+      "expected_predicate": "DispatchBound",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "dispatch",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-durable",
+      "fixture": "pair",
+      "expected": "invariant",
+      "fault": "durable",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "DurableBeforeSend",
+      "property": null,
+      "id": "fault-durable",
+      "legacy_id": "fault-durable",
+      "expected_kind": "invariant",
+      "expected_predicate": "DurableBeforeSend",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "durable",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-cache",
+      "fixture": "pair",
+      "expected": "invariant",
+      "fault": "cache",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "RetryStable",
+      "property": null,
+      "id": "fault-cache",
+      "legacy_id": "fault-cache",
+      "expected_kind": "invariant",
+      "expected_predicate": "RetryStable",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "cache",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-lock",
+      "fixture": "chain",
+      "expected": "invariant",
+      "fault": "lock",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "LockBeforePrepare",
+      "property": null,
+      "id": "fault-lock",
+      "legacy_id": null,
+      "expected_kind": "invariant",
+      "expected_predicate": "LockBeforePrepare",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "lock",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-journal",
+      "fixture": "chain",
+      "expected": "invariant",
+      "fault": "journal",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "JournalUnique",
+      "property": null,
+      "id": "fault-journal",
+      "legacy_id": null,
+      "expected_kind": "invariant",
+      "expected_predicate": "JournalUnique",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "journal",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-snapshot",
+      "fixture": "pair",
+      "expected": "invariant",
+      "fault": "snapshot",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "SnapshotReserved",
+      "property": null,
+      "id": "fault-snapshot",
+      "legacy_id": null,
+      "expected_kind": "invariant",
+      "expected_predicate": "SnapshotReserved",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "snapshot",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-abort",
+      "fixture": "chain",
+      "expected": "invariant",
+      "fault": "abort",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "AbortPreservesHeadQuota",
+      "property": null,
+      "id": "fault-abort",
+      "legacy_id": null,
+      "expected_kind": "invariant",
+      "expected_predicate": "AbortPreservesHeadQuota",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "abort",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-zero-after-positive",
+      "fixture": "chain",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoZeroAfterPositive",
+      "property": null,
+      "id": "reach-zero-after-positive",
+      "legacy_id": "reach-zero-after-positive",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoZeroAfterPositive",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-out-of-order",
+      "fixture": "chain",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoOutOfOrder",
+      "property": null,
+      "id": "reach-out-of-order",
+      "legacy_id": "reach-out-of-order",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoOutOfOrder",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-lost-ack",
+      "fixture": "pair",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoLostAck",
+      "property": null,
+      "id": "reach-lost-ack",
+      "legacy_id": "reach-lost-ack",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoLostAck",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-reserved-refusal",
+      "fixture": "pair",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoReservedRefusal",
+      "property": null,
+      "id": "reach-reserved-refusal",
+      "legacy_id": "reach-reserved-refusal",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoReservedRefusal",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-recovered-retry",
+      "fixture": "pair",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "RecoveryWitnessSpec",
+      "invariant": "NoRecoveredRetry",
+      "property": null,
+      "id": "reach-recovered-retry",
+      "legacy_id": "reach-recovered-retry",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoRecoveredRetry",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-missing-frozen",
+      "fixture": "chain",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoMissingFrozen",
+      "property": null,
+      "id": "reach-missing-frozen",
+      "legacy_id": "reach-missing-frozen",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoMissingFrozen",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-small-legal-cohort",
+      "fixture": "cohort",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 2,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoSmallLegalRelease",
+      "property": null,
+      "id": "reach-small-legal-cohort",
+      "legacy_id": "reach-small-legal-cohort",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoSmallLegalRelease",
+      "fairness": "none",
+      "bounds": {
+        "reports": 3,
+        "users": 3,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-warmup-release",
+      "fixture": "warmup",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoWarmupRelease",
+      "property": null,
+      "id": "reach-warmup-release",
+      "legacy_id": "reach-warmup-release",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoWarmupRelease",
+      "fairness": "none",
+      "bounds": {
+        "reports": 3,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-deadline-resume",
+      "fixture": "pair",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": true,
+      "manual": true,
+      "specification": "DeadlineWitnessSpec",
+      "invariant": "NoDeadlineResume",
+      "property": null,
+      "id": "reach-deadline-resume",
+      "legacy_id": "reach-deadline-resume",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoDeadlineResume",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-complete-release",
+      "fixture": "pair",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoCompleteRelease",
+      "property": null,
+      "id": "reach-complete-release",
+      "legacy_id": "reach-complete-release",
+      "expected_kind": "reachability",
+      "expected_predicate": "NoCompleteRelease",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-pre-exposure-abort",
+      "fixture": "chain",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoPreExposureAbort",
+      "property": null,
+      "id": "reach-pre-exposure-abort",
+      "legacy_id": null,
+      "expected_kind": "reachability",
+      "expected_predicate": "NoPreExposureAbort",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-exposed-collection-failed",
+      "fixture": "pair",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoExposedCollectionFailed",
+      "property": null,
+      "id": "reach-exposed-collection-failed",
+      "legacy_id": null,
+      "expected_kind": "reachability",
+      "expected_predicate": "NoExposedCollectionFailed",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-journal-conflict",
+      "fixture": "chain",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoJournalConflict",
+      "property": null,
+      "id": "reach-journal-conflict",
+      "legacy_id": null,
+      "expected_kind": "reachability",
+      "expected_predicate": "NoJournalConflict",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "liveness-no-fairness",
+      "fixture": "pair",
+      "expected": "temporal",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "Safety",
+      "property": "Progress",
+      "id": "liveness-no-fairness",
+      "legacy_id": "liveness-no-fairness",
+      "expected_kind": "temporal",
+      "expected_predicate": "Progress",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "liveness-deadline-stop",
+      "fixture": "pair",
+      "expected": "temporal",
+      "fault": "none",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": true,
+      "manual": false,
+      "specification": "FairSpec",
+      "invariant": "Safety",
+      "property": "Progress",
+      "id": "liveness-deadline-stop",
+      "legacy_id": "liveness-deadline-stop",
+      "expected_kind": "temporal",
+      "expected_predicate": "Progress",
+      "fairness": "weak action fairness; eventually stable service and no abort conditional",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "safety-continuation",
+      "fixture": "continuation",
+      "expected": "pass",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "Safety",
+      "property": null,
+      "id": "safety-continuation",
+      "legacy_id": null,
+      "expected_kind": "pass",
+      "expected_predicate": "Safety",
+      "fairness": "none",
+      "bounds": {
+        "reports": 3,
+        "users": 1,
+        "roles": 2,
+        "windows": 2,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-fullp",
+      "fixture": "chain",
+      "expected": "invariant",
+      "fault": "fullp",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "FullP",
+      "property": null,
+      "id": "fault-fullp",
+      "legacy_id": null,
+      "expected_kind": "invariant",
+      "expected_predicate": "FullP",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "fullp",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "fault-fullr",
+      "fixture": "pair",
+      "expected": "invariant",
+      "fault": "fullr",
+      "start_frozen": true,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "FullR",
+      "property": null,
+      "id": "fault-fullr",
+      "legacy_id": null,
+      "expected_kind": "invariant",
+      "expected_predicate": "FullR",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 2,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "fullr",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-next-window-continuation",
+      "fixture": "continuation",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoNextWindowContinuation",
+      "property": null,
+      "id": "reach-next-window-continuation",
+      "legacy_id": null,
+      "expected_kind": "reachability",
+      "expected_predicate": "NoNextWindowContinuation",
+      "fairness": "none",
+      "bounds": {
+        "reports": 3,
+        "users": 1,
+        "roles": 2,
+        "windows": 2,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-partial-abort",
+      "fixture": "chain",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoPartialAbort",
+      "property": null,
+      "id": "reach-partial-abort",
+      "legacy_id": null,
+      "expected_kind": "reachability",
+      "expected_predicate": "NoPartialAbort",
+      "fairness": "none",
+      "bounds": {
+        "reports": 2,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    },
+    {
+      "name": "reach-receipt-commit",
+      "fixture": "single",
+      "expected": "reachability",
+      "fault": "none",
+      "start_frozen": false,
+      "native_min": 1,
+      "deadline": false,
+      "manual": false,
+      "specification": "Spec",
+      "invariant": "NoReceiptCommit",
+      "property": null,
+      "id": "reach-receipt-commit",
+      "legacy_id": null,
+      "expected_kind": "reachability",
+      "expected_predicate": "NoReceiptCommit",
+      "fairness": "none",
+      "bounds": {
+        "reports": 1,
+        "users": 1,
+        "roles": 2,
+        "windows": 1,
+        "state_depth_constraint": null,
+        "crash_recovery_cycles": "unbounded finite-state cycles",
+        "fixed_dispatch_selectors": [
+          1,
+          2
+        ]
+      },
+      "guards": {
+        "removed": "none",
+        "all_others_retained": true
+      }
+    }
+  ]
+}

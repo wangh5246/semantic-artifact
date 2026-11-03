@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\caption{Median-wall thousand-user proof window. Per-report observations and occupied interval unions overlap. Unplaced subprocess durations have no union.}
+\label{tab:scale-final-phases}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Phase & Per report s & Occupied wall s \\
+\midrule
+Witness & 0.095 & -- \\
+Proving & 0.585 & -- \\
+Local verify & 0.010 & -- \\
+Authority certify & 0.677 & 396.67 \\
+Atomic commit & 0.004 & 4.51 \\
+Both receipts & 2.336 & 1759.92 \\
+Both native applies & 3.103 & 2002.20 \\
+Freeze/reconcile & -- & 0.260 \\
+Collection & -- & 0.557 \\
+\bottomrule
+\end{tabular}
+\end{table}

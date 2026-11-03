@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\centering
+\caption{Protocol interfaces connect admitted claims to the proof obligations.}
+\label{tab:security-implementation}
+\label{tab:object-map}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}lYYY@{}}
+\toprule
+Boundary & Protocol interface & Proof mechanism & Security model \\
+\midrule
+Hidden history & Genesis, predecessor and true \(K\)-anchor commitments & Hidden ADWC relation and actual-head authorization & Related-CRS extraction, Pedersen hiding and binding \\
+Membership & Full signed bodies, locked \(P_w,R_w\) before preparation & Complete candidate and eligible maps & Independent authenticated registration \\
+Native binding & Two roles, single-proof Prio3Histogram, 10,001 bins, chunk 100 & One-hot validity and masked-moment fidelity & Separate native validity bound \\
+Origin and replay & Body and permit checks, Helper journal, Leader lease & Source isolation and at most one committed transition & Signatures, full digests, labeled HPKE \\
+Feedback & Preparation, both receipts, errors and aborts & Full-verifier and joint-receipt simulation & Domain-separated programmable native streams \\
+Exposure & Full commit/apply maps and durable share reservation & Zero output queries for authority, one cohort for Collector & Fixed task/key and complete-cohort output \\
+Execution & Fixed-width secret paths, durable native state and export bytes & Prefix-preserving recovery and online view simulation & Reviewed executor and correctly sampled setup \\
+\bottomrule
+\end{tabularx}
+\end{table*}

@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\caption{Complete-history release in the strict hidden-state instance. Each scenario locks 700 records for 100 users, with 100 eligible records. Recovery matches all 10,001 output coordinates.}
+\label{tab:complete-history-functional}
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}lYY@{}}
+\toprule
+Delivery scenario & Before redelivery & Final collection \\
+\midrule
+Normal & Complete set available & Exact full vector \\
+One missing & Honest share blocked & Exact full vector \\
+Ten missing & Honest share blocked & Exact full vector \\
+\bottomrule
+\end{tabularx}
+\end{table}

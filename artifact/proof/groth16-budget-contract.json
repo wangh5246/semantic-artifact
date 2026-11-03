@@ -1,0 +1,137 @@
+{
+  "schema": "shtpc.g4b.groth16-explicit-budget/1",
+  "status": "EXPLICIT_CONDITIONAL_THEOREM_CONTRACT_NOT_RUNTIME_RESOURCE_ENFORCEMENT",
+  "profile_id": "SHTPC-native-hidden-adwc-strict/v5",
+  "asset_manifest_sha256": "dea0403774b5540404b148604a96826f11ce6b44bb18bc2993654d6bc1f94b6c",
+  "g4a_frozen_W4_sha256": "5388fbd9d2ce8cbbb73d50096f0cb6e57edece105e01d8c1be0a0fb521c9f864",
+  "model": {
+    "group": "Typed opaque generic asymmetric prime-order bilinear groups G1,G2,GT; no GT-to-source-group map; source operations are linear combinations with known field scalars.",
+    "source_sampling": "Additional source-group points are independent uniform exponent variables, or known-scalar combinations of existing handles; arbitrary real-curve coordinate arithmetic is outside this theorem.",
+    "auxiliary_inputs": "Exactly enumerated setup-family public basis, known-scalar auxiliary computations, registered source samples, and adaptive source-proof calls counted by S_g,S_t,S_l. No trapdoor revelation, unlisted related inverse queries, or arbitrary setup-correlated auxiliary distribution.",
+    "random_oracles": "Setup hash/source sampling and native domain-separated programmable random oracles are separate consistent tables. Querying an opaque encoding as bytes may choose a known scalar but does not reveal its discrete logarithm.",
+    "corruption": "Static owner/role corruption; malicious owners hold their own signing keys and receive no witness-free simulation API.",
+    "source_query_classes": "All external proofs arise from trusted fresh randomized Prove or Sim and count in S. H is the protected honest-source class, W has a previously known witness, F is a foreign key/task/config/asset/epoch prelude rejected by current metadata/context checks. F also counts in S. An arbitrary adversarial proof is charged to its generic generation in Q or an allowed import, never declared independent merely because it verifies. Current accepted namespace has no unknown-witness malicious-owner source API.",
+    "setup": "Shared independent X,alpha,beta; three independent delta variables for current genesis,current transition,historical genesis. Correct setup/unknown trapdoors remain explicit premises, not certified by file hashes.",
+    "conditional_sampling_domain": "Default: X uniform in Fp excluding 0 and the 16384 evaluation roots; alpha,beta and three deltas uniform in Fp*. Other source and proof variables independently uniform in Fp. Optional per-query accepted-affine source oracle: after fixed statement and past, mu uniform Fp*, then nu uniform Fp* if c=0 or Fp* excluding c/mu if c!=0, where c=alpha*beta+Q(phi). Prefix is never resampled or reweighted; all conditional domains have size at least p-16385. Sequential-prefix Schwartz-Zippel gives the same collision bound.",
+    "G1_denominator": "D=delta_g*delta_t*delta_legacy; each source has at most one inverse delta, so the common denominator is D, never a product over simulation queries.",
+    "not_claimed": [
+      "AGM theorem inherited verbatim",
+      "strong simulation extractability",
+      "black-box extraction",
+      "UC",
+      "unrestricted concrete-curve security",
+      "production ceremony certification",
+      "runtime-enforced generic query limits",
+      "128-bit whole-system concrete security"
+    ]
+  },
+  "relations": [
+    {
+      "name": "g",
+      "logical_relation": "shtpc.hadwc.genesis/5",
+      "key_namespace": "current g4a-assets-001 genesis",
+      "n": 2048,
+      "wires": 1762,
+      "public_without_constant": 5,
+      "private_wires": 1756,
+      "native_api_accepts": true
+    },
+    {
+      "name": "t",
+      "logical_relation": "shtpc.hadwc.transition/5",
+      "key_namespace": "current g4a-assets-001 transition",
+      "n": 16384,
+      "wires": 13254,
+      "public_without_constant": 25,
+      "private_wires": 13228,
+      "native_api_accepts": true
+    },
+    {
+      "name": "l",
+      "logical_relation": "shtpc.hadwc.genesis/5",
+      "key_namespace": "historical runs/g1-circuit-001 distinct final genesis key",
+      "n": 2048,
+      "wires": 1762,
+      "public_without_constant": 5,
+      "private_wires": 1756,
+      "native_api_accepts": false,
+      "zkey_sha256": "4a481ed6c72e0390fd31ca5b00dc04291a87b3e3379122b57a62979a74335b9e"
+    }
+  ],
+  "constants": {
+    "p": 21888242871839275222246405745257275088548364400416034343698204186575808495617,
+    "k": 3,
+    "nmax": 16384,
+    "excluded_X_values": 16385,
+    "N10": 330974,
+    "N20": 80986,
+    "NT0": 5,
+    "D1": 32769,
+    "D2": 16383,
+    "DT": 49152
+  },
+  "variables": {
+    "S_g": "All fresh external source-proof invocations under current genesis key, real honest or simulated, including exposed historical prelude and repeated exact statements with fresh coins. Real proofs have the identical mu/nu reparameterization. Cached bytes do not increment. A proof fully inlined as known-coefficient CRS operations may instead be charged to Q.",
+    "S_t": "All fresh external real-honest or simulated source-proof invocations under current transition key, with the same counting and optional complete-inline rule.",
+    "S_l": "All exposed historical-genesis real or simulated source-proof invocations under the distinct legacy delta; zero if no such proofs are supplied or they are completely inlined and charged in Q. Public legacy key remains in initial basis even when zero.",
+    "V_g": "All current-genesis verifier invocations included in the reduction, successful or refused, including HTTP exact retry when it re-verifies. No implementation eight-attempt cap exists.",
+    "V_t": "All current-transition verifier invocations included in the reduction. Authority attempts may be at most eight per persistently reserved RID; offline generic work must still be counted in Q variables.",
+    "V_l": "Historical-key verifier invocations in the modeled prelude or offline reductions; current authority never accepts this asset namespace. Count here or in Q, without omitting it.",
+    "Q1": "Additional G1 oracle output calls for addition/negation/known-scalar multiplication, excluding source imports, simulated proof outputs, and the separately budgeted verifier operations.",
+    "Q2": "Additional G2 oracle output calls with the same exclusions.",
+    "QT": "Additional GT oracle output calls for multiplication/inversion/known-scalar exponentiation, excluding pairings and separately budgeted verifier operations.",
+    "Qpair": "Additional G1-by-G2 pairing calls, excluding the four per verifier invocation. No pairing has GT input.",
+    "I1": "Additional registered G1 source-sampling/import calls, each an independent uniform unknown exponent or already-known scalar representation; not arbitrary trapdoor-correlated imports.",
+    "I2": "Additional registered G2 source-sampling/import calls with the same restriction; setup's six reconstructed hash-to-G2 sources are already included in N20."
+  },
+  "variable_domain": "Every variable is a finite nonnegative integer public cap for a polynomial-time experiment, not a claim that current runtime enforces that cap.",
+  "derived_formulas": {
+    "S": "S_g + S_t + S_l",
+    "V": "V_g + V_t + V_l",
+    "H1": "N10 + 2*S + Q1 + I1 + 13*V_g + 53*V_t + 13*V_l",
+    "H2": "N20 + S + Q2 + I2 + V",
+    "HT": "NT0 + Qpair + QT + 7*V",
+    "collision_numerator": "D1*choose2(H1) + D2*choose2(H2) + DT*choose2(HT)",
+    "epsilon_collision": "clip1(collision_numerator / (p - excluded_X_values))",
+    "epsilon_setup_sampling": "1 - ((p - excluded_X_values)/p)*((p-1)/p)**(k+2)",
+    "epsilon_affine": "clip1(S*(3*p-2)/(p*p))",
+    "epsilon_G16_conditioned_setup": "clip1(epsilon_collision + epsilon_affine)",
+    "epsilon_G16": "clip1(epsilon_setup_sampling + epsilon_collision + epsilon_affine)"
+  },
+  "operator_semantics": {
+    "choose2": "choose2(h)=h(h-1)/2 for nonnegative integer h",
+    "clip1": "min(1,max(0,x)); all expressions use exact rational arithmetic",
+    "epsilon_collision": "One all-execution union bound over formally unequal polynomial pairs in each typed group, including implicit equality of encodings and every registered verification result. Repeated tests of existing pairs do not require a second multiplier.",
+    "epsilon_setup_sampling": "Only the bad sampling probability when X,alpha,beta,deltas were initially sampled uniformly in full Fp. It does not quantify compromised toxic waste or bad entropy. Under explicitly conditioned correct sampling use epsilon_G16_conditioned_setup instead.",
+    "epsilon_affine": "Displayed default coupling for runtime schema excluding identities A,B,C, covering at most S fresh source invocations. Replace by zero only when both sides explicitly use the same per-query local accepted-affine source oracle with unobservable rejection trials; sequential conditional-domain Schwartz-Zippel preserves epsilon_collision. Global conditioning of the transcript, visible source failures, timing or a finite retry limit do not justify automatic replacement by zero. Root composition retains this displayed default term at every endpoint.",
+    "multiworld_composition": "This is one execution/world. Root composition may sum this term across its explicitly counted hybrid endpoints; do not separately charge the same extraction collision again per accepted proof.",
+    "real_source_proof_rule": "No simulator in a real execution does not imply S=0: external honest proofs still count as fresh source points. S=0 is valid only with no such sources, or with complete known-coefficient CRS-generation expansion and all group outputs charged to Q."
+  },
+  "verifier_cost_derivation": {
+    "G1": "For ell public signals: ell scalar multiplications +(ell-1) additions to sum +1 IC0 addition +1 negate A +2 prime-guard scalar multiplications = 2ell+3 output calls. This is an abstract upper accounting of the exact multiexp, not instruction-level performance.",
+    "G2": "One full integer prime-guard scalar multiplication for B; prime-domain outputs are identity but conservatively counted.",
+    "GT": "Four pairings and three GT products, then compare with already-registered identity: seven outputs.",
+    "other_equality_checks": "Checks on already registered handles are included by the all-pairs union bound. Nonprime input rejection is a verifier domain premise and supplies no prime-group forgery."
+  },
+  "source_evidence": [
+    "Frozen G4a 02 sections4-6, actual QAP/H read-only evidence and author versions of Groth16/BKSV",
+    "runs/g4a-assets-001/ASSET-MANIFEST.json and its unique prepared ptau, four zkeys, two vkeys",
+    "runs/g1-circuit-001 historical genesis final zkey/vkey and g1-assets-002/resume-inputs.json",
+    "snarkjs/src/keypair.js,powersoftau_contribute.js,powersoftau_preparephase2.js,powersoftau_utils.js,zkey_new.js,zkey_contribute.js,zkey_utils.js,groth16_verify.js",
+    "runtime/g4a_verifier.py,tools/g4a_crypto.cjs,tools/g4a_prime_domain.cjs and authority_v5_g4a codec/state/service"
+  ],
+  "arithmetic_example_caps_not_runtime_enforced": {
+    "S_g": 524288,
+    "S_t": 524288,
+    "S_l": 0,
+    "V_g": 524288,
+    "V_t": 524288,
+    "V_l": 0,
+    "Q1": 1099511627776,
+    "Q2": 1099511627776,
+    "QT": 1099511627776,
+    "Qpair": 1099511627776,
+    "I1": 1048576,
+    "I2": 1048576
+  }
+}

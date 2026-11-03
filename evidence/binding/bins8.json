@@ -1,0 +1,45 @@
+{
+  "wires": 81221,
+  "constraints": 82712,
+  "instances": 12,
+  "r1cs_bytes": 16859552,
+  "wtns_bytes": 2599148,
+  "r1cs_sha256": "004903beb2d1b2261d1cd5967c13e48af5e24d3bbddc202977783059f50d21b2",
+  "wtns_sha256": "1d30ed4ba3da39566ed1ca47612a4bfe98fc9d8ef3848e970b44d1a81c0207e1",
+  "schema": "shtpc.seeded-additive-share-binding.actual-r1cs/1",
+  "bins": 8,
+  "primary": 3,
+  "relation": "SeededShareBinding/no-rejection/1",
+  "elapsed_s": 1.1791905732825398,
+  "actual_full_r1cs_materialized": true,
+  "global_cross_instance_optimization": false,
+  "native_shard_equations_checked": 8,
+  "keccak_instances": 1,
+  "public_commitments": [
+    "20734203795313273894892846082608796474004819823192227020375435390375886369685",
+    "13548541654348463768220261305149910323978819589918711065549702889673861274936"
+  ],
+  "public_context": [
+    544998997228827595401583,
+    539365412
+  ],
+  "kernel_sha256": {
+    "keccak12": "cda6120aa6566fc7bf758be47afeb53b798aba49056e0d81673eccbab8057203",
+    "share_row": "9c7e05cdf114a5b7657bc0852e1f728f8ef9d1eb728e31a156f7beabbf9af50d",
+    "poseidon4": "3926b225a9e03df440bad031a12e4336fc3e24c8a60f301e2b542a24b680d041",
+    "poseidon16": "e38f77d55f5b47e7f89710ab7dfe58724531e02d5c2b3b3f950bf0eef9e46984"
+  },
+  "main_wire_ids": {
+    "seed_digest": 1,
+    "leader_digest": 2,
+    "context_hi": 3,
+    "context_lo": 4,
+    "primary": 5,
+    "seed_scalar": 6,
+    "leader_first": 137
+  },
+  "full_file_checked": true,
+  "checker_sha256": "b1f715a6a513b621b00aa01a625715f3645764ef8db8500214827f7ac8796abc",
+  "constraints_checked": 82712,
+  "check_elapsed_s": 0.0211668
+}

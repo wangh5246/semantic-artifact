@@ -1,0 +1,108 @@
+% Shared definitions for the single submission PDF and its included appendices.
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{graphicx}
+\graphicspath{{figures/}{./}}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{placeins}
+\usepackage{threeparttable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumerate}
+\usepackage{siunitx}
+
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}  % check mark
+\newcommand{\xmark}{\ding{55}}  % cross mark
+\newcommand{\biophoto}[1]{%
+  \IfFileExists{#1}{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{#1}}{}%
+}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\usepackage{soul}
+\usepackage{url}
+\usepackage{xcolor}
+
+\theoremstyle{definition}
+\ifdefined\SUPPLEMENTDOC
+  % Appendix-local numbering: reset each appendix section so that the appended
+  % objects are lettered (A.1, B.2, ...) and cannot be confused with the
+  % numbering of the main paper.
+  \newtheorem{definition}{Definition}[section]
+  \newtheorem{challenge}{Challenge}[section]
+  \newtheorem{assumption}{Assumption}[section]
+\else
+  \newtheorem{definition}{Definition}
+  \newtheorem{challenge}{Challenge}
+  \newtheorem{assumption}{Assumption}
+\fi
+\usepackage{csquotes}
+\usepackage[
+  backend=biber,
+  style=ieee,
+  citestyle=numeric-comp,
+  sorting=none,
+  sortcites=true,
+  doi=false,
+  url=false,
+  maxbibnames=3,
+  minbibnames=1
+]{biblatex}
+
+\addbibresource{reference.bib}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{xr-hyper}
+\ifdefined\SUPPLEMENTDOC
+  \hypersetup{
+    pdftitle={Supplemental Material for Accepted but Not Counted: Closing the History-to-Release Gap in Private Aggregation},
+    pdfauthor={},
+    pdfsubject={Appendix to the main paper},
+    pdfkeywords={supplemental material, stateful private heatmap aggregation, zero-knowledge proofs}
+  }
+  % Read the label numbers of the main paper so that references to the main
+  % text resolve in the appendix PDF.
+  
+  \numberwithin{equation}{section}
+  \numberwithin{table}{section}
+  \numberwithin{figure}{section}
+\else
+  \hypersetup{
+    pdftitle={Accepted but Not Counted: Closing the History-to-Release Gap in Private Aggregation},
+    pdfauthor={},
+    pdfsubject={Semantic closure for accepted histories at aggregate-share exposure},
+    pdfkeywords={private aggregation, semantic closure, accepted history, SHTPC, Stateful History-to-Payload Closure}
+  }
+  % Read the label numbers of the appendix so that references to appended
+  % results resolve in the main-paper PDF.
+  
+\fi
+\theoremstyle{plain}
+\ifdefined\SUPPLEMENTDOC
+  \newtheorem{theorem}{Theorem}[section]
+  \newtheorem{lemma}{Lemma}[section]
+  \newtheorem{corollary}{Corollary}[section]
+  \newtheorem{proposition}{Proposition}[section]
+\else
+  \newtheorem{theorem}{Theorem}
+  \newtheorem{lemma}{Lemma}
+  \newtheorem{corollary}{Corollary}
+  \newtheorem{proposition}{Proposition}
+\fi
+
+\pagestyle{plain}
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+% Registered circuit-size constants (native Pedersen relation version 4).
+\newcommand{\VFourConstraints}{9{,}726}
+\newcommand{\VFourPublicInputs}{23}
+\newcommand{\VFourPrivateInputs}{25}
+\newcommand{\VFourStaticChecks}{35}
+\newcommand{\VFourProtocolDatasets}{1}
+
+% Registered share-ring and field parameters (sparse admission profile),
+% taken from the implementation constants SHARE_FIELD_ID = "z2^32-balanced"
+% and MASK_MODULUS = 1 << 32.
+\newcommand{\ShareRingBits}{32}
+\newcommand{\BnFieldBits}{254}
