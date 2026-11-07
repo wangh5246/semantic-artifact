@@ -177,13 +177,13 @@ All reduction arguments, game definitions, hybrid sequences, and multi-window ex
 | :--- | :--- | :--- | :--- |
 | **Theorem 1** | Accepted-history composition at first exposure | [`proof/07-composition-and-explicit-bounds.md`](proof/07-composition-and-explicit-bounds.md), [`proof/05-closure-prefix-and-refinement.md`](proof/05-closure-prefix-and-refinement.md) | §§2–3, 5; §§3–5 |
 | **Theorem 2** | Joint privacy of admission and aggregation views | [`proof/04-full-view-simulation.md`](proof/04-full-view-simulation.md) | §§2–7 |
-| **Theorem 3** | Concrete two-party native privacy | [`proof/03-native-privacy-and-query-ledger.md`](proof/03-native-privacy-and-query-ledger.md) | §§2–5, 7 |
-| **Theorem 4** | Joint privacy of admission and native release | [`proof/07-composition-and-explicit-bounds.md`](proof/07-composition-and-explicit-bounds.md) | §5 |
-| **Theorem 5** | Predeclared multi-window privacy | [`proof/08-multi-window-privacy.md`](proof/08-multi-window-privacy.md) | §§1–8 |
+| **Theorem B.1** | Concrete two-party native privacy | [`proof/03-native-privacy-and-query-ledger.md`](proof/03-native-privacy-and-query-ledger.md) | §§2–5, 7 |
+| **Theorem B.2** | Joint privacy of admission and native release | [`proof/07-composition-and-explicit-bounds.md`](proof/07-composition-and-explicit-bounds.md) | §5 |
+| **Theorem B.3** | Predeclared multi-window privacy | [`proof/08-multi-window-privacy.md`](proof/08-multi-window-privacy.md) | §§1–8 |
 | **Lemma 1** | Native moment fidelity | [`proof/03-native-privacy-and-query-ledger.md`](proof/03-native-privacy-and-query-ledger.md) | §2 |
 | **Lemma 2** | Related-setup extraction | [`proof/extended-setup/K3-SOURCE-EXTENSION-FINAL.md`](proof/extended-setup/K3-SOURCE-EXTENSION-FINAL.md), [`proof/02-groth16-extraction-and-budget.md`](proof/02-groth16-extraction-and-budget.md) | Theorem E′; §§4–5 |
-| **Lemma 3** | Origin isolation | [`proof/04-full-view-simulation.md`](proof/04-full-view-simulation.md) | §§2–3 |
-| **Lemma 4** | Concrete Histogram preparation view | [`proof/03-native-privacy-and-query-ledger.md`](proof/03-native-privacy-and-query-ledger.md) | §§2–4 |
+| **Lemma B.1** | Origin isolation | [`proof/04-full-view-simulation.md`](proof/04-full-view-simulation.md) | §§2–3 |
+| **Lemma B.2** | Concrete Histogram preparation view | [`proof/03-native-privacy-and-query-ledger.md`](proof/03-native-privacy-and-query-ledger.md) | §§2–4 |
 
 Machine-readable budget ledgers:
 - `proof/groth16-budget-contract.json`: Group element handle counts and cleared degree polynomials.
@@ -215,7 +215,7 @@ Machine-readable budget ledgers:
 │   ├── 05-closure-prefix-and-refinement.md
 │   ├── 06-counterexamples-and-scope.md
 │   ├── 07-composition-and-explicit-bounds.md
-│   ├── 08-multi-window-privacy.md # Theorem 5 (Multi-window extension)
+│   ├── 08-multi-window-privacy.md # Theorem B.3 (Multi-window extension)
 │   ├── groth16-budget-contract.json
 │   ├── native-budget-contract.json
 │   ├── composition-budget-contract.json

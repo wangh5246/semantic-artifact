@@ -1,0 +1,24 @@
+\begin{table*}[t]
+\centering
+\caption{Four interface questions distinguish relation expressiveness, runtime
+state authorization, accepted-set provenance and the protected output boundary.
+Each system retains its own trust model: SCIF tolerates fewer than one-third
+malicious servers; SHTPC integrity assumes correct services
+(Section~\ref{sec:threat}).}
+\label{tab:closest-work}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}lYYYY@{}}
+\toprule
+System & Static relation & Current predecessor & Accepted-set source & Check boundary \\
+\midrule
+Prio3 / DAP~\cite{Barnes2023VDAF08,Geoghegan2026DAP} & Encoded measurement & Application supplied & Native batch count/checksum & Native preparation and batch collection \\
+Mastic / Whisper~\cite{Mouris2025Mastic,Rathee2024Whisper} & Attribute/weight or input relation & Application supplied & Protocol inputs & Native validation/aggregation \\
+PEAR~\cite{Acharya2025PEAR} & Arbitrary NP language over supplied input & External current-state reference & Valid ciphertexts received by server & Validation before encrypted aggregation, then analyst decryption \\
+SCIF~\cite{Su2025SCIF} & Common witness bound to server shares & Application supplied & Protocol participants/inclusion & Protocol validation and output delivery \\
+SCIF + ledger (ours) & Native relation and record/content digests & Durable application records & External accepted records & Publication after trusted reconstruction \\
+PrivStats~\cite{Popa2011PrivStats} & Authorized location upload & Capability issuer & Received authorized uploads & Upload capability/quota check \\
+VPriv~\cite{Popa2009VPriv} & Private path/function & Committed path reference & Committed/used tuple tags & Client inclusion check and reupload \\
+This work & Authorized state/output relation & Serialized current-head authority & Frozen eligible accepted history & Before first honest aggregate share \\
+\bottomrule
+\end{tabularx}
+\end{table*}

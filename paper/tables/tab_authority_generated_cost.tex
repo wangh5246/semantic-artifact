@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\caption{Matched closure workflow with two report producers. Steady rows are medians of three
+100-user windows; the initialization row is one 25-user run per path with
+six history-only and one eligible transition each. Wall intervals and listed
+CPU scopes are in seconds; phase medians need not sum to the wall median.}
+\label{tab:authority-generated-cost}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{}Yrr@{}}
+\toprule
+Measure & Client/Groth16~\cite{Groth2016pairing} & Authority/Prio3~\cite{Barnes2023VDAF08} \\
+\midrule
+Steady wall (s) & 1081.2 & 1210.1 \\
+Submission wall (s) & 595.0 & 733.6 \\
+Native-ready wait (s) & 3.240 & 3.305 \\
+Finalization wall (s) & 477.3 & 471.8 \\
+Freeze / collect wall (s) & 0.107 / 1.521 & 0.109 / 2.021 \\
+Initialization wall (s) & 1670.5 & 1529.0 \\
+Driver + authority CPU & 595.7 & 744.3 \\
+Leader / Helper CPU & 542.1 / 514.7 & 521.8 / 527.5 \\
+Native generation CPU & 31.2 & 32.8 \\
+\bottomrule
+\end{tabularx}
+\end{table}

@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\caption{Client-concurrency controls. Sequential-role rows average two
+windows each; the parallel-role row is one independent control.
+Window/upload are wall time; receipt/apply are worker time per report,
+all in seconds.}
+\label{tab:concurrency-cost}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\multicolumn{5}{l}{SHTPC/Groth16~\cite{Groth2016pairing}} \\
+Workers / roles & Window & Upload & Receipt & Apply \\
+\midrule
+1 / sequential & 1614.5 & 682.8 & 3.08 & 6.18 \\
+4 / sequential & 1076.6 & 587.9 & 4.59 & 14.62 \\
+8 / sequential & 1856.6 & 588.5 & 4.19 & 95.10 \\
+4 / parallel & 1236.7 & 595.1 & 2.84 & 22.41 \\
+\bottomrule
+\end{tabular}
+\end{table}

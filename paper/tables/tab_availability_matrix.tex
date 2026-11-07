@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\centering
+\caption{Request faults affect completion and latency on an eight-candidate fixture. Times are in seconds.}
+\label{tab:availability-matrix}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}YrrrrrY@{}}
+\toprule
+Injected condition & Complete & \(C=M\) & Window wall & Flow p95 & Flow max & Observation \\
+\midrule
+No injected fault & 1/1 & 8 & 921.0 & 19.7 & 20.2 & Baseline \\
+5\% independent request loss & 2/2 & 8 & 927.7--928.2 & 19.7--20.0 & 21.1--21.5 & Full cohort recovered \\
+15\% independent request loss & 2/2 & 8 & 974.4--978.5 & 20.3--20.6 & 21.6--25.7 & Full cohort recovered \\
+Burst: 10 requests per run & 2/2 & 8 & 966.2--973.6 & 19.4--19.7 & 70.0--72.3 & Transparent retries \\
+60-s unreachability; 120-s deadline & 2/2 & 8 & 965.7--980.1 & 20.1--20.3 & 69.7--72.0 & Full cohort recovered \\
+60-s unreachability; 30-s deadline & 0/2 & 6 & 873.6--880.8 & -- & -- & Two pre-admission abandonments \\
+120-s client-send pause & 2/2 & 8 & 1020.0--1035.8 & 19.4 & 20.2--20.3 & After four eligible commits \\
+Permanent pre-admission member loss & 1/1 & 7 & 898.1 & 19.4 & 20.3 & Seven-member cohort formed \\
+\bottomrule
+\end{tabularx}
+\end{table*}

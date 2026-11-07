@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{The native path recovers from failures at each tested boundary.}
+\label{tab:failure-cuts}
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}YY@{}}
+\toprule
+Cut & Observed recovery \\
+\midrule
+Commit/outbox before client reply & Exact committed decision replay \\
+Role apply before delivery ack & Idempotent native apply after database restart \\
+Reserved snapshot before share send & Identical share/count/checksum reservation after restart \\
+Honest share then later failure & Same-cohort plaintext share retry after restart \\
+Last commit, freeze and last apply & Freeze-first rejects late commit; commit-first includes zero and fences missing apply \\
+\bottomrule
+\end{tabularx}
+\end{table}

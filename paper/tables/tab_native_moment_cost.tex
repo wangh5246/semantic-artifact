@@ -1,0 +1,23 @@
+% Derived from unchanged round-three paired cost records (90 pairs, 30 per D).
+% Each mode includes the common column. The columns describe alternative modes.
+\begin{table}[t]
+\centering
+\caption{Matched native binding-component cost. Medians in ms over 30 paired trials per
+application dimension \(D\). Each mode includes common library work plus its
+proof-stage wall time. Parallel split uses two processes with default thread
+pools. This measures resource sensitivity rather than equal-resource performance.}
+\label{tab:native-moment-cost}
+\footnotesize
+\setlength{\tabcolsep}{3.2pt}
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+& Common & & \multicolumn{2}{c}{Optimized split} \\
+\cmidrule(l){4-5}
+\(D\) & work & Unified & Serial & Parallel \\
+\midrule
+100 & 40.1 & 317.4 & 427.2 & 367.2 \\
+1,024 & 85.0 & 364.8 & 468.9 & 410.9 \\
+10,000 & 523.0 & 802.0 & 911.6 & 849.3 \\
+\bottomrule
+\end{tabular}
+\end{table}

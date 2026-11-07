@@ -1,0 +1,21 @@
+% Generated only from complete passing measured runs.
+\begin{table}[t]
+\centering
+\caption{Direct native arm64 DAP pilot: three windows of 10 reports per arm,
+10,001 buckets, chunk size 100 and one worker. Wall covers creation through
+decrypted collection; CPU covers containers, driver and children. Body charges
+both registrations. The last two rows share the history contract.}
+\label{tab:direct-baselines}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & Wall s & CPU s & Body kB/report \\
+\midrule
+Upstream Janus & 5.29 & 1.16 & 0.0 \\
++ exact-set fence & 4.96 & 1.19 & 0.0 \\
+History + Groth16 & 83.77 & 81.45 & 338.4 \\
+History + direct authority & 81.34 & 58.91 & 338.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
