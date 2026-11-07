@@ -1,8 +1,8 @@
 # Artifact Evaluation and Replication Package
-# Stateful History-to-Payload Closure in Private Aggregation (SHTPC)
+# SHTPC: Stateful History-to-Payload Closure for Private Heatmap Aggregation
 
 This package contains the replication artifact for the research paper:
-> **Enforcing Hidden-State Policies in Native Private Aggregation**  
+> **SHTPC: Stateful History-to-Payload Closure for Private Heatmap Aggregation**  
 > IEEE Symposium on Security and Privacy (S&P) 2027
 
 This artifact evaluation package provides the complete mathematical proofs, arithmetized circuit relations, formal TLA+ state models, numerical evaluation records, and a self-contained reproduction runner to verify all claims and tables in the paper.
@@ -46,7 +46,7 @@ Upon successful verification, the script will output:
 
 ```text
 ============================================================================
- SHTPC: Stateful History-to-Payload Closure in Private Aggregation
+ SHTPC: Stateful History-to-Payload Closure for Private Heatmap Aggregation
  Artifact Verification and Data Reproduction Runner
 ============================================================================
 
@@ -202,7 +202,7 @@ Machine-readable budget ledgers:
 ├── paper/                         # Anonymized manuscript sources and build environment
 │   ├── submission.pdf             # Compiled 18-page manuscript (IEEE S&P 2027)
 │   ├── submission.tex             # LaTeX source code
-│   ├── reference.bib              # Bibliography database (43 references)
+│   ├── reference.bib              # Bibliography database (45 references)
 │   ├── build.sh                   # Compilation script
 │   └── check_submission.py        # Submission page-limit and format gate checker
 ├── artifact/

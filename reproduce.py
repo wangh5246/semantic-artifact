@@ -28,7 +28,7 @@ def load_csv(path):
 
 def main():
     print("=" * 76)
-    print(" SHTPC: Stateful History-to-Payload Closure in Private Aggregation")
+    print(" SHTPC: Stateful History-to-Payload Closure for Private Heatmap Aggregation")
     print(" Artifact Verification and Data Reproduction Runner")
     print("=" * 76)
 

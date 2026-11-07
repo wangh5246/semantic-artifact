@@ -1,5 +1,5 @@
 {
-  "README.md": "8639df972d4f2fb1ae1968f88ddf8a425b4c5a8ac60a905745f321ac743cddf7",
+  "README.md": "035a3735c85b673433ce3a48c5f8de5e9cf412e5e8ea382a71f7bb1da26dc2db",
   "artifact/README.md": "a8663103bb4d6f5c4af540213729cfeba16b8258ac1371168f3ea116fb947c15",
   "artifact/proof/01-security-games-and-ideal-interface.md": "d40e6daa0d569228e2902d1346d5799cf82c88478acb02703d8e8868d04a3368",
   "artifact/proof/02-groth16-extraction-and-budget.md": "e169cbed73263f2e5596382eeb094137d074f9588e92711fa6974ad30670362e",
@@ -159,5 +159,5 @@
   "proof/extended-setup/source-inventory-v3.csv": "41d21ac0f2d2f5a19e39e1b5b34a58177fb7aaeffc198f81712151724613b521",
   "proof/groth16-budget-contract.json": "39f2759b184121435ca83ea625669e5535ebb5e2fe87300fd888ca62a866e2bb",
   "proof/native-budget-contract.json": "54a6c10c8f4900a21bf3f58c66f9745a923b38164166a655380eb0e658a159e2",
-  "reproduce.py": "4faa2876ee119148684f0fe118dbe0941842b6d2267a94f51d596414aa19ffa1"
+  "reproduce.py": "b2e78ba0e7149bc582910392b53bc74498c69966a1ea2e1ac361f5a29075c296"
 }
