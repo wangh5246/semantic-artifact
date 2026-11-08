@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.24)  7 NOV 2026 20:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.24)  8 NOV 2026 16:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1230,83 +1230,106 @@ local/texlive/2026/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-<figures/overview.pdf, id=174, 1069.71642pt x 313.17pt>
+<figures/overview.pdf, id=175, 1069.71642pt x 313.17pt>
 File: figures/overview.pdf Graphic file (type pdf)
 <use figures/overview.pdf>
 Package pdftex.def Info: figures/overview.pdf  used on input line 214.
 (pdftex.def)             Requested size: 505.89pt x 148.10739pt.
  [2 <./figures/overview.pdf>] [3]
-Underfull \hbox (badness 8132) in paragraph at lines 409--413
+Underfull \hbox (badness 8132) in paragraph at lines 378--382
 \OT1/ptm/m/n/10.03749 These obli-ga-tions or-ga-nize the successful-trace and
  []
 
-[4] [5] [6] [7] [8] [9] [10] (./tables/binding.tex)
-<figures/binding.pdf, id=482, 252.945pt x 162.6075pt>
+[4]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5]
+[6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 760--761
+[]\OT1/ptm/m/n/10.03749 For pub-lic poly-no-mial $\OML/cmm/m/it/10 Q[]\OT1/cmr/
+m/n/10 (\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 ) =
+ []
+
+
+Underfull \hbox (badness 1418) in paragraph at lines 760--761
+\OT1/ptm/m/n/10.03749 un-der key $\OML/cmm/m/it/10 r$ \OT1/ptm/m/n/10.03749 en-
+forces $\OML/cmm/m/it/10 AB \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 ^^L \OT1/cmr/m/
+n/10 + \OML/cmm/m/it/10 Q[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10
+ ) + ^^A[]\OML/cmm/m/it/10 C$\OT1/ptm/m/n/10.03749 .
+ []
+
+[8] [9]
+Underfull \hbox (badness 2005) in paragraph at lines 933--934
+[]\OT1/ptm/m/it/10.03749 Metrics. \OT1/ptm/m/n/10.03749 Spa-tial dis-tor-tion i
+s eval-u-ated by cohort-
+ []
+
+[10] (./tables/binding.tex)
+<figures/binding.pdf, id=475, 252.945pt x 162.6075pt>
 File: figures/binding.pdf Graphic file (type pdf)
 <use figures/binding.pdf>
-Package pdftex.def Info: figures/binding.pdf  used on input line 1146.
+Package pdftex.def Info: figures/binding.pdf  used on input line 970.
 (pdftex.def)             Requested size: 243.91125pt x 156.80359pt.
-<figures/exposure-complete.pdf, id=485, 121.4136pt x 155.38051pt>
+
+Underfull \vbox (badness 1997) has occurred while \output is active []
+
+<figures/exposure-complete.pdf, id=478, 121.4136pt x 155.38051pt>
 File: figures/exposure-complete.pdf Graphic file (type pdf)
 <use figures/exposure-complete.pdf>
-Package pdftex.def Info: figures/exposure-complete.pdf  used on input line 1172
-.
+Package pdftex.def Info: figures/exposure-complete.pdf  used on input line 995.
+
 (pdftex.def)             Requested size: 118.2971pt x 151.39934pt.
-<figures/exposure-subset.pdf, id=486, 121.4136pt x 155.38051pt>
+<figures/exposure-subset.pdf, id=479, 121.4136pt x 155.38051pt>
 File: figures/exposure-subset.pdf Graphic file (type pdf)
 <use figures/exposure-subset.pdf>
-Package pdftex.def Info: figures/exposure-subset.pdf  used on input line 1177.
+Package pdftex.def Info: figures/exposure-subset.pdf  used on input line 1000.
 (pdftex.def)             Requested size: 118.2971pt x 151.39934pt.
- [11 <./figures/binding.pdf>]
-Underfull \vbox (badness 1533) has occurred while \output is active []
+ [11 <./figures/binding.pdf> <./figures/exposure-complete.pdf> <./figures/expos
+ure-subset.pdf>]
+Underfull \hbox (badness 6961) in paragraph at lines 1087--1088
+\OT1/ptm/m/n/10.03749 compare-and-swap heads, idem-po-tent out-box queues,
+ []
 
- [12 <./figures/exposure-complete.pdf> <./figures/exposure-subset.pdf>]
-Underfull \hbox (badness 2229) in paragraph at lines 1299--1300
+[12]
+Underfull \hbox (badness 2229) in paragraph at lines 1110--1111
 []\OT1/ptm/m/n/10.03749 The repos-i-tory at []$https : / / anonymous . 4open . 
 science / r /
  []
 
 [13]
-Underfull \hbox (badness 1533) in paragraph at lines 1305--1305
+Underfull \hbox (badness 1533) in paragraph at lines 1116--1116
 \OT1/ptm/m/n/10.03749 Ver-bauwhede, and C. Geuens, \  PrETP: Privacy-
  []
 
 [14
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1305--1305
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1116
 \OT1/ptm/m/it/10.03749 se-cure ver-i-fi-able ag-gre-ga-tion in ``Ver-iFL:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1305--1305
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1116
 \OT1/ptm/m/it/10.03749 Communication-Efficient and Fast Ver-i-fi-able
  []
 
 
-Underfull \hbox (badness 6268) in paragraph at lines 1305--1305
+Underfull \hbox (badness 6268) in paragraph at lines 1116--1116
 []\OT1/ptm/m/n/10.03749 N. Bi-tan-sky, R. Canetti, A. Chiesa, and E.
  []
 
-[15]
-Underfull \hbox (badness 1681) in paragraph at lines 1345--1356
-\OML/cmm/m/it/10 ^^\[]\OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 t[]$\OT1/ptm/m/n/10.0
-3749 , and from the an-chor $\OT1/cmr/bx/n/10 a[] \OT1/cmr/m/n/10 = \OT1/cmr/bx
-/n/10 x[]$ \OT1/ptm/m/n/10.03749 by
- []
-
-
-Underfull \hbox (badness 1448) in paragraph at lines 1420--1424
-\OT1/ptm/m/n/10.03749 sur-vive ro-ta-tion. Re-vo-ca-tion, post-compromise re-co
-v-ery
- []
-
-[16
+[15] [16
 
 ] [17]
-Underfull \hbox (badness 4819) in paragraph at lines 1609--1613
+Underfull \hbox (badness 4819) in paragraph at lines 1322--1326
 \OML/cmm/m/it/10 q\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 =\OT1/cmr/m/n/10 2[]$\OT1/p
 tm/m/it/10.03749 . Authority-only needs no ag-gre-gate equal-ity,
+ []
+
+
+Underfull \hbox (badness 1400) in paragraph at lines 1334--1335
+\OT1/ptm/m/it/10.03749 single-window re-ports ref-er-ence cross-window ac-cepte
+d
  []
 
 
@@ -1332,13 +1355,13 @@ Package logreq Info: Writing requests to 'submission.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 35635 strings out of 467525
- 734907 string characters out of 5418981
- 1548027 words of memory out of 5000000
- 63859 multiletter control sequences out of 15000+600000
- 679064 words of font info for 155 fonts, out of 8000000 for 9000
+ 35623 strings out of 467525
+ 734749 string characters out of 5418981
+ 1551931 words of memory out of 5000000
+ 63856 multiletter control sequences out of 15000+600000
+ 679571 words of font info for 156 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 84i,19n,94p,1797b,2133s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,19n,94p,2278b,2133s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb><
 /usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
@@ -1355,18 +1378,19 @@ ive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
 texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2026/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2026/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2026/texmf-dist
-/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2026/texmf-
-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts
-/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/ur
-w/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/ut
-mri8a.pfb>
-Output written on build/current/submission.pdf (18 pages, 929838 bytes).
+f-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2026/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2026/texmf-dist/f
+onts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2026/texmf-di
+st/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/t
+ype1/urw/times/utmbi8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/
+times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr
+i8a.pfb>
+Output written on build/current/submission.pdf (18 pages, 950833 bytes).
 PDF statistics:
- 815 PDF objects out of 1000 (max. 8388607)
- 654 compressed objects within 7 object streams
- 175 named destinations out of 1000 (max. 500000)
+ 809 PDF objects out of 1000 (max. 8388607)
+ 646 compressed objects within 7 object streams
+ 166 named destinations out of 1000 (max. 500000)
  273 words of extra memory for PDF output out of 10000 (max. 10000000)
 

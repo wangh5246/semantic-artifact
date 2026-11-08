@@ -1342,8 +1342,8 @@
       \strng{authorfullhash}{bd0e0c070971c86711d331c04c6f2ec9}
       \strng{authorfullhashraw}{bd0e0c070971c86711d331c04c6f2ec9}
       \field{extraname}{2}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proc. CRYPTO}
@@ -1384,8 +1384,8 @@
       \strng{authornamehash}{60a53217cd78945d7fa0fc909d2a8a7f}
       \strng{authorfullhash}{2b20bb6156019f07303553b86e9b9bdb}
       \strng{authorfullhashraw}{2b20bb6156019f07303553b86e9b9bdb}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Trans. Dependable Secure Comput.}
@@ -1445,8 +1445,8 @@
       \strng{authornamehash}{08471576696384b1980025d9005631f9}
       \strng{authorfullhash}{9e6b35952ef3f3cb1690a20cad2414ed}
       \strng{authorfullhashraw}{9e6b35952ef3f3cb1690a20cad2414ed}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Trans. Inf. Forensics Security}
@@ -1475,8 +1475,8 @@
       \strng{authornamehash}{71290e7f5dd0007811a86560d990ecbd}
       \strng{authorfullhash}{71290e7f5dd0007811a86560d990ecbd}
       \strng{authorfullhashraw}{71290e7f5dd0007811a86560d990ecbd}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{howpublished}{Cryptology ePrint Archive, Paper 2022/1073}
@@ -1516,8 +1516,8 @@
       \strng{authornamehash}{dbd256de459e21fb1b52c425f6483668}
       \strng{authorfullhash}{933bdd1edf06777130803a4cbc531434}
       \strng{authorfullhashraw}{933bdd1edf06777130803a4cbc531434}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proc. ACM CCS}

@@ -224,40 +224,54 @@ ary-english.trsl)
 (/opt/researcher/Library/texmf/tex/latex/psnfss/ts1ptm.fd) [1{/usr/local/texlive
 /2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2026/tex
 mf-dist/fonts/enc/dvips/base/8r.enc}] [2 <./figures/overview.pdf>] [3]
-Underfull \hbox (badness 8132) in paragraph at lines 409--413
+Underfull \hbox (badness 8132) in paragraph at lines 378--382
 \OT1/ptm/m/n/10.03749 These obli-ga-tions or-ga-nize the successful-trace and
-[4] [5] [6] [7] [8] [9] [10] (./tables/binding.tex) [11 <./figures/binding.pdf>
-]
-Underfull \vbox (badness 1533) has occurred while \output is active [12 <./figu
-res/exposure-complete.pdf> <./figures/exposure-subset.pdf>]
-Underfull \hbox (badness 2229) in paragraph at lines 1299--1300
+[4]
+Underfull \vbox (badness 10000) has occurred while \output is active [5]
+[6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 760--761
+[]\OT1/ptm/m/n/10.03749 For pub-lic poly-no-mial $\OML/cmm/m/it/10 Q[]\OT1/cmr/
+m/n/10 (\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 ) =
+
+Underfull \hbox (badness 1418) in paragraph at lines 760--761
+\OT1/ptm/m/n/10.03749 un-der key $\OML/cmm/m/it/10 r$ \OT1/ptm/m/n/10.03749 en-
+forces $\OML/cmm/m/it/10 AB \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 ^^L \OT1/cmr/m/
+n/10 + \OML/cmm/m/it/10 Q[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10
+ ) + ^^A[]\OML/cmm/m/it/10 C$\OT1/ptm/m/n/10.03749 .
+[8] [9]
+Underfull \hbox (badness 2005) in paragraph at lines 933--934
+[]\OT1/ptm/m/it/10.03749 Metrics. \OT1/ptm/m/n/10.03749 Spa-tial dis-tor-tion i
+s eval-u-ated by cohort-
+[10] (./tables/binding.tex)
+Underfull \vbox (badness 1997) has occurred while \output is active [11 <./figu
+res/binding.pdf> <./figures/exposure-complete.pdf> <./figures/exposure-subset.p
+df>]
+Underfull \hbox (badness 6961) in paragraph at lines 1087--1088
+\OT1/ptm/m/n/10.03749 compare-and-swap heads, idem-po-tent out-box queues,
+[12]
+Underfull \hbox (badness 2229) in paragraph at lines 1110--1111
 []\OT1/ptm/m/n/10.03749 The repos-i-tory at []$https : / / anonymous . 4open . 
 science / r /
 [13]
-Underfull \hbox (badness 1533) in paragraph at lines 1305--1305
+Underfull \hbox (badness 1533) in paragraph at lines 1116--1116
 \OT1/ptm/m/n/10.03749 Ver-bauwhede, and C. Geuens, \  PrETP: Privacy-
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 1305--1305
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1116
 \OT1/ptm/m/it/10.03749 se-cure ver-i-fi-able ag-gre-ga-tion in ``Ver-iFL:
 
-Underfull \hbox (badness 10000) in paragraph at lines 1305--1305
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1116
 \OT1/ptm/m/it/10.03749 Communication-Efficient and Fast Ver-i-fi-able
 
-Underfull \hbox (badness 6268) in paragraph at lines 1305--1305
+Underfull \hbox (badness 6268) in paragraph at lines 1116--1116
 []\OT1/ptm/m/n/10.03749 N. Bi-tan-sky, R. Canetti, A. Chiesa, and E.
-[15]
-Underfull \hbox (badness 1681) in paragraph at lines 1345--1356
-\OML/cmm/m/it/10 ^^\[]\OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 t[]$\OT1/ptm/m/n/10.0
-3749 , and from the an-chor $\OT1/cmr/bx/n/10 a[] \OT1/cmr/m/n/10 = \OT1/cmr/bx
-/n/10 x[]$ \OT1/ptm/m/n/10.03749 by
-
-Underfull \hbox (badness 1448) in paragraph at lines 1420--1424
-\OT1/ptm/m/n/10.03749 sur-vive ro-ta-tion. Re-vo-ca-tion, post-compromise re-co
-v-ery
-[16] [17]
-Underfull \hbox (badness 4819) in paragraph at lines 1609--1613
+[15] [16] [17]
+Underfull \hbox (badness 4819) in paragraph at lines 1322--1326
 \OML/cmm/m/it/10 q\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 =\OT1/cmr/m/n/10 2[]$\OT1/p
 tm/m/it/10.03749 . Authority-only needs no ag-gre-gate equal-ity,
+
+Underfull \hbox (badness 1400) in paragraph at lines 1334--1335
+\OT1/ptm/m/it/10.03749 single-window re-ports ref-er-ence cross-window ac-cepte
+d
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -287,12 +301,13 @@ lic/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmss10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmss8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmsy9.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/
-symbols/msbm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/ut
-mb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb>
-</usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/loca
-l/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on build/current/submission.pdf (18 pages, 929838 bytes).
+fonts/cm/cmsy5.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy9.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/sy
+mbols/msbm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb
+8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></
+usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/
+texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on build/current/submission.pdf (18 pages, 950833 bytes).
 Transcript written on build/current/submission.log.
