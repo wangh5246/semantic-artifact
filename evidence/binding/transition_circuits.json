@@ -1,0 +1,42 @@
+{
+  "schema": "shtpc.binding.transition-circuits/1",
+  "bins": 10001,
+  "standalone_payload_binding": {
+    "shtpc_masked_moment": {
+      "constraints": 5779,
+      "scope": "standalone masked-moment binding module",
+      "source_receipt": "evidence/binding/binding-circuit-input.csv"
+    },
+    "direct_prg_seed_expansion": {
+      "relation": "SeededShareBinding/no-rejection/1",
+      "constraints": 79002390,
+      "wires": 77447720,
+      "scope": "materialized standalone direct XOF/PRG seed expansion baseline (no Groth16 proving run)",
+      "source_receipt": "evidence/binding/bins10001.json"
+    },
+    "ratio_direct_seed_over_masked_moment": 13670.598719501644
+  },
+  "complete_transition_circuits": {
+    "shtpc_method_m": {
+      "circuit": "circuits/hadwc_transition_v5.circom",
+      "relation_version": 5,
+      "total_constraints": 13327,
+      "adwc_state_policy_constraints": 7548,
+      "masked_moment_binding_constraints": 5779,
+      "public_signals": 25
+    },
+    "poseidon_vector_method_v": {
+      "circuit": "circuits/v6_main_10001.circom",
+      "relation_version": 6,
+      "total_constraints": 851715,
+      "public_signals": 22,
+      "small_scale_reference_d8_constraints": 10530,
+      "source_validation": "evidence/binding/v6_validation.json",
+      "source_witness_checks": "evidence/binding/v6_witness_checks_10001.json",
+      "source_crypto_events": "evidence/binding/v6_crypto_events_10001.jsonl"
+    },
+    "ratio_method_v_over_method_m": 63.90898176633901,
+    "ratio_direct_seed_over_method_m": 5927.995047647632,
+    "ratio_direct_seed_over_method_v": 92.75683767457424
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "n8_witness_all_passed": true,
+  "n8_cases": 13,
+  "n10001_witness_all_passed": true,
+  "n10001_cases": 14,
+  "n8_proofs_verified": true,
+  "n8_proofs": 4,
+  "n10001_proofs_verified": true,
+  "n10001_proofs": 3,
+  "prove_median_s": 93.475,
+  "verify_median_s": 0.026,
+  "retained_reports_all_passed": true,
+  "retained_reports": 2,
+  "report_links_missing": [],
+  "zkey_verify_wall_s": 965.734,
+  "sha256": {
+    "a8/witness-checks.json": "b1d47ca093d779165e65c4ae828a9210e078d3ae434ebfbd0dccf4935c97f14b",
+    "a8/proof-8-bit0.json": "ec2a18a8aac48f7867f6eea4a29892ef03812550ed04e9df588ced2c29834280",
+    "a10001/witness-checks-r2.json": "2ecbaa68f1eb72fef73cebae608fc7bcaaa580607b8922d8be713f43e29caa4a",
+    "a10001/actual-retained-tdrive.json": "7c27a623f64cd53794cfe19c684e3b37ef08b71e313e37330f6c6a24d39a35d0",
+    "a10001/actual-retained-porto.json": "d7c1c81d515553ba646212d454d8e5735d30999fb00a18d81906b9fe69fc93a2",
+    "a10001/crypto-events-10001.jsonl": "770a5864ef01f104bb573b9fcdd25623af6cc6e1f961720a73872598b818ffa9",
+    "a10001/witness-timing.txt": "19a585f46742b32017a7e6a19299a2a47864e1a2f4650264e33b037cb65e0d37",
+    "REPORT.md": "018c9ee972bd70fc98bc05bfcdf116ca6468d671278ed8f82cc38dc033fbe30d",
+    "../EXECUTION-v6.md": "e9fa5bedfff8d6ab6d99c89e280dce076e036f4b17970cc80ec6440a7fd8244c",
+    "../../../research/matched-vector-binding-2026-10-28/v6/v6_relation.circom": "6bb7a935d9100532fbe3615c5875cc2f47151f6aa62dbf26512f41b5a15e4d97",
+    "../../../research/matched-vector-binding-2026-10-28/v6/check_v6.cjs": "fb56509642a0f77fc11ba66d18aeddd073eebde0558618c850f1c19d387bfce2",
+    "../../../research/matched-vector-binding-2026-10-28/v6/make_fixture.cjs": "a928cc4a2a255534f4a38e8b7a00bfcb17baf65945f99b78becf2b161e4c0ec3"
+  },
+  "status": "PASS"
+}

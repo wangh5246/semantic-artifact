@@ -1,0 +1,119 @@
+{
+  "all_passed": true,
+  "N": 10001,
+  "cases": [
+    {
+      "case": "valid-bit1",
+      "expect_accept": true,
+      "accepted": true,
+      "passed": true,
+      "note": "positive one contribution",
+      "diagnostic": null
+    },
+    {
+      "case": "valid-bit0",
+      "expect_accept": true,
+      "accepted": true,
+      "passed": true,
+      "note": "zero contribution uses sentinel",
+      "diagnostic": null
+    },
+    {
+      "case": "share-tamper",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "one coordinate no longer reconstructs one-hot",
+      "diagnostic": "Error: Assert Failed. Error in template VectorBindingV6_211 line: 33\nError in template Alternative_212 line: 148\n"
+    },
+    {
+      "case": "bit-flip",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "bit flip changes selected index without changing shares",
+      "diagnostic": "Error: Assert Failed. Error in template Alternative_212 line: 138\n"
+    },
+    {
+      "case": "role-swap",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "role is in the commitment domain",
+      "diagnostic": "Error: Assert Failed. Error in template Alternative_212 line: 138\n"
+    },
+    {
+      "case": "context-tamper",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "context enters vector and receipt commitments",
+      "diagnostic": "Error: Assert Failed. Error in template Alternative_212 line: 138\n"
+    },
+    {
+      "case": "receipt-tamper",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "receipt commitment is publicly checked",
+      "diagnostic": "Error: Assert Failed. Error in template Alternative_212 line: 138\n"
+    },
+    {
+      "case": "cross-report-rid",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "rid enters ticket and receipt commitments",
+      "diagnostic": "Error: Assert Failed. Error in template Alternative_212 line: 121\n"
+    },
+    {
+      "case": "ticket-tamper",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "ticket commitment is checked",
+      "diagnostic": "Error: Assert Failed. Error in template Alternative_212 line: 121\n"
+    },
+    {
+      "case": "state-tamper",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "previous state commitment is checked",
+      "diagnostic": "Error: Assert Failed. Error in template Alternative_212 line: 93\n"
+    },
+    {
+      "case": "wrong-cell-recommitted",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "state re-commits a different cell; retained vector still selects the old cell",
+      "diagnostic": "Error: Assert Failed. Error in template VectorBindingV6_211 line: 33\nError in template Alternative_212 line: 148\n"
+    },
+    {
+      "case": "distance-policy",
+      "expect_accept": false,
+      "accepted": false,
+      "passed": true,
+      "note": "distance cap violation",
+      "diagnostic": "Error: Assert Failed. Error in template Bounded_43 line: 21\nError in template Distance_44 line: 62\nError in template Alternative_212 line: 104\n"
+    },
+    {
+      "case": "zero-bit-primary-change",
+      "expect_accept": true,
+      "accepted": true,
+      "passed": true,
+      "note": "sentinel semantics: zero contribution does not claim a cell",
+      "diagnostic": null
+    },
+    {
+      "case": "noncanonical-share-circuit",
+      "expect_accept": true,
+      "accepted": true,
+      "passed": true,
+      "note": "circuit accepts Q+1; canonical check is a receiver obligation",
+      "diagnostic": null
+    }
+  ],
+  "scope": "actual v6 wasm/r1cs witness; no proof or native service"
+}

@@ -1,8 +1,12 @@
 # Evidence Directory
-- `binding/`: Constraint verification receipts for vector commitment comparison across bin sizes $D \in \{8, 101, 1001, 10001\}$.
+- `binding/`: Circuit constraint counts and verification receipts across the three aligned comparison baselines:
+  - `bins8.json`, `bins101.json`, `bins1001.json`, `bins10001.json`, `independent-recheck.json`: Standalone Direct PRG seed-expansion (`SeededShareBinding/no-rejection/1`) materialized R1CS/witness counts ($D \in \{8, 101, 1001, 10001\}$, reaching **79,002,390** constraints at $D=10{,}001$).
+  - `binding-circuit-input.csv`: Figure 3 data comparing standalone direct seed expansion vs. SHTPC masked moment (**5,779** constraints) for $D \in \{101, 1001, 10001\}$.
+  - `transition_circuits.json`: Complete transition circuit comparison at $D=10{,}001$: SHTPC Method M (**13,327** constraints = 7,548 ADWC + 5,779 masked moment; 25 public signals) vs. Constructed Poseidon Vector Binding Method V (**851,715** constraints; 22 public signals).
+  - `v6_validation.json`, `v6_witness_checks_10001.json`, `v6_crypto_events_10001.jsonl`: Method V ($D=10{,}001$, `Alternative(10001)`) witness positive/negative checks (14/14 PASS) and Groth16 proof/verification events (3/3 verified).
 - `evaluation/`:
-  - `binding-derived.json`: Table 6 same-input component timing (15 pairs, B-pos, B-zero, B-edge).
-  - `lifecycle-pairs.json`: Table 8 / §5.6 end-to-end lifecycle timing (5 pairs Full vs Trusted).
-  - `e1-pairs.csv` & `summary.json`: Microbenchmarks.
-  - `four-corpus-pooled.csv`, `reason-counts-by-date.csv`, `roster-summary.csv`: Offline feasibility screening across T-Drive, Porto, GeoLife, Rome.
-  - `binding-full-table.tex`: LaTeX representation rendered in Table 6.
+  - `binding-derived.json`: **Table 5** same-input component timing (15 pairs across `B-pos`, `B-zero`, `B-edge` comparing Method M 13,327 vs Method V 851,715).
+  - `lifecycle-pairs.json`: **Table 7 / Section 5.6** end-to-end lifecycle timing (5 pairs Full vs Trusted).
+  - `e1-pairs.csv` & `summary.json`: Earlier microbenchmark pairs (different fixtures).
+  - `four-corpus-pooled.csv`, `reason-counts-by-date.csv`, `roster-summary.csv`: **Section 5.2** offline feasibility screening across T-Drive, Porto, GeoLife, and Rome.
+  - `binding-full-table.tex`: LaTeX representation rendered in **Table 5**.

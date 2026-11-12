@@ -1,20 +1,26 @@
 # Artifact Evaluation and Replication Package
 # SHTPC: Stateful History-to-Payload Closure for Private Heatmap Aggregation
 
-This package contains the replication artifact for the research paper:
+This package contains the code, circuits, formal proofs, formal state models, and machine-readable evaluation evidence for the research paper:
 > **SHTPC: Stateful History-to-Payload Closure for Private Heatmap Aggregation**  
 > IEEE Symposium on Security and Privacy (S&P) 2027
 
-This artifact evaluation package provides the complete mathematical proofs, arithmetized circuit relations, formal TLA+ state models, numerical evaluation records, and a self-contained reproduction runner to verify all claims and tables in the paper.
+*(Note: Manuscript LaTeX sources and PDFs are maintained separately and omitted from this replication bundle so paper revisions never desynchronize artifact files.)*
 
 ---
 
 ## 1. Overview and Target Badges
 
 This package is prepared for Artifact Evaluation and supports:
-- **Artifacts Available**: All formal proofs, circuit code, formal models, evaluation data, and LaTeX paper sources are self-contained in this archive.
-- **Artifacts Functional**: The verification runner executes turnkey out of the box with zero external package dependencies.
-- **Results Replicated**: All numerical claims, constraint reduction ratios, prover timing speedups (Table 6), end-to-end lifecycle overheads (Table 8), and trajectory feasibility rates (Section 5.2) are directly recomputed and verified against the reported values.
+- **Artifacts Available**: All formal security proofs, arithmetized circuit relations, formal TLA+ state models, and evaluation data receipts are self-contained in this archive.
+- **Artifacts Functional**: The verification runner (`reproduce.py`) executes turnkey out of the box with zero external package dependencies.
+- **Results Replicated**: All numerical claims, constraint counts across all three comparison tiers, same-input prover speedups (**Table 5**, Figure 3), end-to-end lifecycle overheads (**Table 7**, Section 5.6), and four-corpus trajectory feasibility rates (**Section 5.2**) are directly recomputed and verified against retained records.
+
+### Aligned Constraint Calibration Summary ($D = 10{,}001$ Histogram Bins)
+To prevent any ambiguity between standalone binding modules and complete state-transition circuits, every comparison tier is separated explicitly below:
+1. **Direct PRG seed expansion (standalone module, `SeededShareBinding/no-rejection/1`)**: **79,002,390** constraints at $D=10{,}001$ (`82,712` / `828,050` / `7,956,190` / `79,002,390` across $D \in \{8, 101, 1001, 10001\}$). Compared against SHTPC's standalone masked-moment binding module (**5,779** constraints), this gives the **13,670.60×** standalone module reduction plotted in **Figure 3** (`binding-circuit-input.csv`). (No Groth16 proving run is executed for the 79M-constraint relation.)
+2. **Constructed Poseidon vector-binding baseline (Method V, `Alternative(10001)`)**: **851,715** constraints (22 public signals) for the **complete** state-transition circuit replacing SHTPC's masked-moment check with per-role Poseidon-16 commitments over retained secret-shared vectors (`circuits/v6_relation.circom`, `circuits/v6_main_10001.circom`).
+3. **SHTPC state transition (Method M, `hadwc_transition_v5.circom`)**: **13,327** constraints (25 public signals) for the **complete** transition circuit (**7,548** constant ADWC state/policy constraints + **5,779** masked-moment payload-binding constraints). Comparing complete transition circuits gives a **63.91×** constraint reduction ($\frac{851{,}715}{13{,}327}$) and measured **89.83×–89.91×** Xeon `fullProve` paired timing speedups (**Table 5**).
 
 ---
 
@@ -23,13 +29,12 @@ This package is prepared for Artifact Evaluation and supports:
 ### Hardware Requirements
 - **Processor**: Any standard x86_64 or ARM64 (Apple Silicon) processor.
 - **Memory**: < 100 MB RAM.
-- **Disk Space**: < 50 MB free space.
+- **Disk Space**: < 20 MB free space.
 - **Execution Time**: The complete reproduction suite executes in **under 2 seconds**.
 
 ### Software Requirements
 - **Operating System**: Linux (Ubuntu 20.04/22.04 or later), macOS (12.0 or later), or Windows (via WSL2).
 - **Python Runtime**: Python 3.10 or later (**standard library only**; no `pip` packages required).
-- *(Optional for rebuilding the paper PDF)*: TeX Live 2022+ with `pdflatex`, `biber`, and `IEEEtran.cls`.
 
 ---
 
@@ -51,34 +56,38 @@ Upon successful verification, the script will output:
 ============================================================================
 
 [1/5] Checking Structural Components & Interfaces...
-  ✓ Integrity verified: 161 files match manifest.json (SHA-256)
+  ✓ Integrity verified: 79 files match manifest.json (SHA-256)
   ✓ All 8 formal security proofs and budget contracts present in proof/
-  ✓ State transition circuit exposes all 25 ordered public signals (Section 3.3)
+  ✓ Method M circuit exposes 25 ordered public signals; Method V circuit present (22 public signals)
 
-[2/5] Verifying Circuit Constraints & Reduction Ratios...
-  - Vector commitment (D=    8):     82,712 constraints
-  - Vector commitment (D=  101):    828,050 constraints
-  - Vector commitment (D= 1001):  7,956,190 constraints
-  - Vector commitment (D=10001): 79,002,390 constraints
-  - SHTPC Masked Moment (D=10,001):      5,779 constraints
-  ✓ Standalone constraint reduction ratio: 13670.60× (13,670.60×)
+[2/5] Verifying Aligned Circuit Constraints & Reduction Ratios...
+  - Direct PRG seed expansion (standalone, D=    8):     82,712 constraints
+  - Direct PRG seed expansion (standalone, D=  101):    828,050 constraints
+  - Direct PRG seed expansion (standalone, D= 1001):  7,956,190 constraints
+  - Direct PRG seed expansion (standalone, D=10001): 79,002,390 constraints
+  - SHTPC masked moment (standalone, D=10,001):         5,779 constraints
+  ✓ Standalone reduction (Direct PRG / Masked Moment): 13670.60× (13,670.60×)
+  - Method M complete SHTPC transition (7,548 ADWC + 5,779 binding):  13,327 constraints (25 signals)
+  - Method V complete Poseidon vector transition (Alternative 10001): 851,715 constraints (22 signals)
+  ✓ Complete-circuit constraint ratio (Method V / Method M): 63.91× (63.91×); witness 14/14 & Groth16 3/3 PASS
+  ✓ Standalone Direct PRG vs complete circuits: 5928.00× Method M, 92.76× Method V
 
-[3/5] Verifying Table 6 Same-Input Component Timing (15 pairs)...
-  Family             | SHTPC M (s)  | Vector V (s)   | Speedup   | Status
-  ------------------------------------------------------------------
-  Positive shares    |     3.4542 s |       310.41 s |   89.91× | PASS
-  Zero coordinate    |     3.4473 s |       310.74 s |   89.90× | PASS
-  Boundary elements  |     3.4599 s |       310.93 s |   89.83× | PASS
+[3/5] Verifying Table 5 Same-Input Component Timing (15 pairs, Method M vs Method V)...
+  Input          | Method M (s) | Method V (s) | Paired V/M | RSS M/V (GiB)   | Status
+  ------------------------------------------------------------------------------------
+  Nonzero (pos)  |     3.4542 s |    310.415 s |    89.91× | 0.296 / 13.916 | PASS
+  Zero           |     3.4473 s |    310.741 s |    89.90× | 0.298 / 13.870 | PASS
+  Near cap       |     3.4599 s |    310.925 s |    89.83× | 0.297 / 14.142 | PASS
   ✓ Earlier microbenchmark (different fixtures) paired ratio median: 89.73× (89.73×)
 
-[4/5] Verifying Table 8 End-to-End Lifecycle Pairs (N=100, 5 pairs)...
-  - Full session wall time median: 4351.28 s (~72.52 min)
-  - Trusted (T) session wall time median: 3156.83 s (~52.61 min)
+[4/5] Verifying Table 7 End-to-End Lifecycle Pairs (N=100, 5 pairs)...
+  - Session wall time median:         Full 4351.28 s (72.52 min) | T 3156.83 s (52.61 min)
+  - Eligible window wall time median: Full 548.27 s | T 381.12 s
+  - Collection wall time median:      Full 61.62 s | T 61.56 s
   - Paired T / Full session ratio median: 0.7255 (Full is 1.38× T)
   - Paired T / Full window ratio median:  0.6958 (Full is 1.44× T)
-  ✓ T stage medians: Reg 92.414s, Driver 105.581s, Freeze 41.403s, Collection 61.555s
 
-[5/5] Verifying Four-Corpus Trajectory Feasibility Data...
+[5/5] Verifying Section 5.2 Four-Corpus Trajectory Feasibility Data...
   Dataset    | Legal Days   | Total Days   | Legal Rate | Status
   --------------------------------------------------------
   t-drive    |     12,162   |     29,658   |    41.01%  | PASS
@@ -98,69 +107,48 @@ Upon successful verification, the script will output:
 
 ### Step 1: Package Integrity Verification
 - **Artifact Path**: `manifest.json`
-- **Description**: Contains the SHA-256 digests for all 161 distributed artifact files. `reproduce.py` reads `manifest.json` and asserts that every file is present and unaltered.
+- **Description**: Contains the SHA-256 digests for all 79 distributed artifact files. `reproduce.py` reads `manifest.json` and asserts that every file is present and unaltered.
 
-### Step 2: State Transition Circuit & 25 Public Signals
-- **Paper Reference**: Section 3.3 (Cross-field canonical encoding and transition relation)
-- **Artifact Path**: `circuits/hadwc_transition_v5.circom`
-- **Verification**: `reproduce.py` inspects the transition circuit AST to ensure that all 25 ordered public signals match the formal profile contract:
-  ```circom
-  signal input relation_version;
-  signal input c_a_x; signal input c_a_y;
-  signal input c_r_x; signal input c_r_y;
-  signal input c_prev_x; signal input c_prev_y;
-  signal input c_next_x; signal input c_next_y;
-  signal input c_ticket_x; signal input c_ticket_y;
-  signal input c_receipt_x; signal input c_receipt_y;
-  signal input anchor_prev_x; signal input anchor_prev_y;
-  signal input anchor_next_x; signal input anchor_next_y;
-  signal input key_tag_96;
-  signal input masked_native_index;
-  signal input contribution_bit;
-  signal input rid_128;
-  signal input ctx_limb_hi; signal input ctx_limb_lo;
-  signal input c_k_anchor_x; signal input c_k_anchor_y;
-  ```
+### Step 2: State Transition Circuits (Method M vs. Method V)
+- **Paper Reference**: Section 3.3 (Cross-field canonical encoding and transition relation) and Section 5.3
+- **Artifact Paths**: `circuits/hadwc_transition_v5.circom` (Method M, 13,327 constraints), `circuits/v6_relation.circom`, `circuits/v6_main_10001.circom` (Method V, 851,715 constraints)
+- **Verification**: `reproduce.py` verifies all 25 ordered public signals of SHTPC Method M (`hadwc_transition_v5.circom`) and checks that Method V (`Alternative(10001)`) is present and backed by 14/14 positive/negative witness checks (`evidence/binding/v6_witness_checks_10001.json`) and 3/3 verified Groth16 proofs (`evidence/binding/v6_crypto_events_10001.jsonl`).
 - **Enforced Conditions**:
   - Spatial Grid mapping: $p = \mathsf{Grid}(\mathbf{x}_r)$
   - Speed-tier drift bounding: $\|\mathbf{x}_r - \mathbf{x}_{\rm prev}\|^2 \le \tau_u^2 \Delta t_t^2$
   - Anchor distance cap: $\|\mathbf{x}_r - \mathbf{a}_t\|^2 \le \min\{\tau_u^2 (\Delta T_t^{(K)})^2, c_{\rm policy}^2\}$
   - Cross-field canonical scalar relation: $x + r_A + r_B = T + \chi q$ with $\chi \in \{0, 1, 2\}$
 
-### Step 3: Standalone Constraint Reduction Ratio
-- **Paper Reference**: Section 3.3, Section 5.3, Figure 4
-- **Artifact Path**: `evidence/binding/bins8.json` .. `bins10001.json`
+### Step 3: Constraint Counts & Reduction Ratios (Figure 3 & Section 5.3)
+- **Paper Reference**: Section 1, Section 3.3, Section 5.3, Figure 3
+- **Artifact Paths**: `evidence/binding/bins8.json` .. `bins10001.json`, `evidence/binding/binding-circuit-input.csv`, `evidence/binding/transition_circuits.json`
 - **Verification**:
-  - SHTPC masked-moment circuit: **5,779 constraints**
-  - Direct seed binding circuit ($D=10{,}001$): **79,002,390 constraints**
-  - Constraint reduction ratio: $\frac{79{,}002{,}390}{5{,}779} = \mathbf{13{,}670.60\times}$
+  - Standalone masked-moment module: **5,779 constraints** vs. Direct PRG seed expansion ($D=10{,}001$): **79,002,390 constraints** $\to$ **13,670.60×** (Figure 3).
+  - Complete transition circuit SHTPC Method M: **13,327 constraints** (`7,548` ADWC + `5,779` masked moment) vs. Poseidon vector binding Method V: **851,715 constraints** $\to$ **63.91×**.
 
-### Step 4: Same-Input Prover Speedup (Table 6)
-- **Paper Reference**: Section 5.3, Table 6
-- **Artifact Path**: `evidence/evaluation/binding-derived.json`, `evidence/evaluation/binding-full-table.tex`
+### Step 4: Same-Input Prover Speedup (Table 5)
+- **Paper Reference**: Section 5.3, Table 5
+- **Artifact Paths**: `evidence/evaluation/binding-derived.json`, `evidence/evaluation/binding-full-table.tex`
 - **Verification**:
-  - Recomputes 15 paired proving runs across three share distributions under identical secret-share inputs (`M` = SHTPC masked-moment binding; `V` = constructed Poseidon vector binding):
-    - **Positive shares (`B-pos`)**: SHTPC (`M`) median 3.4542 s vs Vector (`V`) median 310.41 s $\to$ **89.91×** paired median speedup.
-    - **Zero coordinate (`B-zero`)**: SHTPC (`M`) median 3.4473 s vs Vector (`V`) median 310.74 s $\to$ **89.90×** paired median speedup.
-    - **Boundary elements (`B-edge`)**: SHTPC (`M`) median 3.4599 s vs Vector (`V`) median 310.93 s $\to$ **89.83×** paired median speedup.
-  - Prover peak memory: SHTPC (`M`) ~0.30 GiB RSS vs Vector (`V`) baseline ~13.92 GiB RSS.
+  - Recomputes 15 paired proving runs on Xeon Gold 6148 under identical secret-share inputs (`M` = SHTPC 13,327-constraint masked-moment transition; `V` = constructed 851,715-constraint Poseidon vector transition):
+    - **Nonzero (`B-pos`)**: Method M median 3.4542 s vs Method V median 310.415 s $\to$ **89.91×** paired median speedup (`0.296 / 13.916 GiB` RSS; `1.254 / 5.220 s` fresh-process verify).
+    - **Zero (`B-zero`)**: Method M median 3.4473 s vs Method V median 310.741 s $\to$ **89.90×** paired median speedup (`0.298 / 13.870 GiB` RSS; `1.260 / 5.221 s` verify).
+    - **Near cap (`B-edge`)**: Method M median 3.4599 s vs Method V median 310.925 s $\to$ **89.83×** paired median speedup (`0.297 / 14.142 GiB` RSS; `1.257 / 5.200 s` verify).
 
-### Step 5: End-to-End Lifecycle Overhead (Table 8 & Section 5.6)
-- **Paper Reference**: Section 5.6, Table 8
+### Step 5: End-to-End Lifecycle Overhead (Table 7 & Section 5.6)
+- **Paper Reference**: Section 5.6, Table 7
 - **Artifact Path**: `evidence/evaluation/lifecycle-pairs.json`
 - **Verification**:
   - Recomputes 5 paired runs of $N=100$ clients across 600 history-priming steps:
-    - Full SHTPC session median: **4,351.28 s** (~72.52 min)
-    - Trusted generator (T) session median: **3,156.83 s** (~52.61 min)
-    - Paired T / Full session ratio median: **0.7255** (Full session is 1.38× T)
-    - Paired T / Full window ratio median: **0.6958** (Full window is 1.44× T)
-    - T stage medians: Construction & registration 92.41 s, Driver ingestion 105.58 s, Server freeze 41.40 s, Collection 61.56 s.
+    - Full SHTPC session median: **4,351.28 s** (72.52 min) vs Trusted generator (T) session median: **3,156.83 s** (52.61 min); paired T / Full ratio **0.7255** (Full is 1.38× T).
+    - Full SHTPC eligible-window median: **548.27 s** vs T eligible-window median: **381.12 s**; paired T / Full ratio **0.6958** (Full is 1.44× T).
+    - Collection medians: **61.62 s** (Full) vs **61.56 s** (T).
 
-### Step 6: Four-Corpus Trajectory Feasibility
-- **Paper Reference**: Section 5.2, Table 5, Figure 3
-- **Artifact Path**: `evidence/evaluation/four-corpus-pooled.csv`, `evidence/evaluation/reason-counts-by-date.csv`
+### Step 6: Four-Corpus Trajectory Feasibility (Section 5.2)
+- **Paper Reference**: Section 5.2
+- **Artifact Paths**: `evidence/evaluation/four-corpus-pooled.csv`, `evidence/evaluation/reason-counts-by-date.csv`, `evidence/evaluation/roster-summary.csv`
 - **Verification**:
-  - Recomputes legal actor-days and validates that `sum(reason_counts) == denominator` for each observed day:
+  - Recomputes legal observed actor-days and validates that `sum(reason_counts) == denominator` for each observed day:
     - **T-Drive**: 12,162 / 29,658 legal actor-days (41.01%)
     - **Porto**: 116 / 1,200 legal actor-days (9.67%)
     - **GeoLife**: 9 / 85 legal actor-days (10.59%)
@@ -171,7 +159,7 @@ Upon successful verification, the script will output:
 
 ## 5. Security Proofs and Theorem Navigation
 
-All reduction arguments, game definitions, hybrid sequences, and multi-window extensions are stored in `proof/` (with a mirror at `artifact/proof/` to match the exact citation path in Section 8 of the paper).
+All reduction arguments, game definitions, hybrid sequences, and multi-window extensions are stored in `proof/` (with a mirror at `artifact/proof/` to match the exact citation path in the paper's Artifact Availability section).
 
 | Paper Theorem / Lemma | Statement Title in Paper | Artifact Document | Key Sections |
 | :--- | :--- | :--- | :--- |
@@ -198,13 +186,7 @@ Machine-readable budget ledgers:
 .
 ├── README.md                      # This replication guide
 ├── reproduce.py                   # Turnkey verification script (0 external dependencies)
-├── manifest.json                  # SHA-256 integrity manifest for all 161 package files
-├── paper/                         # Anonymized manuscript sources and build environment
-│   ├── submission.pdf             # Compiled 18-page manuscript (IEEE S&P 2027)
-│   ├── submission.tex             # LaTeX source code
-│   ├── reference.bib              # Bibliography database (45 references)
-│   ├── build.sh                   # Compilation script
-│   └── check_submission.py        # Submission page-limit and format gate checker
+├── manifest.json                  # SHA-256 integrity manifest for all 79 package files
 ├── artifact/
 │   └── proof/                     # Path mirror matching paper citation "artifact/proof/"
 ├── proof/                         # Complete formal security proofs and budget ledgers
@@ -221,19 +203,23 @@ Machine-readable budget ledgers:
 │   ├── composition-budget-contract.json
 │   └── extended-setup/            # Extended setup source family & joint extraction
 ├── circuits/                      # Zero-knowledge circuits & verification kernels
-│   ├── hadwc_transition_v5.circom # Fixed transition circuit (25 public signals)
-│   ├── hadwc_common_v5.circom     # Common primitives & range checkers
-│   ├── poseidon4.circom           # Poseidon sponge kernel
+│   ├── hadwc_transition_v5.circom # SHTPC Method M complete transition (13,327 constraints, 25 signals)
+│   ├── hadwc_common_v5.circom     # Common Pedersen & range primitives
+│   ├── v6_relation.circom         # Constructed Poseidon vector-binding alternative (Method V)
+│   ├── v6_main_10001.circom       # Method V instantiation (D=10,001: 851,715 constraints, 22 signals)
+│   ├── v6_main_8.circom           # Method V small-scale instantiation (D=8: 10,530 constraints)
+│   ├── poseidon4.circom           # Poseidon sponge kernels
 │   ├── poseidon16.circom
-│   ├── keccak12.circom            # Keccak comparison kernel
-│   ├── share_row.circom
-│   └── check_r1cs_v2.cpp          # C++ streaming R1CS constraint verifier
+│   ├── keccak12.circom            # Keccak / PRG comparison kernel
+│   ├── share_row.circom           # Per-bin secret-share reconstruction row
+│   ├── check_r1cs_v2.cpp          # C++ streaming R1CS constraint verifier
+│   └── compose_r2.py              # Multi-bin R1CS/witness composer
 ├── model/                         # Formal state machine specification
 │   ├── ClosureState.tla           # TLA+ specification
 │   └── cases.json                 # Model checker configurations
 └── evidence/                      # Numerical records & evaluation data
-    ├── binding/                   # Vector baseline constraint receipts (bins 8..10001)
-    └── evaluation/                # Experimental timing, lifecycle pairs, corpus logs
+    ├── binding/                   # Direct PRG receipts (bins 8..10001), Fig. 3 CSV, & Method V receipts
+    └── evaluation/                # Table 5, Table 7, Section 5.2 corpus screening, & microbenchmarks
 ```
 
 ---
@@ -243,4 +229,4 @@ Machine-readable budget ledgers:
 - **Admitted Claims**: SHTPC security guarantees hold for admitted reports within the dual trust model (honest client origin and non-colluding Aggregators). SHTPC does not establish physical GPS ground truth or defend against Sybil identity generation.
 - **Strict Membership Contract**: Release requires the entire eligible cohort. In accordance with strict privacy guarantees, dropouts trigger durable server redelivery rather than dynamic cohort intersection release.
 - **Differential Privacy**: SHTPC protects protocol views and execution transcripts. Differential privacy applied to released histogram totals is orthogonal and complementary.
-- **Data Protection and Double-Blind Anonymity**: In accordance with user privacy and double-blind review policies, raw user trajectories, private commitment openings, witness caches, and secret keys are excluded. All numerical claims are verified against retained, certified execution records.
+- **Data Protection and Double-Blind Anonymity**: In accordance with user privacy and double-blind review policies, raw user trajectories, private commitment openings, witness caches, and secret keys are excluded. All numerical claims are verified against retained execution records.
