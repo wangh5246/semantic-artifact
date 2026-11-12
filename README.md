@@ -3,7 +3,8 @@
 
 This package contains the code, circuits, formal proofs, formal state models, and machine-readable evaluation evidence for the research paper:
 > **SHTPC: Stateful History-to-Payload Closure for Private Heatmap Aggregation**  
-> IEEE Symposium on Security and Privacy (S&P) 2027
+> IEEE Symposium on Security and Privacy (S&P) 2027  
+> *Package Version: Final S&P 2027 Submission Baseline (November 12, 2026)*
 
 *(Note: Manuscript LaTeX sources and PDFs are maintained separately and omitted from this replication bundle so paper revisions never desynchronize artifact files.)*
 
