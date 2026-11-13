@@ -1,91 +1,91 @@
-# G4b：守卫反例、适用范围与负控制
+# G4b: Guard Counterexamples, Scope Boundaries, and Negative Controls
 
-日期：2026-10-18。所有反例均给出被删除的守卫或被越界推广的命题；不是声称冻结新G4a源码含相应攻击。本轮不改任何运行源、keys、G4a或G5冻结证据。执行命令与实际小模型输出在 sources/refinement [source omitted from this derivative]，精确边界见[05](05-closure-prefix-and-refinement.md)。
+Date: 2026-10-18. Every counterexample explicitly identifies either a removed guard or an over-extended claim; none claims that the frozen G4a source harbors that attack. This round makes no edits to runtime code, keys, or frozen G4a/G5 evidence. Execution commands and concrete small-model outputs reside in `sources/refinement` [source omitted from this derivative]; exact formal boundaries appear in [Document 05](05-closure-prefix-and-refinement.md).
 
-## 1. 等量histogram下，首曝后检查不能挽回隐私
+## 1. Equal Full Histograms Cannot Recover Privacy After First Exposure
 
-令D=10000，完整R有八条eligible记录，两合法世界依次为
+Let `D = 10000`, with complete `R` containing eight eligible records across two admissible worlds:
 
-`H0=(1,2,3,4,5,6,D,D)`，`H1=(2,1,3,4,5,6,D,D)`。
+`H0 = (1, 2, 3, 4, 5, 6, D, D)`, `H1 = (2, 1, 3, 4, 5, 6, D, D)`.
 
-完整histogram相同，公开b=(1,1,1,1,1,1,0,0)相同；每owner可取恒定合法坐标，具有独立合法genesis、相同公开拓扑。若删除“**任何首次share前**完整R reservation”守卫，trace为：lock完整R→只完成/选择R\{第一条}→先发诚实share→腐化role/Collector用对应份额重建子集histogram→最后publication拒绝。H0的该子集缺桶1，H1缺桶2，故区分；最后拒绝不收回泄漏。脚本直接重算两个完整及子集histogram。B_min、最终总和相同或后续abort都不能修复该trace。
+The complete histograms coincide and public `b = (1, 1, 1, 1, 1, 1, 0, 0)` coincides; each owner has constant legal coordinates, independent valid genesis, and identical public topology. Removing the "**complete `R` reservation prior to any first share**" guard permits the trace: lock complete `R` → complete/select only `R \ {first record}` → release honest share first → corrupted role/Collector reconstructs the subset histogram from the released shares → publication check fails last. The subset in `H0` lacks bin 1 while `H1` lacks bin 2, distinguishing the worlds; the trailing rejection never retracts the leakage. The verification script recomputes both full and subset histograms directly. `B_min`, matching final sums, and trailing aborts cannot repair this trace.
 
-正模型要求所有fresh/cache出口同样reserve；把缓存当无须检查会重复出现同trace。部分R在准备阶段留下孤立retained不等同允许导出它。
+The faithful model requires both fresh and cache exit paths to perform the same reservation check; treating cached exports as exempt reproduces the exact same trace. Partial `R` entries leaving orphaned retained outputs during preparation never authorize exporting them.
 
-## 2. 只比eligible、count或RID不够
+## 2. Comparing Only Eligible Sets, Counts, or RIDs Is Insufficient
 
-P={独立warmup w、eligible a、eligible zero z}，R={a,z}。trace：锁P→只commit/apply a,z→A=M=R成立→若省略L=P则导出，w仍未commit，违反完整登记锁合同。w属于另一uid，其未完成不被a/z的历史依赖自动覆盖；不能只挑让fullR恰巧蕴含fullP的fixture说明守卫冗余。
+Let `P = {independent warmup w, eligible a, eligible zero z}` and `R = {a, z}`. Trace: lock `P` → commit/apply only `a, z` → `A = M = R` holds → if `L = P` is omitted before export, `w` remains uncommitted, violating the complete lock-set contract. Because `w` belongs to another `uid`, its omission is not automatically caught by the history dependencies of `a` and `z`; one cannot select fixtures where full `R` happens to imply full `P` and declare the `L = P` guard redundant.
 
-完整记录另含body/statement/context、next/prev/K、owner/window/config等。给相同RID/条数但把body或next commitment换成另一值的映射，RID集合和count仍相等，完整P/L/M关系不同。即使native count+RID checksum一致，也没有证明实际share来自认证body的retained session；必须重新核定完整记录与私有retained link。
+A complete record also carries `body/statement/context`, `next/prev/K`, `owner/window/config`, and related fields. Substituting another map with identical RIDs and cardinality but altered `body` or `next` commitments keeps the RID set and count equal while changing the complete `P/L/M` relation. Even when native `count` plus RID checksum agree, that does not prove the actual share originated from an authenticated body's retained session; full records and private retained links must be re-verified.
 
-zero z是e_D，不能从R或consumed membership删掉；删掉它后应用层可见正histogram可能相同，但完整report_count、R root、资格和原生有效域已改变。warmup APPLIED也不是eligible membership的证据。
+Eligible zero `z` encodes `e_D` and cannot be dropped from `R` or consumed membership; removing it may leave the application-visible positive histogram unchanged while altering full `report_count`, the `R` root, eligibility accounting, and the native valid domain. Warmup marked `APPLIED` is never evidence of eligible membership.
 
-## 3. 真head/K、quota与持久化负例
+## 3. True Head/K, Quota, and Persistence Negative Controls
 
-**兄弟并发。** 同uid原head=h、version=v；候选a,b都引用h。若从事务外检查通过后不做实际head/version CAS，两事务分别追加a和b、各自扣一份quota，形成两个成功后继。若commit了a又abort时回退head/quota，下一窗口可重复花费。正确实现只有一个CAS成功，abort保留prefix。
+**Sibling Concurrency.** Same `uid` with `head = h` and `version = v`; candidates `a` and `b` both reference `h`. If an out-of-transaction check passes and no real `head/version` CAS executes, two transactions independently append `a` and `b` and deduct one quota unit each, creating two valid forks. If committing `a` and aborting rolls back `head/quota`, the next window can double-spend quota. The correct implementation allows at most one CAS to succeed, and aborts preserve committed prefixes.
 
-**替换K。** x坐标历史0..6为 `(0,0,0,0,0,0,3000)`，y恒0，全部步距和真实K约束合法。step7取x=6000：与prev距离平方9,000,000≤144,000,000，但真实K=step1的x=0，距离平方36,000,000>10,890,000。若把proof里的K任意换为x=6000的近点并不核真实history，proof局部anchor检查通过却不是实际ADWC历史；脚本核完前缀与下一步不等式。
+**Substituted `K`.** For steps `0..6`, `x`-coordinates `(0, 0, 0, 0, 0, 0, 3000)` with `y = 0` satisfy every step-size and real-`K` bound. At step 7, pick `x = 6000`: squared distance to `prev` is `9,000,000 ≤ 144,000,000`, whereas true `K` at step 1 is `x = 0` with squared distance `36,000,000 > 10,890,000`. Allowing the proof's `K` to be swapped to a nearby point such as `x = 6000` without verifying against true history passes local anchor constraints while violating real ADWC history; the test script checks both the prefix and step-7 inequality.
 
-**pending不是history。** register(a)→a原生失败未commit→若permit(b)接受pending a作为prev/K→b推进head。此时L包含b但缺依赖a，后继proof的局部关系不能补足真实接纳链。
+**Pending Is Not History.** `register(a)` → `a` fails natively without committing → if `permit(b)` accepts pending `a` as `prev/K` → `b` advances `head`, then `L` contains `b` while missing dependency `a`; local successor proof constraints cannot synthesize an authentic acceptance chain.
 
-**发送先于持久提交。** 计算snapshot→send→crash→事务未commit，恢复无journal/reservation→允许新分支/新payload。接收方已看到旧share，系统却记零暴露。正确顺序是commit→send；反向序列不是“概率很低的网络事故”，而是删除持久化前提的反例。
+**Send Before Durable Commit.** Compute snapshot → send → crash → transaction uncommitted and recovery lacks journal/reservation → new branch or payload allowed. The receiver already observed the old share while the system records zero exposure. Correct ordering is `commit → send`; reversing it is not an "unlikely network race", but a direct counterexample to omitting persistence.
 
-**跨库原子性幻觉。** authority commit与role apply是不同库。authority已commit→发送COMMIT网络丢失→role尚未apply是合法中间态；若凭authority已commit直接导出，M≠R。幂等恢复必须补投已存CommitCert，role在自身事务apply一次。不能用“outbox一定与所有role原子提交”作不存在的前提。
+**Cross-Database Atomicity Illusion.** Authority commit and role apply live in separate databases. Authority committed → network `COMMIT` message lost → role not yet applied is a legal intermediate state; exporting solely because authority committed violates `M = R`. Idempotent recovery must redeliver the stored `CommitCert` so the role applies once inside its own transaction. One may not assume an outbox that atomically commits across all role databases.
 
-## 4. 唯一journal、重放与暴露单调
+## 4. Unique Journal, Replay, and Exposure Monotonicity
 
-对Helper，删除同report/job/protected-step输入绑定可使：首次peer x提交response v；敌手改为x'再提交response v'。这不是exact retry，保存旧success却忽略请求变化也错误地把x'路由为x；正确Helper公开冲突，换job由report tombstone拦截。Leader使用不同机制：若删除同事务的lease expiry/token fence，旧worker与新worker可从同一旧state计算后各写不同transition，后写覆盖先写的已提交native状态/retained；正确实现使失去lease的整次写入回滚。
+On the Helper, dropping `(report, job, protected-step)` input binding allows: first peer request `x` yielding response `v`, followed by adversarial request `x'` yielding `v'`. That is not an exact retry; preserving old `success` while ignoring changed inputs would erroneously route `x'` to `x`. A correct Helper signals conflict publicly, while switching jobs is blocked by the report tombstone. The Leader uses a different mechanism: dropping the in-transaction lease expiry/token fence allows an old worker and a new worker to compute distinct transitions from the same stale state and overwrite committed native state/retained entries. Correct code aborts any transaction whose lease expired.
 
-Leader提交前收到不同Helper回复而重算并非这个反例，也没有被声称全都公开冲突；固定原share、nonce/query/joint coins及已提交state的多次谓词可由03同一`Σ,z_h`精确模拟，全部物理调用计预算。小模型的no-journal事件只表示**第二个已提交分支**，不是检验提交前CPU只运行一次。
+Leader uncommitted recomputation receiving different Helper responses is not that counterexample, nor is it claimed to always raise a public conflict prior to computation: repeated predicates under pinned share, nonce/query/joint coins, and committed state are simulated faithfully via the same `Σ, z_h` of Document 03, with every physical call charged to the budget. The small model's `no-journal` event represents a **second committed branch**, not a claim that pre-commit CPU instructions execute only once.
 
-若删除apply幂等：commit→merge share once→reply lost→同CommitCert retry→第二次merge，count/histogram加倍。不能因为membership表的 `ON CONFLICT DO NOTHING` 便忽略此前已重复执行的batch加法；正确代码在merge之前查exact旧commit，并把merge/status/member/commit同事务提交。
+Dropping apply idempotence permits: `commit → merge share once → reply lost → retry with identical CommitCert → merge second time`, doubling counts and histogram entries. `ON CONFLICT DO NOTHING` on a membership table does not undo a prior repeated batch addition; correct code checks for the exact prior commit before merging and commits merge/status/membership/commit atomically.
 
-若删除payload唯一性：同E先发Z，重试计算Z'仍引用E，snapshot identity相同却增加一次数值查询。只缓存随机snapshot_id不能证明plaintext相同。若snapshot不耐crash，send后重启能忘掉它；若collect失败把暴露清零，再换R'则产生二次查询。`EXPOSURE_UNKNOWN_COLLECTION_FAILED`不能当作PRE，send intent可保守高估，不能假造实际已交付确认。
+Dropping payload uniqueness allows: first sending `Z` for `E`, then recomputing `Z'` still referencing `E`, preserving `snapshot_id` while yielding a second numeric query. Caching only a random `snapshot_id` proves nothing about plaintext equality. If the snapshot lacks crash durability, restarting after send forgets it; if collection failure resets exposure to zero, re-targeting `R'` triggers a second query. `EXPOSURE_UNKNOWN_COLLECTION_FAILED` cannot be treated as `PRE`; conservative send intent may overestimate exposure, never fabricate confirmed delivery.
 
-## 5. Moment有效域和恶意role完整性越界
+## 5. Moment Valid Domain and Malicious-Role Integrity Boundary
 
-一般向量中 `F(e_0+e_2)=F(2e_1)=2`，两者向量总和亦都为2；moment不是通用向量承诺。零向量和e_0同moment0；SumVec多1并非Histogram合法一热。只有逐报告重建保证e_y、0≤y≤D<q时，F(e_y)=y才单射。扩大桶到q还会使e_0与e_q模q相同。
+For general vectors, `F(e_0 + e_2) = F(2e_1) = 2` with equal vector sums of 2; moments are not general vector commitments. Both the zero vector and `e_0` have moment `0`; `SumVec` multi-1 vectors violate Histogram one-hotness. Only per-report native reconstruction guaranteeing `e_y` with `0 ≤ y ≤ D < q` makes `F(e_y) = y` injective. Expanding bins to `q` would collide `e_0` and `e_q` mod `q`.
 
-声明bucket23而实际valid native bucket107；恶意role自持签名key，可在看到诚实receipt m_h后选择 `m'_c=T−m_h`，所以authority equation通过，实际reconstruction仍可能e_107。脚本给T=1023、m_h=700、m'_c=323的具体field算术。合法签名只说明该role说过这个值，不能证明它诚实从原output算出；C要求两个正确roles，P允许该行为且只保证隐私/诚实share集合界。
+A claimed bucket `23` with valid native bucket `107` lets a malicious role holding its own signing key observe honest receipt `m_h` and forge `m'_c = T − m_h`, passing the authority moment check while reconstructing `e_107`. The script demonstrates concrete field arithmetic with `T = 1023`, `m_h = 700`, and `m'_c = 323`. A valid signature proves only what the role asserted, not honest computation from native outputs; Experiment `C` requires two honest roles, whereas `P` allows active malicious behavior and bounds only privacy and the honest share set.
 
-在P/P+A混合R里，非H malicious-owner记录也可能被主动peer帮助通过native preparation，实际output不是声明e_x。若错误用 `O_C−Σ_R v_c^orig` 合成honest aggregate，就偷用了C完整性。正确式为05§6的H/non-H分解；non-H实际honest output由合法解密和真实算法已知，而非想当然一热。
+In mixed `R` under `P`/`P+A`, a non-`H` malicious-owner record can still complete native preparation with the active peer so that its actual output differs from its claimed `e_x`. Computing the honest aggregate naively as `O_C − Σ_R v_c^orig` illicitly imports `C`-level integrity. The correct identity is the `H` / non-`H` decomposition in Document 05 Section 6, where actual non-`H` honest outputs `w_(h,j)` are determined by legal decryption and real execution rather than assumed one-hot.
 
-另一种不能暗中扩大的是C对手知道native verification key。它可对自选RID先算query r，再选择在这个r满足的伪造proof。具体对非法全零Histogram，sum-check S=−1；令声称的gadget多项式P恒为k=b/101，则第一项 `b·101k−b²=0`。对任意非root r，seed节点的Lagrange系数λ_0(r)非零，恶意prover可反求200个seed值，使query的wire求值为 `(1,k,0,…,0)`，从而gadget检查也等于P(r)。P虽未诚实表示真实range计算，单个已知r的核验仍通过。标准C要求随机key对客户端隐藏；P腐化role知key而不承诺完整性，二者不矛盾。F17小模型 [source omitted from this derivative] 给出calls=2的实际λ/seed/非法输入验证等式；没有运行新native攻击。
+Another illicit extension is letting a `C` adversary know the native verification key. It can compute `r` ahead of time for a chosen `RID` and craft a forged proof tailored to `r`. Specifically, for the invalid all-zero Histogram, sum-check `S = −1`; setting claimed gadget polynomial `P ≡ k = b/101` makes the first check `b·101k − b² = 0`. For any non-root `r`, the seed node's Lagrange coefficient `λ_0(r)` is nonzero, so a malicious prover solves backward over the 200 seed values to make the queried wires evaluate to `(1, k, 0, ..., 0)`, passing `P(r)` as well. `P` fails to represent valid range evaluation yet passes verification at that known `r`. Standard `C` requires keeping the random verification key hidden from clients; `P` lets the corrupted role know the key without guaranteeing integrity, with no contradiction. Small model F17 [source omitted from this derivative] exhibits exact `λ`/seed/invalid-input equations at `calls = 2`; no new native attack was executed against the deployed stack.
 
-## 6. Weak-SE、origin和HPKE禁查询
+## 6. Weak-SE, Origin, and Forbidden HPKE Queries
 
-weak白盒SE只对不是模拟查询的**新statement**提取。若给自持key的恶意owner一个未知witness statement的模拟proof，它可重随机后自己签新BODY；签名合法，也无须触发新statement提取。满域Pedersen opening“存在”不代表能算出。脚本仅用F_101中的配对指数方程检查公开重随机恒等式，false relation `w²=2` 无witness；这是说明接口逻辑的toy，不是现实Groth16 forge。
+Weak white-box SE extracts only on **fresh statements** absent from simulation queries. Handing a malicious-key owner a simulated proof for a witnessless statement permits re-randomizing and self-signing a new `BODY`; the signature is valid and no extraction of the old statement is triggered. Existence of a full-domain Pedersen opening does not imply efficient extraction. The toy check tests public re-randomization in `F_101` pairings where false relation `w² = 2` has no witness; it illustrates interface logic rather than a real Groth16 forge.
 
-新实例使用H（honest模拟来源）/W（先验已知witness）/E（新statement提取）区别。修改owner/uid/native package又想保持H exact statement会触发context/package hash绑定；保持honest身份但改proof/BODY需新honest签名。恶意owner自己的签名从不计为伪造。
+This instance separates `H` (honest simulated source), `W` (a priori known witness), and `E` (fresh extracted statement). Changing owner/`uid`/native package while keeping an `H` exact statement triggers context/package hash binding; keeping an honest identity while modifying proof/`BODY` requires a new honest signature. A malicious owner signing its own key never counts as forgery.
 
-HPKE解密挑战标记是 `(actual key,suite,info,AAD,enc,payload)`，不是短config id。若允许复用同挑战tuple到另一个恶意body、并让模拟器查询解密oracle，归约无效。真实native/sidecar AAD都含RID，honest OriginCert在packet公开前已经唯一占RID；另一owner不能取得同RID origin，冒用honest身份计认证坏事件。改RID/AAD则是合法不同tuple，必须用CCA oracle真实plaintext/bottom处理，不能凭“ciphertext看起来旧”一律拒绝。提取STATE/MASK witness也不代表native plaintext已知。
+HPKE decryption challenge tags are `(actual key, suite, info, AAD, enc, payload)`, not short config IDs. Reusing an identical challenge tuple inside another malicious body and feeding it to the decryption oracle invalidates the reduction. Real native and sidecar `AAD` both embed `RID`, and honest `OriginCert` uniquely reserves `RID` before packet publication; another owner cannot claim the same `RID`, and impersonating an honest owner triggers an authentication bad event. Altering `RID`/`AAD` produces a legitimate distinct CCA tuple handled by real plaintext/bottom decryption rather than blindly rejecting "stale-looking ciphertexts". Extracting STATE/MASK witnesses never yields native cipher plaintexts.
 
-### 6.1 相关CRS与输入群域不能靠名称继承
+### 6.1 Related CRSs and Input Group Domains Cannot Rely on Naming Alone
 
-额外公开目标relation的public `q_i/Delta` 查询时，同一A/B、任意新public statement phi'可取 `C'=C+Σ_public(phi_i−phi'_i)[q_i/Delta]_1`，保持验证方程。这些点的degree很低，因此仅检查degree上界不能代替提取的source基底条件。[02](02-groth16-extraction-and-budget.md)给出无private输入的 `x·1=0` 真/假statement toy及实际公开家族枚举：历史独立genesis final key是第三delta，不能漏计；公开copies/旧initial前缀则不应虚构为新的独立setup。单独新增alpha_G2本身不是forge，02对称方向II仍能提取。generic模型也没有自动变成原BKSV的AGM或现实任意曲线算法定理。
+Exposing extra public `q_i/Delta` queries for a target relation allows taking `C' = C + Σ_public(phi_i − phi'_i)[q_i/Delta]_1` with unchanged `A, B` to transfer a proof to arbitrary `phi'` while preserving verification. Those points have low degree, so checking degree caps alone never substitutes for source-basis verification. [Document 02](02-groth16-extraction-and-budget.md) gives a zero-private-input `x·1 = 0` true/false statement toy and enumerates real public families: the historical independent genesis final key contributes a third delta and must be counted, whereas duplicate public files and stale initial prefixes must not be double-counted as fresh independent setups. Adding pure `alpha_G2` alone does not forge, as Symmetric Branch II in Document 02 still extracts. Nor does the generic model automatically equate to original BKSV's AGM or arbitrary concrete curve arithmetic.
 
-旧ffjavascript `G2.isValid`只检查on-curve；保留的公开投影诊断 [source omitted from this derivative]有on-curve非素子群Q，`[r]pi(Q)=0`、T=Q−pi(Q)非零且cofactor倍为0，但实际optimal-ate `e(g,Q)≠e(g,pi(Q))`、`e(g,T)≠1`。它否定任意输入的简单prime投影等价路线，没有给出满足完整Groth16方程的非法proof，不能写成已forge。新verifier在pairing前对A/B/C用完整整数 `[r]P=O` 收窄accepted域；若错误用先模r的timesFr，这项检查会恒为乘零，不能证明membership。
+Legacy ffjavascript `G2.isValid` checked only curve membership; a retained public projection diagnostic [source omitted from this derivative] constructs an on-curve non-prime-order `Q` with `[r]pi(Q) = 0` and nonzero `T = Q − pi(Q)` annihilated by the cofactor, where optimal-ate pairing still gives `e(g, Q) ≠ e(g, pi(Q))` and `e(g, T) ≠ 1`. This refutes naive prime-projection equivalence on arbitrary inputs, without exhibiting a valid Groth16 proof, and must not be reported as a Groth16 forge. The updated verifier enforces full integer `[r]P = O` prior to pairing on `A/B/C`; mistakenly reducing modulo `r` first (`timesFr`) would identically return zero and fail to check subgroup membership.
 
-## 7. Context绑定：编码单射与哈希碰撞分别计算
+## 7. Context Binding: Encoding Injectivity vs. Hash Collisions
 
-完整SHA256 digest被拆为 `(hi128,lo128)`，每limb小于SNARK p，且 `digest=(hi<<128)|lo` 精确恢复。相同limbs因此必为同256bit digest；这里没有两个独立128bit hash，也没有额外mod p别名。字段/record的长度前缀、type tags、canonical整数、strict JSON键集合及顺序消除确定性编码歧义；如去掉长度前缀，`(ab,c)`与`(a,bc)`拼接相同，这属于codec缺陷而非SHA碰撞。
+The full SHA-256 digest is split into `(hi128, lo128)`, each `< 2^128 < p`, so `digest = (hi << 128) | lo` reconstructs uniquely. Matching limbs therefore imply identical 256-bit digests; there are neither two independent 128-bit hashes nor field-reduction aliases. Field/record length prefixes, type tags, canonical integers, and strict JSON key sets/ordering rule out deterministic encoding ambiguity; dropping length prefixes collapses `(ab, c)` and `(a, bc)` as a codec defect rather than a SHA collision.
 
-preimage不同且digest相同才进入SHA碰撞事件。BODY、package、context、record/P/R roots、request、journal、签名message等由同一SHA primitive组成，使用一个总查询/消息对预算或明确分项并集；domain分离不意味着独立primitive。禁止把一项循环依赖用“hash安全”跳过：context排除proof与自身limbs，包含所有其他signals及package身份，BODY另绑定proof及origin/packet，LockCert不塞回它所签body形成环。
+Distinct preimages yielding identical digests enter the single SHA-256 collision event. `BODY`, packages, contexts, record/`P`/`R` roots, requests, journals, and signing messages all share one SHA-256 primitive with a unified query/byte budget; domain separation does not manufacture independent primitives. Circular arguments disguised as "hash security" are forbidden: `context` excludes the proof and its own limbs while hashing all other public signals and package IDs; `BODY` binds the proof and origin/packet; `LockCert` never feeds back into the bodies it signs.
 
-固定96bit verification-key tag的编码属于ticket message，在当前事前固定task/key/config内；它不是对任意跨key选择、rotation或跨task复用的96bit唯一性证明。实际tag为`SHA256(verify_key)[:12]`，同时是secret key的相关泄漏，不能因为key本身未发送便直接套128bit key猜测。只知tag输出≤2^96种时，任意Q次猜测的无结构上界为`min(1,2^96 Q/2^128)`：对每种tag固定同一敌手/外部coins，各有至多Q个猜测key，再对tag分支并集。反例函数tag=key首96bits恰有32bit剩余支持；这说明SHA-CR不能自动认证隐藏key熵，不是声称已对实际SHA前缀实现32bit成本攻击。03/07明确放大C的keyguess项，并单独给新增普通SHA OW128假设下的更强corollary；不把CR当OW，也不把纯信息弱界写成实际攻击。P猜未公开nonce的空间不因此改变。opaque retained/snapshot tags必须连同body/session/context使用，不能单凭随机tag相等推出output相同或默认为全球唯一。
+The fixed 96-bit verification-key tag binds the ticket within the pre-fixed `(task, key, config)`; it does not claim 96-bit cross-key collision safety under key rotation or multi-task reuse. Because the tag is literally `SHA256(verify_key)[:12]`, it leaks correlated information about `verify_key`, invalidating naive 128-bit key-guessing bounds when `K` is withheld. Observing only a `≤ 2^96`-valued tag yields an unstructured `Q`-query guessing bound of `min(1, 2^96 Q / 2^128)`: for each tag realization, fixing external coins gives at most `Q` candidate keys per fiber, then summing over fibers. A toy counterexample `tag = K[:96]` leaves exactly 32 residual entropy bits; this demonstrates why SHA-CR alone cannot certify hidden key entropy, not a 32-bit attack on truncated SHA-256. Documents 03 and 07 explicitly adjust `C`'s key-guess term and provide a tighter corollary under standard SHA `OW128`, without conflating CR with OW or misstating information-theoretic bounds as concrete attacks. Privacy `P`'s unannounced-nonce space is unaffected. Opaque retained/snapshot tags must always be paired with body/session/context; matching random tags alone never proves equal outputs or global uniqueness.
 
-## 8. 执行时间/存储模型的负边界
+## 8. Execution Timing and Storage Model Negative Boundaries
 
-Prio rejection loop确实可变，但真RO候选流的拒绝计数K与最终canonical field值Y精确独立，联合概率 `ρ^k/2^128=Pr[K=k]/q`；同seed/offset需保留同原始候选流。若为每次exact retry重新抽K，相关trace分布错误；若把所有拒绝事件丢为可忽略，预算也可能不正确。真实count不是额外metadata，必须在同native混合中构造。
+Although the Prio rejection loop is variable-time, the true-RO stream's rejection count `K` and canonical field value `Y` are strictly independent with joint probability `ρ^k / 2^128 = Pr[K = k] / q`; retries reuse the same `(seed, offset)` stream. Resampling `K` per exact retry mis-models the trace distribution, while dismissing all rejections as negligible mis-accounts the budget. Rejection counts are not auxiliary metadata and must be co-generated inside the native hybrid.
 
-旧secret-bit scalar/inverse、decide前缀早退、TOAST压缩、secret hex/JSON或status整载荷decode都不能直接叫“OS噪声”。这些发现与实际003修复已在冻结G4a08保留。本轮适用的是标准fixed-primitive instruction/address/IO模型、具体debug不变量、9列EXTERNAL+WALoff/无传输压缩、raw固定BYTEA/EXISTS。它不自动推广到任意ISA、编译器、power/EM、共驻窥探或值相关硬件时长。
+Prior findings on secret-bit scalars/inverses, early-exit decide prefixes, TOAST compression, secret hex/JSON decoding, and full-payload status checks cannot be dismissed as "OS noise"; their concrete G4a08 fixes remain pinned. This model covers standard fixed-primitive instruction/address/IO traces, audited debug invariants, 9-column `EXTERNAL + WAL off` storage without transport compression, raw fixed-length `BYTEA`, and SQL `EXISTS` checks. It does not automatically extend to arbitrary ISAs, unverified compilers, power/EM emanations, co-resident cache snooping, or data-dependent hardware instruction timing.
 
-client opening decimal parser/prover只在可信input-ready之前本地执行；线上mask/rho为16/32B，sidecar plaintext93B。若实际部署计算完即发送而暴露client生成时间，不能把它追加进公开metadata宣称本证明覆盖；即时发送的功能harness不提供client timing安全证据。
+The client's opening decimal parser and prover execute locally before `input-ready`; online `mask/rho` plaintexts are fixed 16/32 B inside 93 B sidecar plaintexts. Any deployment transmitting immediately upon local completion exposes local proving time and cannot fold it into public metadata as covered by this proof.
 
-## 9. 可复现负控制、G5与状态含义
+## 9. Reproducible Negative Controls, G5, and Claim Status
 
-执行 `python3 -B sources/refinement/check_refinement.py --output-directory sources/refinement/check-005`（以本目录为cwd）。输出固定脚本SHA和52个source ranges；冻结build003全部288源码匹配。Python正图840状态/2652边穷尽，8个mutant分别违反lock-before-prepare、complete-snapshot、persist-before-send（未bind和crash丢snapshot两个）、unique-protected-branch、exactly-once-apply、exposure-monotone、abort-preserves-prefix，均保留完整最短event/state trace。check001–004的输出和旧脚本保留，不将新语义说明追写旧结果。
+Running `python3 -B sources/refinement/check_refinement.py --output-directory sources/refinement/check-005` [paths omitted from this derivative] fixes script SHA hashes and 52 source ranges matching all 288 frozen `build003` pins. The positive Python model exhausts 840 states and 2,652 edges, while 8 mutants individually break `lock-before-prepare`, `complete-snapshot`, `persist-before-send` (both unbound and crash-loss variants), `unique-protected-branch`, `exactly-once-apply`, `exposure-monotone`, and `abort-preserves-prefix`, preserving shortest counterexample traces. Outputs from `check001–004` stay untouched rather than retroactively overwritten.
 
-这些是预先指定删除守卫的敏感性控制，出现反例是控制成功，不是新源漏洞。数学histogram/K/moment/context/weakSE检查只验证具体等式，不能测试密码学安全或以有限遍历替代05的任意prefix证明。正图模型不含完整真实history、proof、实际数据库或网络，未声称自动建立实现精化。
+These negative controls confirm sensitivity to guard removal rather than reporting live bugs in the hardened source. Finite checks on histograms, `K`, moments, contexts, and weak-SE verify arithmetic identities; finite traversal does not substitute for Document 05's unbounded-prefix induction or cryptographic assumptions. The Python graph abstracts away real proofs, histories, databases, and networks and does not claim automated implementation refinement.
 
-G5 E5/1及其35例是独立有限旁证：变量需按05翻译，flag/captured-slot抽象必须说明；没有直接导入其PASS作为新g4a-source无界证明，也未执行G5 native crash/race或故障扩展。旧G3历史结果仅按原source/run生效。本轮G4b结论以其最终精确document/source/artifact清单及独立review为准，不通过更名或删反例追认旧证据。
+G5 E5/1 and its 35 tests serve as bounded corroboration: variables translate per Document 05 with explicit abstraction notes for `flag`/`captured-slot`, finite tests do not substitute for unbounded refinement of the updated runtime, and G5 native crash/race extensions remain unexecuted. Historical G3 runs hold only on their original sources/runs. Final G4b status rests solely on the signed document/source/artifact inventory and independent review, never on renaming or deleting negative controls to retroactively validate stale evidence.

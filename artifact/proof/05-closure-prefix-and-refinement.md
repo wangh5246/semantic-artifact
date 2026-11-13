@@ -1,185 +1,181 @@
-# G4b：声明闭合、全前缀与实际源码的精化对应
+# G4b: Statement Closure, All-Prefix Invariants, and Source-Level Refinement
 
-日期：2026-10-18。对象为冻结的 `SHTPC-native-hidden-adwc-strict/v5` G4a 加固实例，实际源码仍是 `authority_v5_g4a`、`janus-v5-g4a`；本轮不改源码、资产、G4a证明或历史证据。本文给出参数化状态机归纳、逐操作的手工前向精化和源码对应；有限脚本只核对对应路径、哈希和小模型，不是自动验证编译器或完整G5。
+Date: 2026-10-18. Target: the frozen `SHTPC-native-hidden-adwc-strict/v5` G4a hardened instance (`authority_v5_g4a`, `janus-v5-g4a`); no source files, assets, G4a proofs, or historical evidence are altered. This document establishes parameterized state-machine induction, operation-by-operation forward refinement, and concrete source correspondence; bounded scripts verify paths, hashes, and small models only, without substituting for formal verification of compilers or the full G5 campaign.
 
-## 1. 定理对象、参数与执行前提
+## 1. Target Instance, Parameters, and Execution Premises
 
-固定task、事前生成的verification key、profile/config/asset身份、TimeInterval、NoDifferentialPrivacy、两方单proof的 `Prio3Histogram(10001,100)`，native field为q。按task唯一dispatch pin，本实例至多一个visible cohort。其他窗口可以构成声明历史，不能据此主张它们也能发布。G4a的模型 [source omitted from this derivative]、04 [source omitted from this derivative]、05 [source omitted from this derivative]、执行层 [source omitted from this derivative]和组合 [source omitted from this derivative]为冻结实例入口。
+Pinned task, pre-generated verification key, profile/config/asset identities, `TimeInterval`, `NoDifferentialPrivacy`, and two-party single-proof `Prio3Histogram(10001, 100)` over native field `q`. By pinned per-task unique dispatch, this instance admits at most one visible cohort (other windows may form declared histories without authorizing separate releases). Entry documents for the frozen instance are G4a model [source omitted from this derivative], 04 [source omitted from this derivative], 05 [source omitted from this derivative], execution layer [source omitted from this derivative], and composition [source omitted from this derivative].
 
-完整性实验C要求authority、两roles、Finalizer/Decoder正确，原生verification key在正确setup中随机采样且对恶意客户端隐藏。隐私实验P/P+A允许一role主动恶意并知道该原生key，仍要求诚实role的本地集合、留存和发出路径遵守本文；不能把C中两role正确且query不可预知的native validity或moment结论转移为P中的恶意输出正确性。authority单独实验A没有aggregate oracle。
+Integrity experiment `C` requires honest authority, both roles, Finalizer, and Decoder, with the native verification key sampled randomly at setup and hidden from malicious clients. Privacy experiments `P`/`P+A` allow one role to be actively malicious and know that native key while requiring honest-role collection, retention, and dispatch paths to obey this document; two-honest-role integrity and secret-query bounds from `C` never transfer to malicious-role outputs in `P`. Standalone authority experiment `A` has no aggregate oracle.
 
-执行前提是：诚实完整SignedBody在既有登记边界前经独立认证保密路径持久交付；client在input-ready之前完成witness/prove并按预定计划投递；正确持久存储和数据库原子提交/恢复；不回滚已提交状态，不泄漏诚实密钥。消息延迟、丢失、重复、进程crash可以任意发生。这里没有假定所有业务终会成功，没有将真实时间、timeout或秘密verdict加入metadata。
+Execution premises require: complete honest `SignedBody` delivered prior to the registration boundary over an independent authenticated confidential channel; client witness/proving completed prior to `input-ready` and delivered on schedule; honest durable storage and atomic DB commits/recovery without rolling back committed states; and no compromise of honest keys. Arbitrary message delays, drops, duplicates, and process crashes are permitted, without assuming eventual business completion or injecting real time, timeouts, or secret verdicts into metadata.
 
-PostgreSQL源码实际用 `REPEATABLE READ`，不是全库SERIALIZABLE。下文只对相关操作证明所需的线性化/单调读性质。所谓正确数据库不包括“忽略冲突照常提交”或损坏已保留字段；这些是执行前提，不是可忽略坏事件。
+PostgreSQL runs at `REPEATABLE READ` rather than global `SERIALIZABLE`; below we prove only the specific linearization and monotonic-read properties required per operation. Honest databases never commit silently across ignored conflicts or corrupt persisted fields; those remain execution premises rather than negligible bad events.
 
-## 2. 抽象状态及精化关系
+## 2. Abstract State and Refinement Mapping
 
-对每个窗口，P为锁定的完整 `LockedRecord` 有序映射，R=eligible(P)，L为authority真实commit记录映射，A=eligible(L)。对role s，L_s为本地已经接受的同一CommitCert记录，M_s为实际并入native batch的eligible记录映射。不能把锁P、实际L、eligible A、实际M的集合身份混用。
+Per window, `P` is the locked ordered map of complete `LockedRecord`s, `R = eligible(P)`, `L` is the authority's committed map, and `A = eligible(L)`. For role `s`, `L_s` holds locally accepted records sharing the same `CommitCert`, and `M_s` holds eligible records actually merged into the native batch. Identities across `P`, `L`, `A`, and `M` are never conflated.
 
-状态还含：每uid实际head/version/history、每uid/window quota、Origin表、不可变body/slot/RID、install/permit、受保护输入身份与journal、retained output、outbox、freeze/abort、reservation E_s、唯一payload Z_s和暴露账本X。retained的联系为
+State further includes per-`uid` authentic `head/version/history`, per-`(uid, window)` `quota`, `Origin` table, immutable `body/slot/RID`, `install/permit`, protected input identity and journals, retained outputs, outbox, freeze/abort, reservations `E_s`, unique payloads `Z_s`, and exposure ledger `X`. Retained linkage maps:
 
-`(task,profile,config,body,RID,job,protected-step,request-hash,aggregation-param,role) → typed output + opaque retained tag`。
+`(task, profile, config, body, RID, job, protected-step, request-hash, aggregation-param, role) → typed output + opaque retained tag`.
 
-完整锁记录不含未来尚未产生的session/output。后者由receipt、CommitCert、本地retained和reservation附加绑定，不能在锁后偷偷修改P。M中的每条记录必须带这条实际关联；只比较RID/count/checksum不能代替记录相等。
+Locked records contain no future uncreated sessions/outputs, which attach afterward via receipts, `CommitCert`, local retained state, and reservations without mutating `P`. Every `M_s` element carries this full link; RID/count/checksum equality alone never certifies record equality.
 
-前向关系α把SQLite/Pg**已提交**行投影到上述状态。authority `bodies.committed/commits/history/quota/identities`决定L/head；role `commit/head/history`决定L_s；eligible retained APPLIED加consumed membership及实际batch决定M_s；warmup虽可被标APPLIED，仍不加入M。未提交事务、线程栈、等待锁、network buffering不直接增加这些集合。journal/immutable bytes的读取是stutter，获准第一次写是相应抽象事件。
+The abstraction function `α` projects **committed** SQLite/PostgreSQL rows to abstract state: authority `bodies.committed/commits/history/quota/identities` yields `L`/`head`; role `commit/head/history` yields `L_s`; eligible retained `APPLIED` plus consumed membership and batch totals yield `M_s` (`warmup` may reach `APPLIED` without entering `M`). Uncommitted transactions, thread stacks, lock waits, and network buffers do not advance these sets; reading journals/immutable bytes is a stutter step, while authorized first writes trigger abstract transitions.
 
-X记录已发生的语义暴露，首次诚实share离开受信role交给具有解密能力的接收方时追加。实现可能只记录保守的send intent：这允许误报“可能已暴露”，不能漏报或用未知状态证明零暴露。reservation持久而尚未发送不必等同实际交付；理想证明允许在准备首次发送时提前取得一次相同R的输出，未使用的查询不交给敌手，不能借此查询其他集合。
+`X` logs semantic exposure, appending upon the first transmission of a decryptable honest share toward a recipient with decryption capability. Implementations may log conservative send intent — over-reporting potential exposure is permitted, whereas under-reporting or claiming zero exposure under unknown status is barred. Persistent reservation prior to actual transmission is not identical to physical delivery: ideal proofs allow pre-fetching the identical `R` output once when preparing first send, hiding unused pre-fetches from the adversary without querying other cohorts.
 
-## 3. 线性化与crash边界
+## 3. Linearization Points and Crash Boundaries
 
-| 操作族 | 线性化点及实际机制 | 可见返回之前的义务 |
+| Operation Family | Linearization Point & Mechanism | Obligations Before Visible Return |
 | --- | --- | --- |
-| authority origin/register/lock/permit/receipt/freeze/abort | `service._transaction`的SQLite COMMIT；`guard`加 `BEGIN IMMEDIATE`串行写 | result只在COMMIT成功后返回；异常ROLLBACK。proof verification可在最终register事务外，但attempt先持久预留，最终事务重验slot/origin/lock不可变条件 |
-| authority→role发送 | `_proxy_queue`提交exact request，`_proxy_deliver`提交attempt后才网络发送；回复、ack是后续事务 | authority commit与两role apply不构成跨库原子事务；commit证书持久可恢复，驱动器从commit表重新补投。不能假称所有outbox行与authority commit同一事务写成 |
-| role control与Helper init/continue | `Datastore::run_tx`最终Pg commit；control advisory lock与prepare lock按固定顺序，共享 `prepare_serialization` epoch写 | REPEATABLE READ等待者的旧snapshot在epoch冲突处重试，发生在authorization/私密prepare之前；journal、native状态、retained和响应同事务。失败尝试不能将临时response发送 |
-| Leader native任务 | unit aggregation parameter下，report的`aggregation_started`置位、job/report-state创建和原report scrub同事务；每步读取已提交state后可在事务外计算 | `step_aggregation_job_2`把writer/retained写入与`release_aggregation_job`同事务提交；后者按lease expiry/token匹配，失去lease的结果使全事务失败，不能覆盖新的已提交分支 |
-| role apply | control/epoch事务内merge batch、consumed membership、head/quota/history、retained/body状态及commit行一并提交 | commit已存在则exact证书返回缓存；不同证书拒绝；并入一次，不以网络ack作为第二次merge条件 |
-| role reserve/bind | control锁内检查完整P/R/retained/M并唯一写reservation；bind再次reserve、写固定160016B BYTEA并全长CT比较，所在Pg commit后才返回 | Helper fresh/cache与Leader finished/cache各在HPKE前await bind事务；Leader在请求Helper前也先完整reserve |
-| freeze/abort/失败结果 | authority freeze在完整L=P且无active permit时提交；role按真实本地L/M检查；abort不删已commit行 | FREEZE不可与同锁新的合法ABORT/commit并存；`proxy_abort`未知状态标UNKNOWN，曾可能发送则永久保持exposed类别 |
+| authority origin / register / lock / permit / receipt / freeze / abort | `service._transaction` SQLite `COMMIT`; `guard` uses `BEGIN IMMEDIATE` serialized writes | Return only after `COMMIT`; exceptions `ROLLBACK`. Proof verification may run outside final register tx, yet pre-reserves attempts persistently and final tx re-validates immutable slot/origin/lock invariants |
+| authority → role dispatch | `_proxy_queue` commits exact request; `_proxy_deliver` commits attempt prior to wire send; replies/acks follow in separate tx | Authority commit and two-role apply do not span distributed XA; `CommitCert` persists recoverably and drivers redeliver from commit tables rather than assuming cross-DB atomic outboxes |
+| role control & Helper init/continue | `Datastore::run_tx` final Pg commit; control advisory lock precedes prepare lock; shared `prepare_serialization` epoch write | `REPEATABLE READ` stale snapshots retry on epoch conflicts prior to authorization/private prepare; journal, native state, retained output, and response commit atomically without sending temporary failure responses |
+| Leader native task | Under unit aggregation param, setting `aggregation_started`, creating job/report-state, and scrubbing raw report share one tx; each step reads committed state then computes out-of-tx | `step_aggregation_job_2` commits writer/retained updates atomically with `release_aggregation_job`, checking lease expiry/token fence so stale leases abort cleanly and never overwrite newer committed branches |
+| role apply | Inside control/epoch tx: batch merge, consumed membership, `head/quota/history`, retained/body status, and commit row share one commit | Exact existing `CommitCert` returns cached reply idempotently; conflicting cert rejects; merges once regardless of lost acks |
+| role reserve/bind | Inside control lock: verify full `P/R/retained/M` and write unique reservation; bind re-reserves, writes fixed 160016 B `BYTEA` with full-length CT comparison before Pg commit | Helper fresh/cache and Leader finished/cache each `await` bind tx prior to HPKE; Leader also reserves completely before querying Helper |
+| freeze / abort / outcome | Authority freezes only when `L = P` and no active permit; role checks local `L/M`; abort preserves committed rows | `FREEZE` excludes new `ABORT`/commits for the lock; `proxy_abort` marks uncertain send state `UNKNOWN` and keeps prior possible sends permanently in exposed class |
 
-Helper的HADWC journal固定一个**已提交的受保护输入分支与响应**，变化请求在私密处理前冲突。Leader没有相同的first-peer-input日志；它依靠上述持久job/state和lease fence，每步只提交一个transition。其首次发往Helper的prepare message由固定已存report/nonce/key决定，可以在本步状态提交前发送；这不是aggregate首曝。若计算后crash、lease被重新取得或提交失败，重试可以收到不同Helper响应并重新计算。它仍使用同一原始share、nonce/query/joint coins及已提交native状态；03的同一`Σ,z_h`可计算每次变化peer输入的真实谓词，不能把这些计算假称必在处理前拒绝。只有本步成功写入的state/retained成为α中的转换，旧lease的写入整体回滚；正确Helper则对该请求始终给同一持久response。
+The Helper's HADWC journal locks **one committed protected input branch and response**, returning public conflicts on altered requests before private computation. The Leader lacks an identical first-peer-input journal, instead enforcing single committed transitions per step via persistent jobs/states and lease fencing: its initial `Prepare` message to Helper depends strictly on persisted report/nonce/key data (not aggregate first exposure) and may precede step commit; on crash/lease loss before commit, retries may observe differing Helper responses and recompute using the exact same raw share, nonce/query/joint coins, and committed native state via Document 03's shared `(Σ, z_h)` without pre-computation conflict claims. Only successfully committed state/retained outputs enter `α`, while stale-lease writes abort cleanly.
 
-Pg `run_tx`也可能因serialization/deadlock重新调用closure。这些机制保证一个**已提交的逻辑分支**，不是“CPU永不重复执行任何指令”。同输入重算复用同RO流；变化peer响应的未提交重算也须按03模拟，物理调用、失败、消息和时序全部计入Q/T。独立本地coins由执行层模拟，不能从预算删除。
+PostgreSQL `run_tx` may also re-invoke closures on serialization/deadlock errors; all mechanisms enforce **one committed logical branch**, not "CPU instructions run once". Identical-input recomputations reuse cached RO streams, while varying peer responses simulate via Document 03 and count every physical call/failure/message/timing toward `Q/T`.
 
-export reserve没有单独写prepare epoch；不能从advisory lock声称它一定读取最新snapshot。其安全来自单调阶段：看不到freeze或完整M的旧snapshot只会拒绝；能看见正确freeze时，authority已终结完整P，此后不能合法ABORT/新commit。role的L/M只能从子集增至固定P/R，不可删除、更换retained或回滚。读到fullP/R+APPLIED因而是永久稳定事实；唯一reservation/payload冲突由写约束、全记录/全长比较和Pg提交处理。如此所需读断言稳定，无需把REPEATABLE READ升级成不存在的隔离级别。
+Export reservation writes no shared prepare epoch, relying instead on monotonic phases: stale `REPEATABLE READ` snapshots failing to see `FREEZE` or complete `M` reject safely, whereas once `FREEZE` is visible, authority has finalized complete `P` (barring later commits/aborts) and role `L/M` grow monotonically up to fixed `P/R` without mutating retained links. Write constraints, full-record checks, and full-length equality handle concurrent reservations without falsely assuming `SERIALIZABLE`.
 
-crash在事务内对应未提交/回滚或已提交二者之一；aggregate/receipt及Helper缓存response在相应提交之后发送。Leader提交前的固定报告prepare消息与未提交反馈按上段处理。已提交后发送前crash只重用同对象；发送后丢reply并不取消敌手观察。双库交付通过幂等cert和角色各自的任务恢复，不要求跨机器原子commit。故障损坏持久库或管理员回退不在这个crash模型中。
+Crashes cleanly partition transactions into uncommitted/rolled-back or committed; aggregates, receipts, and cached Helper responses dispatch solely after commit. Send-ack drops never erase exposure, and dual-DB recovery proceeds idempotently via persisted certificates. Disk corruption and administrative DB edits lie outside the crash model.
 
-## 4. 全前缀不变式
+## 4. All-Prefix Invariants
 
-对任意有限prefix τ，以下同时成立；“相等”均为完整类型记录及关联相等：
+Across any finite prefix `τ`, all six invariants hold simultaneously ("equality" denotes full typed record and link equality):
 
-1. P/R、task/profile/config/assets、聚合参数与selector锁后固定，R=eligible(P)；每origin、slot、RID和body首次写定后不换身份。
-2. L⊆P，真实history依赖闭合；每uid head是已commit唯一链的末端，K为实际 `max(0,t−6)`，version随一次commit递增，quota恰为已commit计数，无回退。
-3. L_s⊆L；M_s⊆eligible(L_s)，且每成员恰有一个正确retained/body/session/link并且实际batch包含其输出一次。warmup不在M，eligible b=0在M。
-4. Helper每个journal key只含一个已提交first-input/result/native-state/response，report tombstone禁止换job打开第二分支；其exact retry返回同wire，变化只得到公开冲突。Leader同报告唯一持久job、逐步state及lease fence保证每步仅一个已提交transition；提交前可变peer响应重算不扩大已提交状态，其全部反馈由同一模拟verifier产生。
-5. E_s存在则L_s=P、eligible(L_s)=R、M_s=R，完整ordered records、retained links、selector、snapshot身份固定。bound payload为 `Z_s=Σ_(i∈R)v_(s,i)` 的真实native编码，之后不能替换。
-6. 每个可解密诚实aggregate share发送前已有持久E_s和bound Z_s。外层HPKE可重随机，同payload只是一项语义输出；失败、abort或重启不撤回X。
+1. `P/R`, `task/profile/config/assets`, aggregation parameter, and selector freeze upon lock with `R = eligible(P)`; origin/slot/`RID`/body identities never mutate after first write.
+2. `L ⊆ P` with closed history dependencies; each `uid` head terminates a unique committed chain with authentic `K = max(0, t − 6)`, monotonic `version`, and exact non-rollback `quota`.
+3. `L_s ⊆ L`, `M_s ⊆ eligible(L_s)`, every member carries one exact retained/body/session/link chain and contributes once to the batch (`warmup ∉ M`, eligible `b = 0 ∈ M`).
+4. Each Helper journal key holds at most one committed `(first-input, result, native-state, response)` and report tombstones block switching jobs (`exact` retries replay cached bytes, changes raise public conflicts). Unique persistent Leader jobs, per-step state, and lease fences admit at most one committed transition per step; pre-commit peer variations leave committed state unchanged and simulate via one `(Σ, z_h)`.
+5. Existing `E_s` implies `L_s = P`, `eligible(L_s) = R`, `M_s = R`, complete ordered records, matching retained links, and pinned selector/snapshot; bound payload `Z_s = Σ_(i ∈ R) v_(s,i)` equals the authentic native encoding and cannot swap afterwards.
+6. Every decryptable honest aggregate share transmission is preceded by durable `E_s` and bound `Z_s`; outer HPKE re-encryption reuses identical semantic payload without withdrawing `X` across crashes or aborts.
 
-对预锁阶段，用可增registered图P_reg表达；锁事件一次把完整P_reg固化为P。其余事件不得悄悄重定义“完整”所指的对象。
+Pre-lock states track monotonically growing candidate map `P_reg`, promoted atomically to `P` upon lock.
 
-## 5. 逐事件归纳证明
+## 5. Event-by-Event Inductive Proof
 
-**初始/enrollment/origin。** 配置/角色/owner固定，合法genesis由适用的提取及规范STATE编码确定。history仅genesis，quota零。origin唯一索引预占未来RID但不推进head。无L/M/journal/export，六项成立。
+**Init / Enrollment / Origin.** Fixed configurations/roles/owners and validated genesis encodings start with empty `L/M/journal/export`, zero quota, and unique origin reservations that do not advance `head`; all six invariants hold.
 
-**register。** 来源/owner/rawRID与证书检查、proof验证、完整规范record生成后，最终事务核未过登记边界/未锁、slot/RID唯一且origin等于预留值。它只增加P_reg、PendingCert和业务记录，不改L/head/quota/M。失败attempt计数可增长但不产生接纳历史。并发body仅唯一约束允许一个；hash无碰撞前同id代表同字节。
+**Register.** After source/owner/`rawRID`/OriginCert checks, proof verification, and canonical record assembly, final tx confirms pre-deadline unlocked state, unique slot/`RID`, and matching reservation, inserting solely into `P_reg`, `PendingCert`, and business logs while leaving `L/head/quota/M` untouched. Concurrent writes are serialized by uniqueness constraints up to SHA collision.
 
-**lock。** 事务要求预定slot集合全部存在、每候选链连续、根连接实际head、所有prev/K引用存在且规范；按完整record排序求P/R root，eligible distinct UID满足公开门槛。一次写P/R/LockCert，后续registration拒绝。没有把任意接收交集当完整集合。它保持历史未推进。
+**Lock.** Requires all scheduled slots present, continuous candidate chains anchored at current committed heads, valid canonical `prev/K` links, ordered `P/R` root computation, and distinct eligible `uid` threshold before writing `P/R/LockCert` once and closing further registration — never taking partial receiver intersections or advancing `head`.
 
-**install/permit。** role验证整包、LockCert、全记录/roots并不可变持久化。authority收到两个install ack后，读取实际head/version、真实已commit prev/K和quota，只签一个active permit。pending后继未变成history。role收到permit再核相同body/record/上下文。异步L_s可以落后L，不能因此放宽导出门。
+**Install / Permit.** Roles verify full packages, `LockCert`, records, and roots immutably; after dual install acks, authority checks real `head/version`, committed `prev/K`, and `quota` before signing one active permit; roles re-verify full context upon receipt. Asynchronous `L_s` lagging behind `L` never relaxes export gates.
 
-**prepare/retain。** upload/helper-init/continue在HPKE/FLP前核完整安装包与活动permit。Helper共享epoch在私密处理前排除旧snapshot授权；first job/context/input和已提交response固定。missing journal或changed peer input不能复用其旧success或重开分支。Leader以持久report的单次unit-param job分配固定原始输入，以lease fence提交每步native状态；事务外计算及变化peer响应的重算按§3处理，不能从α反推这些计算未发生。正确Finished输出只隔离留存在retained中，暂不进入M；writer中的retained与本步state/lease释放同事务提交。重复完成的body/job/output必须全部相等；opaque tag沿用原值。由此无第二个已提交branch，物理反馈则由03完整verifier覆盖。
+**Prepare / Retain.** Upload and Helper init/continue validate full install package and active permit prior to HPKE/FLP. Helper shared prepare epoch rejects stale snapshots pre-computation and pins `(first job, context, input, committed response)`, blocking missing/changed inputs from branching. Leader assigns one unit-param job per persistent report and commits native step state under lease fencing (with out-of-tx recomputations covered per §3). Finished outputs stage isolated inside `retained` (atomically with Leader state/lease release) without entering `M`; repeated finish verifies identical body/job/output/tag.
 
-**receipt。** 正确role只从同一retained输出和同body sidecar计算masked moment，固定binary mask/rho解码与CT秘密段见G4a08；签名绑定lock/permit/body/statement/session/nonce/step/tag。第一方receipt持久化不等于commit；冻结后只准exact缓存重放，不签新receipt。错误不改L/M。
+**Receipt.** Honest roles compute masked moments solely from identical retained outputs and matching sidecars via G4a08 constant-time mask/`rho` decoding, binding `lock/permit/body/statement/session/nonce/step/tag` under signature. First receipt persistence does not commit; after freeze only cached exact replays remain allowed, and errors leave `L/M` untouched.
 
-**authority commit。** 第二receipt事务核两方签名和全部binders、session、moment，再查真实head/version、真实prev/K digest与quota。CAS、history、quota、permit inactive、body committed与CommitCert同COMMIT生效。失败事务不留下半个history或多扣额度；并发兄弟只能一个从原head成功。由旧history闭合和同commitment唯一opening，新的L仍合法依赖闭合。已经commit的exact replay不再扣quota。
+**Authority Commit.** Second receipt transaction verifies both signatures, full binders, session, and moment equation, then verifies authentic `head/version`, real `prev/K` digests, and `quota` atomically with CAS, history, quota deduction, permit deactivation, `body.committed`, and `CommitCert`. Failed attempts leave no partial history; concurrent siblings serialize cleanly; exact replays avoid duplicate quota deductions.
 
-**role commit/apply。** 核authority证书、自己的已存receipt、两个receipt、安装record、retained job/tag，exact旧commit立即幂等返回。对eligible才merge原始retained vector并写consumed membership；warmup只推进本地history。之后的head/version/quota CAS及status/commit也在同一事务；任一失败回滚merge。故M无重加、错包或漏zero，L_s⊆L。此处靠authority签名与诚实role代码，P不要求恶意role也遵守。
+**Role Commit / Apply.** Checks authority cert, stored local receipt, both receipts, installed records, and retained job/tag; exact duplicate certs short-circuit idempotently. Eligible records merge their raw retained vector into the batch and log consumed membership (`warmup` advances local history only), atomically with `head/version/quota` CAS and commit tracking (any failure rolls back batch merge), guaranteeing `M_s` multiplicity 1 and `L_s ⊆ L` under honest role code.
 
-**freeze。** authority要求L=P、全records未变且无active permit；签完整p/r列表并把lock置FROZEN。role验证本地完整已commit/apply关系后持久freeze。没有从authority“已commit”推断另一role已经apply；迟到role须先补齐cert，导出仍独立检查本地M。
+**Freeze.** Authority requires `L = P`, unchanged records, and zero active permits before signing complete `p/r` lists and marking `FROZEN`. Roles verify local committed/applied state prior to freezing, never assuming remote role progress from authority commit alone.
 
-**reserve/bind/send。** 所有出口重验完整P/R、eligible投影、session/tag及实际consumed集合。insert frozen native membership后还查差集，排除多余成员。唯一E_s完整身份，bind再次检查并固定真实native输出。已有E_s/bytes只能相同。await事务成功后才HPKE和send，故首个share即完整R；native count/checksum/collection失败不能撤回此前E/X。fresh和cache走同门，不存在“缓存默认可信”的豁免。
+**Reserve / Bind / Send.** Every dispatch gate re-validates full `P/R`, eligible projection, session/tags, and exact consumed set difference (`R \ M_s = ∅` and no extras), persisting unique `E_s` and fixed native payload bytes `Z_s` before awaiting commit prior to HPKE and network dispatch — tying every first share strictly to complete `R` across both fresh and cache exits without exemption.
 
-**abort/timeout/recovery。** 非frozen abort只终结lock/permit，保留commits/head/quota、journal与tombstone；它不能删P/R再继续导出。frozen后的collect失败只保留并重试原snapshot。proxy status丢失给UNKNOWN，已可能暴露不可降为PRE；这些是保守业务标签，精确X由发送事件定义。crash按§3分割事务，恢复读取持久状态，重复消息由以上幂等分支处理。stutter、延迟、读取、外层重加密均不破坏六项。列举覆盖改变集合、head、quota、journal、payload与暴露的全部事件，完成任意prefix归纳。
+**Abort / Timeout / Recovery.** Unfrozen aborts close locks/permits while retaining commits, heads, quotas, journals, and tombstones rather than shrinking `P/R` to re-export. Post-freeze collection failures retry on the identical snapshot. Lost proxy states conserve `UNKNOWN` without downgrading potential exposure to `PRE`, and `X` updates cleanly on actual share sends. Recovery resumes durable state idempotently across §3 crash cuts, completing arbitrary-prefix induction over every state-mutating event class.
 
-## 6. 声明闭合与成功重建
+## 6. Statement Closure and Successful Reconstruction
 
-排除适用提取失败、正确签名伪造、承诺双开口、SHA绑定碰撞和native validity误接纳等明确坏事件。C中从genesis归纳，规范STATE编码单射且message<ℓ，prev/K相同承诺强制相同规范坐标；坐标差、平方、mask carry等上界都低于SNARK p，不能借域环绕满足错误整数关系。每步因此是该已接纳声明历史的ADWC关系，而非物理位置真实性。
+Excluding Document 02 extraction errors, signature forgeries, commitment double-openings, SHA binding collisions, and native validity failures: induction from genesis fixes unique canonical `STATE < ℓ`, forcing identical predecessor/`K` coordinates, while coordinate differences, squared distances, and mask carries stay below `p`, lifting field checks to exact ADWC integer relations (for admitted claims, not physical GPS truth).
 
-单个完成报告的两正确输出满足 `v_A+v_R=e_y`，0≤y≤D；选中Histogram有效域是一热，不能换SumVec多1/零向量。F(v)=Σkv[k]只在E={e_0,…,e_D}上单射。正确retained receipt与MASK opening给
+Honest finished outputs satisfy `v_A + v_R = e_y` (`0 ≤ y ≤ D`) in the one-hot `Histogram` domain `E = {e_0, ..., e_D}` (distinct from `SumVec` multi-1/zero vectors). Retained receipts and valid `MASK` openings enforce `F(v_A + v_R) = m_A + m_R − r_A − r_R = T − r_A − r_R = x (mod q)` with `x, y ≤ D < q`, forcing `y = x`. Even `b = 0` emits authentic sentinel `e_D` and joins retained/consumed membership. By all-prefix invariants, matching snapshots accumulate each `R` member strictly once; stripping sentinel yields exact `Σ_(i ∈ R) b_i e_(j_i)`.
 
-`F(v_A+v_R)=m_A+m_R−r_A−r_R=T−r_A−r_R=x (mod q)`。
+Integer histogram interpretation experiences no modulo-`q` wrap-around: deferred apply casts batch `report_count` via `i64::try_from` at `models.rs:1498`, failing on overflow (`u64` increment from `≤ 2^63 − 1` never wraps), and both Helper `put_aggregate_share_job` (`datastore.rs:4412`) and Leader `update_collection_job` (`datastore.rs:3512`) re-validate total `report_count` via `i64::try_from`, matching audited `u64` debug summation. Thus every successfully collected `R` satisfies `|R| ≤ 2^63 − 1 < q`.
 
-x,y≤D<q，所以y=x。b=0得到真实sentinel e_D，仍有retained与membership。由全前缀定理，成功同selector的两snapshot只加固定完整R，各成员一次，解码删sentinel后恰得 `Σ_(i∈R)b_i e_(j_i)`。C成功正确性是条件命题，不承诺恶意owner缺席或permanent censorship下输出。
+In `P`/`P+A`, non-`H` records need not emit one-hot outputs, so simulated aggregates strictly use:
 
-上述总和作为整数histogram解读也无native模q环绕：选中的deferred apply每次并入一个report，持久batch的report_count在 `models.rs:1498` 经 `i64::try_from` 编码，超出即失败回滚。前一成功count至多2^63−1，下一次加1仍不溢出u64。全selector可能跨多个batch shard，不能只从每shard的i64界直接推其总数；实际Helper `put_aggregate_share_job`（`datastore.rs:4412`）在发送前、Leader `update_collection_job`（同文件3512）在FINISHED持久化时，都对**总**report_count再作`i64::try_from`。真实003 debug的u64总数加法也不静默环绕。因此成功collect完整R有 `|R|≤2^63−1<q`，每桶计数亦小于q。不把任意大R的F_q和默认等同未约束的整数histogram。若未来换count/持久格式或overflow语义，须重证这个无wrap条件。
+`O_C(R) − Σ_(i ∈ R \ H) e_(x_i) − Σ_(i ∈ R ∩ H) v_(c,i)^orig + Σ_(i ∈ R \ H) w_(h,i)^actual`,
 
-P/P+A中非H记录实际输出可以非一热，不继承上述C结论。其模拟aggregate严格用
+combining extracted/known non-`H` claims with decrypted/executed honest outputs `w_(h,i)^actual` solely upon authorized complete-`R` exposure.
 
-`O_C(R)−Σ_(i∈R\H)e_(x_i)−Σ_(i∈R∩H)v_(c,i)^orig+Σ_(i∈R\H)w_(h,i)^actual`。
+## 7. Source Mapping and Bounded Corroboration
 
-这里非H声明桶由新statement提取/已知witness，实际诚实输出由合法CCA解密后真实native处理；无需腐化role私钥。H原始份额才有互补恒等式。此式只使用获准完整R输出，没有新增子集oracle。
+`source-map.json` [source omitted from this derivative] indexes 52 concrete functions/exits with repo-relative paths, line ranges, and full-file SHA-256 digests confirming all 288 `G4a build003` pins unchanged (`check001–004` stay historical).
 
-## 7. 源码映射与有限旁证
+`bounded-controls.json` [source omitted from this derivative] exhaustively explores two independent eligible records (positive + zero) across dual-role crashes/recovery, prepare/commit/apply/freeze/reserve/bind/send, and failure tags: `840` states and `2,652` edges with zero invariant violations (`PRE`/`EXPOSED`/`EXPOSED_FAILED` reachable) plus shortest counterexamples across 8 guard-removal mutants (modeling **committed** transitions in `prepare`, without equating finite graphs to TLC, full-scale histories, or G5). Daily G5 `E5/1` (`35` cases) maps via `G5.lockLog → P`, `G5.committed → L`, `EligibleIn(committed) → A`, `merged[s] → M_s`, noting finite-flag abstractions and remaining outside unbounded source refinement ([Document 06](06-counterexamples-and-scope.md)).
 
-source-map.json [source omitted from this derivative] 给52个实际函数/出口的repo相对路径、起止行及全文件SHA，脚本同时确认G4a build003全部288 source pins不变。矩阵包括authority事务/注册/锁/permit/commit/freeze/abort、proxy outbox/exposure、Pg事务/epoch、Helper身份/journal、Leader单job分配/事务外compute/lease-fenced提交、retained、receipt/apply/batch merge、reserve/bind、task dispatch、context/record codec与三类真实出口。函数名或hash本身不证明语义；§§3–5是这些行的手工对应理由。check001–004保留历史范围，不被重写。
+### 7.1 Concrete Function / Line / SHA Matrix
 
-bounded-controls.json [source omitted from this derivative] 对两条独立eligible记录（一正一zero的成员身份）枚举两个role crash/recovery、prepare/commit/apply/freeze/reserve/bind/send及失败标签。正模型穷尽840状态、2652边，无命名不变式违反，PRE/EXPOSED/EXPOSED_FAILED均可达；8个移除守卫变体各有预期最短trace。模型的prepare事件是**已提交**transition，no-journal变体表示删除该提交唯一性（Helper日志或Leader fence），不是宣称所有物理peer输入唯一。它不计算真实proof/FLP、不证明任意规模head/K链、不等同TLC，也不冒充G5/native故障campaign。
+The SHA column shows the leading 12 hex characters for readability (full 64-char digests and paths appear in `source-map.json`).
 
-当日G5 E5/1是单独旁证，其L变量为 `lockLog`（锁定P），而本文L为实际committed；翻译需 `G5.lockLog→P`、`G5.committed→L`、`EligibleIn(committed)→A`、`merged[s]→M_s`。G5用单slot captured share和只能由mutant设置的dup/redo/badOutput flags抽象关键义务，且只有限candidate集合；它的35用例、模型PASS不构成本源码的无界精化定理。本文不修改或并入其冻结manifest，不把G5尚未验收的native crash/race记为通过。适用范围及守卫反例详见[06](06-counterexamples-and-scope.md)。
-
-
-### 7.1 实际函数/行/SHA对应矩阵
-
-SHA列为便于核对的前12位，完整64位与repo-relative路径均在上面的JSON；同文件不同函数共享文件SHA。
-
-| 对应事件/义务 | 实际源文件及行 | SHA256前12位 |
+| Event / Obligation | Source File & Line Range | SHA-256 Prefix (12 hex) |
 | --- | --- | --- |
-| authority-tx | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：184–191 | `ced8a6fd317b` |
-| origin | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：239–259 | `ced8a6fd317b` |
-| register | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：274–321 | `ced8a6fd317b` |
-| lock | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：323–346 | `ced8a6fd317b` |
-| permit | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：375–399 | `ced8a6fd317b` |
-| authority-commit | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：400–444 | `ced8a6fd317b` |
-| authority-freeze | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：446–474 | `ced8a6fd317b` |
-| authority-abort | runtime/authority_v5_g4a/service.py [source omitted from this derivative]：476–489 | `ced8a6fd317b` |
-| outbox | runtime/authority_v5_g4a/proxy.py [source omitted from this derivative]：76–98 | `58f26a8f51da` |
-| exposure-outcome | runtime/authority_v5_g4a/proxy.py [source omitted from this derivative]：277–338 | `58f26a8f51da` |
-| pg-tx | aggregator_core/src/datastore.rs [source omitted from this derivative]：265–399 | `eb55dcd64b06` |
-| control-epoch | src/commands/hadwc_v5.rs [source omitted from this derivative]：690–709 | `c815f7b9c341` |
-| prepare-epoch | src/datastore/hadwc_v5.rs [source omitted from this derivative]：104–127 | `7b07ae066b2a` |
-| native-identity | src/datastore/hadwc_v5.rs [source omitted from this derivative]：150–191 | `7b07ae066b2a` |
-| journal | src/datastore/hadwc_v5.rs [source omitted from this derivative]：188–238 | `7b07ae066b2a` |
-| native-authorization | src/datastore/hadwc_v5.rs [source omitted from this derivative]：262–328 | `7b07ae066b2a` |
-| retained | aggregator_core/src/datastore.rs [source omitted from this derivative]：8430–8513 | `eb55dcd64b06` |
-| receipt | src/commands/hadwc_v5.rs [source omitted from this derivative]：1263–1400 | `c815f7b9c341` |
-| role-apply | src/commands/hadwc_v5.rs [source omitted from this derivative]：1402–1558 | `c815f7b9c341` |
-| batch-add | src/commands/janus_interop_aggregator.rs [source omitted from this derivative]：3780–3851 | `b57fa7732f98` |
-| reserve | src/datastore/hadwc_v5_export.rs [source omitted from this derivative]：38–133 | `9f75a0121baf` |
-| bind-payload | src/datastore/hadwc_v5_export.rs [source omitted from this derivative]：136–162 | `9f75a0121baf` |
-| dispatch | aggregator_core/src/datastore.rs [source omitted from this derivative]：7619–7676 | `eb55dcd64b06` |
-| context-codec | runtime/g1_authority.py [source omitted from this derivative]：126–146 | `dbe0c086128b` |
-| records-codec | runtime/authority_v5_g4a/codec.py [source omitted from this derivative]：185–206 | `961258d8b9da` |
-| helper-reserve | aggregator/src/aggregator.rs [source omitted from this derivative]：4038–4077 | `54181d45dce3` |
-| helper-send | aggregator/src/aggregator.rs [source omitted from this derivative]：4398–4425 | `54181d45dce3` |
-| leader-send | aggregator/src/aggregator.rs [source omitted from this derivative]：3760–3791 | `54181d45dce3` |
-| leader-before-helper | src/aggregator/collection_job_driver.rs [source omitted from this derivative]：304–311 | `c6504db3927a` |
-| state-domain | circuits/hadwc_common_v5.circom [source omitted from this derivative]：23–34 | `fa8580bc4923` |
-| commit-domain | circuits/hadwc_common_v5.circom [source omitted from this derivative]：35–48 | `fa8580bc4923` |
-| distance-domain | circuits/hadwc_common_v5.circom [source omitted from this derivative]：49–63 | `fa8580bc4923` |
-| genesis-relation | circuits/hadwc_genesis_v5.circom [source omitted from this derivative]：3–17 | `c2559a9de9b9` |
-| transition-relation | circuits/hadwc_transition_v5.circom [source omitted from this derivative]：3–75 | `9988f8a7998a` |
-| policy-relation | circuits/hadwc_policy_bounds_v5.circom [source omitted from this derivative]：4–12 | `78aa19c40e1f` |
-| histogram-domain | src/flp/types.rs [source omitted from this derivative]：380–444 | `5284c42c8326` |
-| original-output | src/vdaf/prio3.rs [source omitted from this derivative]：1392–1435 | `ef7d09e5d725` |
-| opening-core | interop_binaries/src/hadwc_ct.rs [source omitted from this derivative]：153–187 | `70cea07d0fa0` |
-| moment-core | interop_binaries/src/hadwc_ct.rs [source omitted from this derivative]：188–230 | `70cea07d0fa0` |
-| batch-count-merge | src/datastore/models.rs [source omitted from this derivative]：1353–1357 | `f3b1ca2dd2fe` |
-| batch-count-storage | src/datastore/models.rs [source omitted from this derivative]：1498–1502 | `f3b1ca2dd2fe` |
+| authority-tx | `runtime/authority_v5_g4a/service.py` [source omitted from this derivative]: 184–191 | `ced8a6fd317b` |
+| origin | `runtime/authority_v5_g4a/service.py` [source omitted from this derivative]: 239–259 | `ced8a6fd317b` |
+| register | `runtime/authority_v5_g4a/service.py` [source omitted from this derivative]: 274–321 | `ced8a6fd317b` |
+| lock | `runtime/authority_v5_g4a/service.py` [source omitted from this derivative]: 323–346 | `ced8a6fd317b` |
+| permit | `runtime/authority_v5_g4a/service.py` [source omitted from this derivative]: 375–399 | `ced8a6fd317b` |
+| authority-commit | `runtime/authority_v5_g4a/service.py` [source omitted from this derivative]: 400–444 | `ced8a6fd317b` |
+| authority-freeze | `runtime/authority_v5_g4a/service.py` [source omitted from this derivative]: 446–474 | `ced8a6fd317b` |
+| authority-abort | `runtime/authority_v5_g4a/service.py` [source omitted from this derivative]: 476–489 | `ced8a6fd317b` |
+| outbox | `runtime/authority_v5_g4a/proxy.py` [source omitted from this derivative]: 76–98 | `58f26a8f51da` |
+| exposure-outcome | `runtime/authority_v5_g4a/proxy.py` [source omitted from this derivative]: 277–338 | `58f26a8f51da` |
+| pg-tx | `aggregator_core/src/datastore.rs` [source omitted from this derivative]: 265–399 | `eb55dcd64b06` |
+| control-epoch | `src/commands/hadwc_v5.rs` [source omitted from this derivative]: 690–709 | `c815f7b9c341` |
+| prepare-epoch | `src/datastore/hadwc_v5.rs` [source omitted from this derivative]: 104–127 | `7b07ae066b2a` |
+| native-identity | `src/datastore/hadwc_v5.rs` [source omitted from this derivative]: 150–191 | `7b07ae066b2a` |
+| journal | `src/datastore/hadwc_v5.rs` [source omitted from this derivative]: 188–238 | `7b07ae066b2a` |
+| native-authorization | `src/datastore/hadwc_v5.rs` [source omitted from this derivative]: 262–328 | `7b07ae066b2a` |
+| retained | `aggregator_core/src/datastore.rs` [source omitted from this derivative]: 8430–8513 | `eb55dcd64b06` |
+| receipt | `src/commands/hadwc_v5.rs` [source omitted from this derivative]: 1263–1400 | `c815f7b9c341` |
+| role-apply | `src/commands/hadwc_v5.rs` [source omitted from this derivative]: 1402–1558 | `c815f7b9c341` |
+| batch-add | `src/commands/janus_interop_aggregator.rs` [source omitted from this derivative]: 3780–3851 | `b57fa7732f98` |
+| reserve | `src/datastore/hadwc_v5_export.rs` [source omitted from this derivative]: 38–133 | `9f75a0121baf` |
+| bind-payload | `src/datastore/hadwc_v5_export.rs` [source omitted from this derivative]: 136–162 | `9f75a0121baf` |
+| dispatch | `aggregator_core/src/datastore.rs` [source omitted from this derivative]: 7619–7676 | `eb55dcd64b06` |
+| context-codec | `runtime/g1_authority.py` [source omitted from this derivative]: 126–146 | `dbe0c086128b` |
+| records-codec | `runtime/authority_v5_g4a/codec.py` [source omitted from this derivative]: 185–206 | `961258d8b9da` |
+| helper-reserve | `aggregator/src/aggregator.rs` [source omitted from this derivative]: 4038–4077 | `54181d45dce3` |
+| helper-send | `aggregator/src/aggregator.rs` [source omitted from this derivative]: 4398–4425 | `54181d45dce3` |
+| leader-send | `aggregator/src/aggregator.rs` [source omitted from this derivative]: 3760–3791 | `54181d45dce3` |
+| leader-before-helper | `src/aggregator/collection_job_driver.rs` [source omitted from this derivative]: 304–311 | `c6504db3927a` |
+| state-domain | `circuits/hadwc_common_v5.circom` [source omitted from this derivative]: 23–34 | `fa8580bc4923` |
+| commit-domain | `circuits/hadwc_common_v5.circom` [source omitted from this derivative]: 35–48 | `fa8580bc4923` |
+| distance-domain | `circuits/hadwc_common_v5.circom` [source omitted from this derivative]: 49–63 | `fa8580bc4923` |
+| genesis-relation | `circuits/hadwc_genesis_v5.circom` [source omitted from this derivative]: 3–17 | `c2559a9de9b9` |
+| transition-relation | `circuits/hadwc_transition_v5.circom` [source omitted from this derivative]: 3–75 | `9988f8a7998a` |
+| policy-relation | `circuits/hadwc_policy_bounds_v5.circom` [source omitted from this derivative]: 4–12 | `78aa19c40e1f` |
+| histogram-domain | `src/flp/types.rs` [source omitted from this derivative]: 380–444 | `5284c42c8326` |
+| original-output | `src/vdaf/prio3.rs` [source omitted from this derivative]: 1392–1435 | `ef7d09e5d725` |
+| opening-core | `interop_binaries/src/hadwc_ct.rs` [source omitted from this derivative]: 153–187 | `70cea07d0fa0` |
+| moment-core | `interop_binaries/src/hadwc_ct.rs` [source omitted from this derivative]: 188–230 | `70cea07d0fa0` |
+| batch-count-merge | `src/datastore/models.rs` [source omitted from this derivative]: 1353–1357 | `f3b1ca2dd2fe` |
+| batch-count-storage | `src/datastore/models.rs` [source omitted from this derivative]: 1498–1502 | `f3b1ca2dd2fe` |
 
-| leader-job-claim | runtime/janus-v5-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：1312–1373 | `eb55dcd64b06` |
-| leader-job-create | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_creator.rs [source omitted from this derivative]：567–781 | `11c9703337b9` |
-| leader-read-state | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_driver.rs [source omitted from this derivative]：187–252 | `b6c30ff4f59d` |
-| leader-peer-compute | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_driver.rs [source omitted from this derivative]：769–1003 | `b6c30ff4f59d` |
-| leader-transition-commit | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_driver.rs [source omitted from this derivative]：982–999 | `b6c30ff4f59d` |
-| leader-lease-fence | runtime/janus-v5-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：2057–2111 | `eb55dcd64b06` |
-| leader-retained-write | runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_writer.rs [source omitted from this derivative]：257–315 | `23d0aa5e1fcd` |
+| Event / Obligation | Source File & Line Range | SHA-256 Prefix (12 hex) |
+| --- | --- | --- |
+| leader-job-claim | `runtime/janus-v5-g4a/aggregator_core/src/datastore.rs` [source omitted from this derivative]: 1312–1373 | `eb55dcd64b06` |
+| leader-job-create | `runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_creator.rs` [source omitted from this derivative]: 567–781 | `11c9703337b9` |
+| leader-read-state | `runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_driver.rs` [source omitted from this derivative]: 187–252 | `b6c30ff4f59d` |
+| leader-peer-compute | `runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_driver.rs` [source omitted from this derivative]: 769–1003 | `b6c30ff4f59d` |
+| leader-transition-commit | `runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_driver.rs` [source omitted from this derivative]: 982–999 | `b6c30ff4f59d` |
+| leader-lease-fence | `runtime/janus-v5-g4a/aggregator_core/src/datastore.rs` [source omitted from this derivative]: 2057–2111 | `eb55dcd64b06` |
+| leader-retained-write | `runtime/janus-v5-g4a/aggregator/src/aggregator/aggregation_job_writer.rs` [source omitted from this derivative]: 257–315 | `23d0aa5e1fcd` |
 
-| collection-count-storage | runtime/janus-v5-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：3512–3516 | `eb55dcd64b06` |
-| helper-aggregate-count-storage | runtime/janus-v5-g4a/aggregator_core/src/datastore.rs [source omitted from this derivative]：4412–4416 | `eb55dcd64b06` |
-| stack-secret-key-tag | tools/g4a_native_stack.py [source omitted from this derivative]：182–184 | `866030563c84` |
-| driver-secret-key-tag | tools/g4a_native_drivers.py [source omitted from this derivative]：745–747 | `bb1d935484c1` |
+| Event / Obligation | Source File & Line Range | SHA-256 Prefix (12 hex) |
+| --- | --- | --- |
+| collection-count-storage | `runtime/janus-v5-g4a/aggregator_core/src/datastore.rs` [source omitted from this derivative]: 3512–3516 | `eb55dcd64b06` |
+| helper-aggregate-count-storage | `runtime/janus-v5-g4a/aggregator_core/src/datastore.rs` [source omitted from this derivative]: 4412–4416 | `eb55dcd64b06` |
+| stack-secret-key-tag | `tools/g4a_native_stack.py` [source omitted from this derivative]: 182–184 | `866030563c84` |
+| driver-secret-key-tag | `tools/g4a_native_drivers.py` [source omitted from this derivative]: 745–747 | `bb1d935484c1` |
 
-## 8. 坏事件接口与不循环原则
+## 8. Bad-Event Interface and Non-Circularity Principles
 
-source refinement部分是给定正确服务/存储、有效认证与已证明关系后的确定性安全命题；不把“业务全view安全”作为前提。密码错误分为：G16 generic碰撞/weakSE/ZK与affine异常，nativeFLP validity/HVZK/ROM及nonce/seed猜测，承诺binding/source-point模型，SHA碰撞，正确key认证伪造，带标签HPKE CCA及执行层前提。完整数值/查询总账由G4b专门文档负责，本文向其交付以下不能遗漏的计数约束：
+The source refinement argument is a deterministic conditional proposition given honest storage/services, valid authentication, and verified relations, never assuming full-view privacy. Cryptographic failures partition cleanly across Groth16 collisions/weak-SE/ZK/affine exclusions, native FLP validity/HVZK/ROM and nonce/seed guesses, commitment binding, SHA-256 collisions, signature unforgeability, labeled HPKE IND-CCA2, and execution-layer premises, respecting the following mandatory accounting rules:
 
-- 所有失败proof尝试、genesis重复verification、warmup/zero/失败candidate、corrupt owner grinding、native RO查询及可观察重试都计入相应Q/N；不能只数最终R或成功commit。
-- 同statement rerandomization不是新witness提取义务，走H/W/E来源；owner自持key不能收费为伪造。两role正确的C与主动role的P使用不同坏事件/执行结论。
-- 所有规范encoding、body/package/context/P/R root、journal context、request hash等共用SHA256 collision预算，domain prefix避免跨类型歧义，不使它们变成独立随机函数。长度前缀/整数编码是确定性单射的分解，实际哈希绑定是另一个假设。
-- context的两个128bit limbs完整保存256bit digest；每limb<2^128<p，严格重构，既无field reduction alias，也不应额外叠加两个“128bit截断碰撞”。固定96bit keytag不提供任意跨key/task替换安全；当前固定真实key、task/config/asset身份是范围限定。 实际tag还是`SHA256(verify_key)[:12]`，会泄露关于128bit secret key的至多96bit函数值；C的key猜测不能继续无条件按`Q5/2^128`收费。03/07用任意2^96值tag的分支并集界`min(1,2^96 Q5/2^128)`，不凭SHA collision resistance假定preimage难度或tag均衡。P已知key、所猜fresh nonce的事件仍有原128bit空间。若额外明确采用07的普通SHA OW128假设，可将上述信息界与具体OW归约优势取min；这项假设不从CR推出，也不把SHA另设为RO。
-- APPLIED/status、count、checksum或opaque tag相等本身不证明同output，必须保留完整body/session/retained链。独立随机tag无需在全世界不同context间全球唯一；若新接口只凭tag检索，必须新增碰撞分析。
-- 真实wallclock/timeout不是免费oracle；CT trace与精确拒绝计数模拟是G4a08给出的执行层推导。正确setup/陷门未知、存储持久性、ISA/编译器模型是明确条件，不藏成一个未解释ε。
+- Failed proofs, genesis re-verifications, warmup/zero/failed candidates, corrupt-owner grinding, native RO calls, and observable retries all enter `Q`/`N` rather than counting only final `R` or committed steps.
+- Same-statement re-randomization passes through `H`/`W`/`E` without triggering fresh extraction; self-signed malicious-owner messages never count as forgeries; two-honest-role `C` and active-role `P` keep distinct bad events and execution conclusions.
+- Canonical encodings, bodies/packages/contexts/`P`/`R` roots, journal contexts, and request hashes all draw from one SHA-256 collision budget (domain separation prevents type confusion without creating independent random functions). Both 128-bit `context` limbs encode one full 256-bit digest without doubling collision charges; the fixed 96-bit `SHA256(verify_key)[:12]` tag restricts scope to pre-fixed `(task, key, config)` while triggering the explicit `min(1, 2^96 Q5 / 2^128)` / `OW128` key-guessing accounting in Documents 03 and 07 (leaving `P`'s unannounced-nonce space untouched).
+- `APPLIED` status, counts, checksums, and opaque tags alone never establish output identity without the complete `body/session/retained` chain.
+- Wall-clock timings and timeouts follow standard constant-time and rejection-sampling execution mappings (G4a08), with honest setup/unknown trapdoors, durable storage, and compiler/ISA faithfulness kept as explicit preconditions rather than hidden `ε` terms.
 
-本文不把任何尚待G3/G5测试的项写成PASS；这些条件下的参数化归纳与手工source精化已经给出，后续测试只验证具体故障/实现路径，不替代论证。
+Pending G3/G5 tests are never pre-certified as PASS; subsequent runs validate concrete faults/implementations without replacing this inductive proof.
