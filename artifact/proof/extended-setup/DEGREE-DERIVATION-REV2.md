@@ -1,7 +1,7 @@
 # Six-delta degree enumeration (final v3)
 
-2026-11-01. This completes the degree enumeration after the local review's
-six-delta correction. The actual old keys are now read (K2 v3), so the source
+2026-11-01. This completes the degree enumeration with the
+six-delta correction. The actual old keys are verified (v3), so the source
 columns are actual, not structural bounds.
 
 ## Term classes and maximum degrees
@@ -31,7 +31,7 @@ DT = max(D1+L2, D1+1, max_r n_r+k, 2+k)
 ```
 
 The v2 `8,388,609 / 12,582,912` used the k=3 `+3`; it is corrected here.
-The local review's worked term `X22^8,388,606 * product_j Delta_j` has degree
+The worked term `X22^8,388,606 * product_j Delta_j` has degree
 8,388,612; the G2 raw term gives the GT 12,582,915. No source class in the
 actual v3 inventory exceeds these maxima: the pot22 ptau/keys are the
 dominant raw/prepared columns; N8 and v5 terms are smaller; contribution

@@ -1,11 +1,10 @@
-# Joint extraction proof for the pot14 + pot22 source family (candidate rev2)
+# Joint extraction proof for the pot14 + pot22 source family
 
-2026-11-01. This is the expanded joint derivation requested by the local
-review. It replaces the earlier L4 sketch. It is a **candidate proof** for
-independent review; it is not an independently reviewed theorem. The actual
-old N8 and old D10001 key bytes were read through the `wang` account and their
-section counts are now exact (K2 v3), so this proof uses actual key profiles,
-not structural source classes.
+2026-11-01. This is the expanded joint derivation replacing the earlier L4
+sketch. It is a **candidate proof** prepared for mathematical verification; it is
+not an independently reviewed theorem. The actual old N8 and old D10001 key bytes
+were inspected directly and their section counts are exact, so this proof uses
+actual key profiles rather than structural source classes.
 
 ## 1. Variables and source normal form
 

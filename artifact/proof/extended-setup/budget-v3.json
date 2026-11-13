@@ -17,8 +17,8 @@
       "v6_d10001_new_d32e"
     ],
     "independent_deltas": 6,
-    "old_n8_final": "29cf0ed0\u2026 (actual bytes read via wang)",
-    "old_d10001_final": "3b87e196\u2026 (actual bytes read via wang)",
+    "old_n8_final": "29cf0ed0\u2026 (actual key bytes verified)",
+    "old_d10001_final": "3b87e196\u2026 (actual key bytes verified)",
     "old_new_shared_initial": "6098e20e\u2026 (old and new D10001 initial)",
     "pot22_ptau": "public_visible"
   },

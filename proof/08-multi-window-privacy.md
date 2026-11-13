@@ -1,31 +1,12 @@
-<!--
-PROVENANCE: English translation of the frozen v7 multi-window privacy proof
-(original SHA-256 fb56431479e90869...), registered as G4b 08 for Theorem B.3
-(predeclared multi-window privacy extension). All equations, bounds, version
-revision notes, and review logs are preserved identically. The deployed contract
-remains single-release per task and key; this file extends it conditionally at
-the contract level and does not modify Documents 01-07.
--->
-# Multi-Window Shared-State Privacy: Conditional Joint Theorem (G4b Interface Extension) — v7
+# Multi-Window Shared-State Privacy: Conditional Joint Theorem (G4b Interface Extension)
 
-Date: 2026-11-01. Version: **v7, THIRD_PARTY_RE_REVIEW_PASS (2026-11-02)**. Following author self-review (`SELF_REVIEW_PASS_IN_DECLARED_MODEL`) [record omitted from this derivative], author-authorized third-party re-review completed on 2026-11-02 and upgraded status to PASS. This v7 revision adds §2(iii) experimental entities, observations, and successor coupling, §2(v) hop-by-hop verification, and the prefetch-aware macro ⑨ proof while preserving prior review logs [omitted from this derivative].
+Date: 2026-11-01. Status: **PROVED_IN_DECLARED_MODEL**. This extension formalizes §2(iii) experimental entities, observations, and successor coupling, §2(v) hop-by-hop verification, and the prefetch-aware macro ⑨ proof for multi-window releases.
 
 Scope: contract-level multi-window interface extension for G4b under either the original 3-key source ledger or the `E′` 6-key extended source model; frozen Documents 01–07 and contract JSON files remain unmodified, and no `k`-release implementation or test suite is claimed. Conclusions hold strictly within the declared model and assumptions below. In the manuscript, this document supports predeclared multi-window privacy; the deployed codebase remains single-release (`q_release ≤ 1/task`), retained explicitly as a theorem boundary.
 
 ## 0. Executive Summary
 
-The existing G4b machinery is already **full-execution scoped**: simulator tables persist across prefixes ([Document 04](04-full-view-simulation.md) §2), state points sample once per history node (Document 04 §1, supporting cross-window chains per [Document 01](01-security-games-and-ideal-interface.md) §2), equal-sum requirements quantify over "every authorized first-exposure complete `R`" (Document 04 §1), and all budgets `N, S, V, Q` bound the entire finite execution ([Document 07](07-composition-and-explicit-bounds.md) §1). `E ≤ 1` is a **deployment/contract constant** (`max_visible_cohorts_per_task: 1`; codebase `q_release ≤ 1/task`), which does not by itself imply multi-window security. §2 establishes hop-by-hop and event-by-event that this bound relaxes cleanly under our multi-window (MW) contract without generalizing to arbitrary output families.
-
-Summary of revisions relative to earlier drafts:
-
-1. **v2 (Round 1 Finding 1/4)**: Parameterized source ledger $\mathcal L$ — either $\mathcal L_{\rm base}$ (Document 07 §2 3-key model: `330974/80986/5`, excluding `16385` roots) or $\mathcal L_{\rm ext}$ ([budget-v3.json](extended-setup/budget-v3.json) 6-key model: 4 keys on `pot14` + 2 keys on `pot22`, 6 independent deltas, excluding `16385` and `4194305`, degree rule `k = 6`); `g` and `B_X` instantiate consistently from the chosen $\mathcal L$, with numerical sensitivity in §6 pinned to $\mathcal L_{\rm ext}$. Removed erroneous "linear-only" scaling language.
-2. **v3 (Round 2 BLOCKING)**: Rewrote §2(iii) conditional induction lemma into a full **proof** — explicitly formalizing $\mathsf{Real}_b$ and $\mathsf{Sim}$ predicates, anchoring induction on Document 04 §7 ("simulator state and subsequent business output depend solely on `μ`, fresh coins, adversarial messages so far, ideal complete-`R` outputs, and exogenous scheduler"), and closing real-side world independence across every hidden-state channel (perfectly hiding commitments, exact `(T, m_h)` coupling, CCA ciphertexts, exposed histograms); §3 no longer treats the lemma as an unproved premise.
-3. **v3 (Round 2 MAJOR)**: Corrected product-term scaling to **cubic (`t³`)** — because `e_X` contains $M_X \cdot B_X$ with `g_coll` quadratic in `h` and `h` growing with budget, $M_X \cdot g_{\rm coll} \sim t^3$ (withdrew v2's false "at most quadratic" wording; Round 4 superseded preliminary estimates with exact §6 figures `×995.774824` and `×10.352303` showing a positive `k³` term even under fixed `Q`).
-4. **v3 (Round 2 MINOR/NOTE)**: Query vs. exposure ledger separation (Finding 5); added Document 04 §7 row and dual-definition note on `E` in §5; clarified §6 dual budget scenarios (fixed `Q` vs. full scaling); added §2(iii) Side-C guardrails (challenge equality covers all `k` windows) and vacuity note; updated `M_A` to `E_enc,A = 2k`.
-5. **v4 (Round 3 fixes + clarifications)**: (a) Rewrote §2(iii) to auditable standards defining common abstract state `Z`, `Real/Sim` relations, three event-kernel transitions (packet/Reserve-Bind/Send-crash), world independence on reachable states, and trace induction. (b) Finalized cubic scaling (`k³` coefficient `≈ 6.065 × 10^-49` even for fixed `Q`), removing "~10×" scaling claims and reframing §6 as extraction-routing sensitivity analysis. (c) Dual `M_A` scenarios (`E_enc,A = 0` vs. `2 → 20`: `4,194,328 → 41,943,100`). (d) Defined $\mathcal L_{\rm ext}$ explicitly via the complete `E′` source model (`A1–A4`) while treating `budget-v3.json` as numeric values only. (e) Added independent zero-query `A` branch (§2(iv)) lifting Document 04 §5 `S_A` without sum equality. (f) Separated `A_queried` from `A_visible` and proved non-visibility of prefetched unused queries via transition kernels.
-6. **v5 (Round 4 revisions)**: (a) Clarified real-side dependence in Kernel 1 (Prepare/native transcripts depend on real hidden inputs rather than fresh randomness alone), added channels `(e)` native transcript/proof and `(f)` timing/length post-processing. (b) Corrected `Z` notation (`P` locked, `R` eligible, `L` committed, `M` applied, `A_L = eligible(L)`), added Helper journals, Leader job-leases, quotas, certs, outboxes, and committed `(Σ, z_h)`. (c) Proved sum compatibility in Kernel 2 via Document 01 §6, Document 05 §6, and disjoint per-window ownership. (d) Marked superseded v3 claims and expanded `A1–A4` summary.
-7. **v6 (Round 5 revisions)**: Split §2(iii) into lossy hybrid chain `Real_b → J_b` (charging Document 04 §6 hops) plus exact relational coupling `Rel_b` on `J_b ↔ S` across five object classes (`STATE` points, descriptor-indexed `(Σ, z_h)` including uncommitted retries, `val_b`, `payload → V_h,R`, and visible byte equality); split channel `(e)` into `(e1)` Groth16 and `(e2)` native `03 §2/§4`; updated Kernel 3 to conditional non-interference plus recovery mapping; added five-tuple cache key `κ`; withdrew whole-state identical-distribution target (counterexample `Z-EXAMPLE-CHECKS`).
-8. **v7 (Completion & Re-Review PASS)**: Added indexed experiment family $J_b^{(r)}$, non-empty setup/prelude initialization, formal coupling `Rel_b / Obs` across all three kernel successor distributions, complete event-classification and `3 × 5` verification matrix, hop-by-hop review of `C_X + 10` hybrids, and the `F/E/L` proof of macro ⑨ establishing zero observation gap even with private prefetching (retiring the stricter "zero query before abort" premise).
+The existing G4b machinery is already **full-execution scoped**: simulator tables persist across prefixes ([Document 04](04-full-view-simulation.md) §2), state points sample once per history node (Document 04 §1, supporting cross-window chains per [Document 01](01-security-games-and-ideal-interface.md) §2), equal-sum requirements quantify over "every authorized first-exposure complete `R`" (Document 04 §1), and all budgets `N, S, V, Q` bound the entire finite execution ([Document 07](07-composition-and-explicit-bounds.md) §1). `E ≤ 1` is a **deployment/contract constant** (`max_visible_cohorts_per_task: 1`; codebase `q_release ≤ 1/task`), which does not by itself imply multi-window security. §2 establishes hop-by-hop and event-by-event that this bound relaxes cleanly under our multi-window (MW) contract without generalizing to arbitrary output families. Specifically, the extension parameterizes the source ledger $\mathcal L \in \{\mathcal L_{\rm base}, \mathcal L_{\rm ext}\}$, separates the internal query ledger $A_{\rm queried}$ from the visible exposure ledger $A_{\rm visible}$, formalizes full-execution hybrid coupling `(CPL)` via kernels `K1–K3` and prefetch-aware macro ⑨, and quantifies cubic ($t^3$) scaling in the extraction-routing product $M_P \cdot g_{\rm coll}$.
 
 **Explicit Scope Limitations**: Theorem-level contract guarantee only. Deployed code remains `q_release ≤ 1/task` with no multi-window implementation or tests; joint leakage exposes all released window histograms together without claiming differential privacy.
 
@@ -35,11 +16,11 @@ Fix the parties, static corruption set, execution layer, and budget semantics of
 
 - **Predeclared Window Schedule**: Schedule `W = (w_1, ..., w_k)` (per-window task/selector, scheduled slots/eligibility, delivery boundaries, and deadlines) is fixed prior to Setup inside public skeleton `μ`; scheduling is non-adaptive and the adversary cannot spawn new windows dynamically. All windows share one `(task, profile, key)` namespace; cross-namespace extensions lie outside scope.
 - **Admissible Histories**: For each honest owner, both complete admissible histories `H_0` and `H_1` span all `k` windows, obeying ADWC step constraints and real anchors throughout; cross-window continuation resumes strictly from committed heads (already present in Document 01 §2). State commitments sample once per history node with `prev`/`K`/aliases reusing original handles (Document 04 §1).
-- **Separated Query and Exposure Ledgers (Finding 5 Revision)**: Following Document 05 prefetch semantics, the simulator may query and cache the ideal output of complete `R` once **upon preparing the first transmission** of `R` (withholding unused query answers from the adversary). Consequently:
-  - Every actual exposure implies a prior authorized query for `R` (`query time ≤ first send`), whereas **the converse does not hold** — crashing/aborting after prefetch leaves a cached "queried but unexposed" entry (withdrawing v1's invariant "no query prior to abort").
-  - Each distinct `R` is queried at most once (reused across retries on identical snapshots); each window `w_j` admits at most one locked complete cohort $R_{w_j}$, giving **$E_q \le k$ distinct queries** independent of exposure outcome (`E ≤ k` revised to $E_q \le k$ in budget rows; exposure ledger `X` tracks leakage separately).
+- **Separated Query and Exposure Ledgers**: Following Document 05 prefetch semantics, the simulator may query and cache the ideal output of complete `R` once **upon preparing the first transmission** of `R` (withholding unused query answers from the adversary). Consequently:
+  - Every actual exposure implies a prior authorized query for `R` (`query time ≤ first send`), whereas **the converse does not hold** — crashing/aborting after prefetch leaves a cached "queried but unexposed" entry.
+  - Each distinct `R` is queried at most once (reused across retries on identical snapshots); each window `w_j` admits at most one locked complete cohort $R_{w_j}$, giving **$E_q \le k$ distinct queries** independent of exposure outcome (exposure ledger `X` tracks leakage separately).
   - Document 01 §6's "no query before first exposure" is the stricter non-prefetch variant; the MW theorem holds under both variants, stated definitively under Document 05 prefetch semantics.
-- **Leakage Profile (Round 3 Clarification)**: Distinguish the **query ledger $A_{\rm queried}$** (all ideal answers retrieved internally, including unexposed prefetches) from its **visible subsequence $A_{\rm visible}$** (histograms of windows whose first decryptable share was actually sent). Permitted execution-prefix leakage is $L_{\le t} = (\mu_{\le t}, A_{\rm visible,\le t})$, correcting v2/v3 phrasing that conflated all ideal queries with visible histograms. For `A`, $O_A = \emptyset$ unconditionally.
+- **Leakage Profile**: Distinguish the **query ledger $A_{\rm queried}$** (all ideal answers retrieved internally, including unexposed prefetches) from its **visible subsequence $A_{\rm visible}$** (histograms of windows whose first decryptable share was actually sent). Permitted execution-prefix leakage is $L_{\le t} = (\mu_{\le t}, A_{\rm visible,\le t})$. For `A`, $O_A = \emptyset$ unconditionally.
 - **Multi-Window Exposure Equivalence (Challenge Condition for `P`/`P+A` Only)**: Both admissible worlds yield identical $O_C(R^0_{w_j}) = O_C(R^1_{w_j})$ (including sentinels) for all $j = 1, \dots, k$. This is a verbatim instantiation of Document 04 §1 per window and is a challenge condition borne by the environment (not applicable to `A`, which proceeds independently via §2(iv) and §3 without requiring equal histograms).
 
 ## 2. Full-Execution Hybrids, Observational Relation, and Multi-Window Proof
@@ -131,7 +112,7 @@ By `(iii)`'s summation identity, **`F` and `E` produce identical byte payloads o
 
 Deferring evaluation preserves `E_q` ledger accounting cleanly (`dom(E)` matches ghost count in `L`), allows arbitrary correlation between unexposed answers and earlier visible histograms, and preserves disjoint window handles. Consequently, **macro ⑨ preserves zero observational distance across ALL prefixes including aborts**, replacing Document 04 §7 L146 ("no aggregate query prior to abort") verbatim with: **unsent executions reveal no `κ` answer to observers; complete-gate send preparation permits one internal prefetch for `κ`, aborts preserve that query record, and recovery stays pinned to `κ`**.
 
-**3. Hop-by-Hop Review Summary.** Every hop removes routing bad events `≤ B_X^L` on both sides (`M_X = 2(C_X + 10)` total endpoints):
+**3. Hop-by-Hop Verification Summary.** Every hop removes routing bad events `≤ B_X^L` on both sides (`M_X = 2(C_X + 10)` total endpoints):
 
 | Hop | Reduction Embedding Under `k`-Query / Shared Tables | Prefetch & Doc 04 §7 Causality | Self Charge |
 | --- | --- | --- | --- |
@@ -155,7 +136,7 @@ $$\Delta_X(b) \le \operatorname{clip}\!\left(2(C_X + 10)B_X^{\mathcal L} + H_X +
 
 where `②–⑤` sum to `b_N` and `⑩` gives `t_N` (neither multiplied by `M_X` or `k` separately beyond full-execution counters). Terminal collapse $J_b^{\rm final} \leftrightarrow S$ has zero observation gap by §2(iii) `Init` and `(CPL)`, yielding $\mathrm{Adv}_X^{\rm MW} \le \mathrm{clip}(e_X(0) + e_X(1)) \le \mathrm{clip}(2e_X)$ for `P`/`P+A`, while `A` proceeds independently via §2(iv) without equal-sum assumptions. □
 
-## 3. Conditional Multi-Window Privacy Theorem (v7, Declared Model)
+## 3. Conditional Multi-Window Privacy Theorem (Declared Model)
 
 **Theorem (MW).** Fix the G4b instance interface and source ledger $\mathcal L \in \{\mathcal L_{\rm base}, \mathcal L_{\rm ext}\}$. Here $\mathcal L_{\rm ext}$ is **explicitly defined by the complete extended `E′` source model** ([K3-SOURCE-EXTENSION-FINAL.md](extended-setup/K3-SOURCE-EXTENSION-FINAL.md) assumptions `A1–A4`: `A1` independent phase-1 setups; `A2` six independent deltas matching the `4 + 2` final keys in [budget-v3.json](extended-setup/budget-v3.json); `A3` unchanged v5 target QAP, current-namespace verifier, zero public target `q_i/Delta_r` queries; `A4` external sources count toward `S`, inlined toward `Q`), with `budget-v3.json` supplying numeric counts only, while $\mathcal L_{\rm base}$ is Document 07 §2's 3-key ledger. Expand the release contract to `k` predeclared windows sharing one `(task, profile, key)` namespace under non-adaptive scheduling in `μ`, static corruption, and full-execution public upper bounds `(N, S, V, Q, E_enc,A, E_q ≤ k)`. Then:
 
@@ -167,13 +148,13 @@ where $M_X = 2(C_X + 10)$ scales dynamically via full-execution $C_X$ ($C_P^{\rm
 
 **(b) `A` Branch (Independent, Zero Query):** For `X = A`, neither per-window equal sums nor $O_C$ queries are required; the identical bound holds with $C_A^{\rm MW} = 4N + E_{\rm enc,A}$, established by lifting Document 04 §5's `S_A` verbatim via §2(iv) without relying on §2(iii)'s `P`/`P+A` lemma. Guarantees match Document 01 §5 / Document 07 §5 with zero scope narrowing.
 
-**Asymptotic Degradation Note (Round 3 Corrected):** Every algebraic form persists under full-execution counters without claiming a fixed total growth multiplier for `e_X` (since uninstantiated signature/hash/HPKE primitives depend on total `T, Q, bytes`). For the explicitly evaluated extraction-routing product alone: under fixed generic oracle budgets `Q` and `S, V` linear in `k`, $M_P(k) \cdot g_{\rm coll}(k)$ still contains a positive **$k^3$ term** ($h_i(k) = a_i k + c_i$ with $a_i > 0$, recomputed coefficient `≈ 6.065 × 10^-49`); `clip` saturation never alters the cubic algebraic degree prior to saturation.
+**Asymptotic Degradation Note:** Every algebraic form persists under full-execution counters without claiming a fixed total growth multiplier for `e_X` (since uninstantiated signature/hash/HPKE primitives depend on total `T, Q, bytes`). For the explicitly evaluated extraction-routing product alone: under fixed generic oracle budgets `Q` and `S, V` linear in `k`, $M_P(k) \cdot g_{\rm coll}(k)$ still contains a positive **$k^3$ term** ($h_i(k) = a_i k + c_i$ with $a_i > 0$, recomputed coefficient `≈ 6.065 × 10^-49`); `clip` saturation never alters the cubic algebraic degree prior to saturation.
 
 *Proof.* Fix `b` and `X`. §2(v) constructs all primitive/statistical embeddings across adjacent $J_b^{(r)}$ levels with $2(C_X + 10) B_X^{\mathcal L}$ routing cost and internal sum $H_X + b_N + t_N$; the `F/E/L` pre-lemma aligns prefetch failures cleanly; §2(iii) `Init` and `(CPL)` equate $J_b^{\rm final}$ and `S` observationally. Shared `μ`, per-window equal `O_C` sums (for `P`/`P+A`), or zero-query `S_A` (for `A`) align both ideal worlds cleanly by triangle inequality. □
 
-## 4. Retries, Crashes, and Query Ledger Invariants (Finding 5)
+## 4. Retries, Crashes, and Query Ledger Invariants
 
-**Invariants (Superseding v1):**
+**Invariants:**
 1. At most one ideal query per distinct `R`: `Reserve/Send` durably pins `(selector, snapshot, plaintext)` ([Document 01](01-security-games-and-ideal-interface.md) §3.7), retries on the identical snapshot reuse identical plaintexts ([Document 04](04-full-view-simulation.md) §4), and cached sends reuse answers while re-encryptions increment `E_enc,A` rather than queries.
 2. **Query ⇒ reached first send-preparation for `R`** (Document 05 prefetch), whereas **Query ⇏ exposure**: crashing after prefetch leaves an unused cached value excluded from observer views and leakage.
 3. **Exposure ⇒ prior query**: first decryptable honest share departure logs `X` after passing send-preparation, so queries strictly precede exposures.
@@ -194,7 +175,7 @@ All occurrences of `E_q`/`E` across Documents 01–07 and contracts reconcile cl
 | Document 04 §7 | Aborts prior to exposure query no aggregate | Holds under non-prefetch variant; replaced cleanly by §4 Invariants 1–3 under prefetch |
 | Document 05 §2 | Simulator may pre-fetch `R` once on first send prep, hidden if unused | Authoritative origin of prefetch and query/exposure separation |
 | Document 07 §1 | Budget line `E ≤ 1`; separate `E_enc,A` | Budget row updates to $E_q \le k$ distinct queries; `E_enc,A` preserved |
-| Document 07 §5 | `C_A = 4N + E_enc,A`; `M_X = 2(C_X + 10)`; macro ⑨ | Formulas unchanged; numeric `M_X` grows with workload (§0.2) |
+| Document 07 §5 | `C_A = 4N + E_enc,A`; `M_X = 2(C_X + 10)`; macro ⑨ | Formulas unchanged; numeric `M_X` grows with workload (§6) |
 | Contract JSON | `max_visible_cohorts_per_task: 1` | Generalized to `k` (frozen JSON unmodified) |
 | Document 03 header | `q_release ≤ 1/task` (implementation limit) | Codebase unchanged; contract-level theorem only |
 | `budget-v3.json` / `K3-SOURCE-EXTENSION-FINAL.md` | Six-key extended family (`E′` A1–A4) and `epsilon_setup_sampling` | Authoritative $\mathcal L_{\rm ext}$ definition: `E′` supplies source model/assumptions, `budget-v3` supplies numerics |
@@ -205,35 +186,21 @@ All occurrences of `E_q`/`E` across Documents 01–07 and contracts reconcile cl
 
 Computed via `k_window_recheck.py` (exact `Fraction` arithmetic under $\mathcal L_{\rm ext}$). **Sensitivity analysis of the extraction-routing term only** (other primitive `Adv` terms are not set to zero, nor is total `e_X` evaluated).
 
-- **`g_setup` (Finding 3 Revised):** Authoritative formula $g_{\rm setup} = 1 - \frac{p - 16385}{p}\cdot\frac{p - 4194305}{p}\cdot\left(\frac{p - 1}{p}\right)^{10}$ (excluding 16,385 points on `pot14`, 4,194,305 points on `pot22`, and zero values across `2` pairs of `α, β` plus `6` deltas) **matches `budget-v3.json` identically in exact rationals** at `1.923726827 × 10^-70` (retiring v1's undercounting `1.9162 × 10^-70` estimate).
+- **`g_setup`:** Authoritative formula $g_{\rm setup} = 1 - \frac{p - 16385}{p}\cdot\frac{p - 4194305}{p}\cdot\left(\frac{p - 1}{p}\right)^{10}$ (excluding 16,385 points on `pot14`, 4,194,305 points on `pot22`, and zero values across `2` pairs of `α, β` plus `6` deltas) **matches `budget-v3.json` identically in exact rationals** at `1.923726827 × 10^-70`.
 - Single-window check ($\mathcal L_{\rm ext}$, manuscript `groth-budget` equation): `g = 2.6737 × 10^-50` (matches manuscript `2.6738 × 10^-50` up to final-digit rounding).
 - `k = 10` (`S, V × 10`, fixed `Q/I`): `g = 2.7679 × 10^-50` (`×1.035239`), still `< 2^-150` (extraction term only).
 - **Workload Terms:** `M_P: 2,097,172 → 20,971,540`; `M_A` gives `4,194,324 → 41,943,060` (`E_enc,A = 0`) and **`4,194,328 → 41,943,100` (`E_enc,A = 2 → 20`, single encryption per role/window without extra re-encryptions)**; `b_N: 3.3685 × 10^-25 → 3.4412 × 10^-24` (`×10.2`, linear-dominated while `N²` grows `×100`); exact positive `t_N` has `log_10 t_N ≈ −1992.54` (non-zero in exact arbitrary precision).
-- **Product Term $M_P \cdot g_{\rm coll}$ (Finding 4 Final):** Fixed group `Q` with scaled sources/verifications multiplies by **`×10.352303`**; scaling both sources/verifications and group `Q` by `10` multiplies by **`×995.774824`**. Algebraically, $h_i(k) = a_i k + c_i$ ($a_i = 72N_0 / 5N_0 / 14N_0$, $N_0 = 2^{19}$), `g_coll` is quadratic in `k`, and $M_P(k) = 4N_0 k + 20$ is linear, producing a positive **$k^3$ term** (coefficient `≈ 6.065000577 × 10^-49`) even at fixed `Q`.
+- **Product Term $M_P \cdot g_{\rm coll}$:** Fixed group `Q` with scaled sources/verifications multiplies by **`×10.352303`**; scaling both sources/verifications and group `Q` by `10` multiplies by **`×995.774824`**. Algebraically, $h_i(k) = a_i k + c_i$ ($a_i = 72N_0 / 5N_0 / 14N_0$, $N_0 = 2^{19}$), `g_coll` is quadratic in `k`, and $M_P(k) = 4N_0 k + 20$ is linear, producing a positive **$k^3$ term** (coefficient `≈ 6.065000577 × 10^-49`) even at fixed `Q`.
 
-## 7. Explicit Scope Boundaries and Review Premise List (v7)
+## 7. Explicit Scope Boundaries and Premise List
 
 1. **Contract-level, not implementation-level**: frozen source enforces `q_release ≤ 1/task` with zero multi-window runtime/tests; the manuscript retains its single-cohort scope statement.
-2. **Revision & self-review scope**: v7 resolves Round 6 hop-composition, `J_b` instantiation, and kernel successor coupling obligations; author self-review is distinguished explicitly from external peer review while retaining prior review logs.
-3. **Contract constraints**: per-window exclusivity of logical reports/retained handles and unique five-tuple `κ` bindings are MW contract refinements; dynamic cohort addition and duplicate cross-window references remain unaddressed.
-4. **Stronger environment requirement (`P`/`P+A`)**: environment must supply per-window equal sums across all `k` windows (`H_0` vs. `H_1`); vacuity under adaptive dropping rests with the challenge environment.
-5. **No differential privacy across joint releases**: exact multi-window histograms remain jointly exposed.
-6. **Non-adaptive schedule**: dynamically spawned windows fall outside scope.
-7. **Single namespace**: cross-task/cross-key source extensions are unproved.
-8. **Unbounded re-encryptions in `A`**: require explicit exogenous caps in `E_enc,A` (Section 6's `2k` applies strictly when zero re-encryptions occur).
-9. **Fixed source ledger**: $\mathcal L_{\rm ext}$ uses `E′` (`A1–A4`) + `budget-v3.json` numerics; $\mathcal L_{\rm base}$ remains an explicit parameterized alternative.
-10. **Challenge condition scope**: equal sums cover all `k` predeclared windows including unexposed ones; relaxing to visible-window-only equality requires separate adaptive feasibility analysis.
-11. **Uninstantiated primitive bounds**: signatures, SHA-256, and HPKE `Adv` depend on uninstantiated byte/time budgets, restricting §6 scaling calculations cleanly to the extraction-routing term.
-
-## 8. Review History and v7 Acceptance Matrix
-
-| Requirement / Review Round | Status and Scope |
-| --- | --- |
-| Explicit joint MW game | Complete (§1: separated query/exposure ledgers, `A_queried` vs. `A_visible`) |
-| Prefix-by-prefix simulation | Complete (§2(iii) `Init`/`Obs`/`Rel_b`/`(CPL)`/`K1–K3`/matrix; §2(v) macro ⑨; §2(iv) zero-query `A`) |
-| Source ledger consistency | Complete (§5 across `E′/budget-v3`, Doc 04 §7 row, and dual `E` notation note) |
-| Crash / retry invariants | Complete (§4 Invariants 1–4 + durable counterexamples) |
-| Exact rational cross-check | Complete (`Fraction` recomputation, authoritative `g_setup`, dual scenarios, `k^3` coefficient) |
-| Independent Review Rounds 1–6 | Recorded chronologically in external review records [omitted from this derivative]: Round 1 `MAJOR_REVISION`; Round 2 `MAJOR_REVISION` (blocking lemma & `t^3` scaling fixed in v3); Round 3 follow-up (fixed in v4/v5); Round 4 `PASS_WITH_MINOR` / conditional reduction maintained; Round 5 external z-kernel review + internal resolution (fixed in v6); Round 6 narrow `MAJOR_REVISION` requesting formal `J_b`, hop composition, and successor `(CPL)` matrix |
-| v6 Historical Preservation | Archived separately prior to v7 completion without altering historical review logs |
-| v7 Completion & Re-Review | **PASS_IN_DECLARED_MODEL** (v7 self-review and author-authorized third-party re-review completed 2026-11-02; local/re-review records omitted from this derivative; non-mechanized mathematical proof outside proof assistants) |
+2. **Contract constraints**: per-window exclusivity of logical reports/retained handles and unique five-tuple `κ` bindings are MW contract refinements; dynamic cohort addition and duplicate cross-window references remain unaddressed.
+3. **Stronger environment requirement (`P`/`P+A`)**: environment must supply per-window equal sums across all `k` windows (`H_0` vs. `H_1`); vacuity under adaptive dropping rests with the challenge environment.
+4. **No differential privacy across joint releases**: exact multi-window histograms remain jointly exposed.
+5. **Non-adaptive schedule**: dynamically spawned windows fall outside scope.
+6. **Single namespace**: cross-task/cross-key source extensions are unproved.
+7. **Unbounded re-encryptions in `A`**: require explicit exogenous caps in `E_enc,A` (Section 6's `2k` applies strictly when zero re-encryptions occur).
+8. **Fixed source ledger**: $\mathcal L_{\rm ext}$ uses `E′` (`A1–A4`) + `budget-v3.json` numerics; $\mathcal L_{\rm base}$ remains an explicit parameterized alternative.
+9. **Challenge condition scope**: equal sums cover all `k` predeclared windows including unexposed ones; relaxing to visible-window-only equality requires separate adaptive feasibility analysis.
+10. **Uninstantiated primitive bounds**: signatures, SHA-256, and HPKE `Adv` depend on uninstantiated byte/time budgets, restricting §6 scaling calculations cleanly to the extraction-routing term. (All arguments are non-mechanized mathematical proofs outside proof assistants.)

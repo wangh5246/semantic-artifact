@@ -31,12 +31,12 @@
   },
   "07-composition-and-explicit-bounds.md": {
     "original_sha256": "829b8760ac4a3a7e43700f6a4f4e7d56f417394992d369d365cdcf82d875ebb3",
-    "derivative_sha256": "6228a645bb43e878e559cbf271cc63f24143ebfb9b927b224d02b73efc950ff",
+    "derivative_sha256": "6228a645bb43e878e559cbf271cc63f24143ebfb9b927b224d02b73efc950ff2",
     "transformation": "Translated from frozen Chinese original to English for double-blind artifact evaluation; mathematical definitions, equations, explicit bounds, included budget links, and omitted-source markers preserved."
   },
   "08-multi-window-privacy.md": {
     "original_sha256": "fb56431479e908696cda3499c20d5f3f723c7cae0f2882cddbcc8e8b70d720c0",
-    "derivative_sha256": "241754936c2deddf56052775c44e0c74d14a88ecc2c7fe28ae7e019fba46b4c0",
-    "transformation": "Translated from frozen v7 Chinese original to English for double-blind artifact evaluation; fixed relative extended-setup link, marked omitted external review logs, and preserved all mathematical definitions, bounds, and audit logs."
+    "derivative_sha256": "81de64db698da511423295f39666d03e5840be820342252b71fffa558498f4b5",
+    "transformation": "Translated from frozen Chinese original to English for double-blind artifact evaluation; fixed relative extended-setup link and normalized draft editorial headers while preserving all mathematical definitions, theorems, and exact rational bounds."
   }
 }
